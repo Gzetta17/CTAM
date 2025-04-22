@@ -819,83 +819,62 @@ a:focus {
 /********* Service CSS *********/
 /*******************************/
 .service {
-    position: relative;
-    width: 100%;
     padding: 45px 0 15px 0;
-}
-
-.service .service-item {
-    position: relative;
     width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
-    background: rgba(29, 36, 52, .04);
-    transition: transform 0.3s ease;
+  }
+  
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .service-item {
+    background: rgba(29, 36, 52, 0.04);
     border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
     padding: 15px;
-}
-
-.service .service-item:hover {
+  }
+  
+  .service-item:hover {
     transform: translateY(-5px);
-}
-
-.service .service-img {
-    position: relative;
+  }
+  
+  .service-img img {
     width: 100%;
-}
-
-.service .service-img img {
-    position: relative;
-    width: 100%;
-    height: 200px; /* Ajustado para que las imágenes no sean tan altas */
+    height: 200px;
     object-fit: cover;
     border-radius: 10px;
-}
-
-.service .service-item h3 {
+  }
+  
+  .service-item h3 {
     margin: 15px 0;
     font-size: 22px;
     font-weight: 700;
-}
-
-.service .service-item p {
-    margin: 0;
-    padding: 0 25px 25px 25px;
-    font-size: 16px;
-}
-
-.service .service-item a.btn {
-    position: relative;
+  }
+  
+  .service-item a.btn {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 600;
     color: #1d2434;
     border: 2px solid #1d2434;
-    border-radius: 0;
     background: none;
-    transition: .3s;
-}
-
-.service .service-item:hover a.btn {
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .service-item:hover a.btn {
     color: #D5B981;
     background: #1d2434;
     border-color: #1d2434;
-}
-
-@media (max-width: 767px) {
-    .service .service-item {
-        margin-bottom: 20px;
-    }
-}
-
-@media (min-width: 576px) {
-    .service .col-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-}
-
+  }
+  
+  /* Asegúrate de tener esta línea en tu <head> para que todo sea responsive */
+  
 /*******************************/
 /********* Pricing CSS *********/
 /*******************************/
@@ -1451,4 +1430,49 @@ a:focus {
         margin: 5px 0;
         text-align: center;
     }
+    
 }
+/* Galería mejorada */
+.portfolio .portfolio-wrap {
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #000;
+  }
+  
+  .portfolio .portfolio-wrap:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .portfolio .portfolio-wrap img {
+    width: 100%;
+    height: 250px; /* Ajustar altura de las imágenes */
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+  }
+  
+  .portfolio .portfolio-item {
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  
+  /* Hacer que las imágenes sean responsivas */
+  @media (max-width: 768px) {
+    .portfolio .portfolio-wrap img {
+      height: 180px;
+    }
+    .portfolio .section-header h2 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  /* Agregar espacio entre las imágenes en pantallas grandes */
+  @media (min-width: 992px) {
+    .portfolio .portfolio-wrap {
+      margin-bottom: 20px;
+    }
+  }
+  

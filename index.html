@@ -6,6 +6,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Free Website Template" name="keywords">
         <meta content="Free Website Template" name="description">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         
 
@@ -106,7 +107,7 @@
                         <a href="index.html" class="nav-item nav-link active">INICIO</a>
                         <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
                         <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
-                        <a href="portfolio.html" class="nav-item nav-link">GALERIA</a>
+                        
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">MAS</a>
                             <div class="dropdown-menu">
@@ -123,49 +124,35 @@
         <!-- Nav Bar End -->
 
 
-        <!-- Hero Start -->
-        <div class="hero">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <div class="hero-text">
-                            <h1>CTAM - "VA CON VOS SIEMPRE"</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Phasell nec pretum mi. Curabi ornare velit non. Aliqua metus tortor auctor quis sem.
-                            </p>
-                            <a class="btn" href="about.html">SABER MAS</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 d-none d-md-block">
-                        <div class="hero-image">
-                            <br>
-                            <br>
-                            <img src="img/logo.png" alt="Hero Image">
-                        </div>
-                    </div>
+<!-- Hero Start -->
+<div class="hero">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Texto -->
+            <div class="col-12 col-md-6 order-1 order-md-1 d-flex flex-column justify-content-center align-items-center align-items-md-start text-center text-md-start p-3">
+                <div class="hero-text">
+                    <h1 style="font-family: 'Segoe UI', sans-serif;">CTAM - "VA CON VOS SIEMPRE"</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet elit. Phasell nec pretum mi. Curabi ornare velit non. Aliqua metus tortor auctor quis sem.
+                    </p>
+                    <a class="btn mt-3" href="about.html" style="margin: 0 auto;">SABER MÁS</a>
                 </div>
-               
+            </div>
+
+            <!-- Logo -->
+            <div class="col-12 col-md-6 order-2 order-md-2 d-flex justify-content-center align-items-center">
+                <div class="hero-image text-center p-3">
+                    <img src="img/logo.png" alt="Hero Image" style="width: 220px; max-width: 90%; height: auto; display: block;">
+                </div>
             </div>
         </div>
-        <!-- Hero End -->
+    </div>
+</div>
+<!-- Hero End -->
 
-        <!-- Video Modal Start-->
-        <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>        
-                        <!-- 16:9 aspect ratio -->
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> 
-        <!-- Video Modal End -->
+
+
+
 
 
         <!-- About Start -->
@@ -200,59 +187,52 @@
 
       
         <!-- Service Start -->
-<div class="service">
-    <div class="container">
-      <div class="section-header text-center mb-5">
-        <p>AUTOGESTION</p>
-        <h2>Gestiona tus necesidades</h2>
-      </div>
-      <div class="row">
-        <!-- Servicio 1 -->
-        <div class="col-3 mb-4">
-          <div class="service-item">
-            <div class="service-img">
-              <img src="img/service-1.jpg" alt="Consulta tu factura">
+        <div class="service">
+            <div class="container">
+              <div class="section-header text-center mb-5">
+                <p>AUTOGESTION</p>
+                <h2>Gestiona tus necesidades</h2>
+              </div>
+              <div class="service-grid">
+                <!-- Servicio 1 -->
+                <div class="service-item">
+                  <div class="service-img">
+                    <img src="img/service-1.jpg" alt="Consulta tu factura">
+                  </div>
+                  <h3>Consulta tu factura</h3>
+                  <a class="btn" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
+                </div>
+          
+                <!-- Servicio 2 -->
+                <div class="service-item">
+                  <div class="service-img">
+                    <img src="img/service-2.jpg" alt="Consultar tu tarjeta">
+                  </div>
+                  <h3>Consultar tu tarjeta</h3>
+                  <a class="btn" href="https://www.infotarjetas.com.ar/Login.aspx?tid=42">MOSTRAR</a>
+                </div>
+          
+                <!-- Servicio 3 -->
+                <div class="service-item">
+                  <div class="service-img">
+                    <img src="img/service-3.jpg" alt="Guía Telefónica">
+                  </div>
+                  <h3>Guía Telefónica</h3>
+                  <a class="btn" href="https://ctam.micoop.com.ar/guia2">MOSTRAR</a>
+                </div>
+          
+                <!-- Servicio 4 -->
+                <div class="service-item">
+                  <div class="service-img">
+                    <img src="img/service-3.jpg" alt="Consultas y Reclamos">
+                  </div>
+                  <h3>Consultas y Reclamos</h3>
+                  <a class="btn" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
+                </div>
+              </div>
             </div>
-            <h3>Consulta tu factura</h3>
-            <a class="btn" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
           </div>
-        </div>
-  
-        <!-- Servicio 2 -->
-        <div class="col-3 mb-4">
-          <div class="service-item">
-            <div class="service-img">
-              <img src="img/service-2.jpg" alt="Consultar tu tarjeta">
-            </div>
-            <h3>Consultar tu tarjeta</h3>
-            <a class="btn" href="https://www.infotarjetas.com.ar/Login.aspx?tid=42">MOSTRAR</a>
-          </div>
-        </div>
-  
-        <!-- Servicio 3 -->
-        <div class="col-3 mb-4">
-          <div class="service-item">
-            <div class="service-img">
-              <img src="img/service-3.jpg" alt="Guía Telefónica">
-            </div>
-            <h3>Guía Telefónica</h3>
-            <a class="btn" href="https://ctam.micoop.com.ar/guia2">MOSTRAR</a>
-          </div>
-        </div>
-  
-        <!-- Servicio 4 -->
-        <div class="col-3 mb-4">
-          <div class="service-item">
-            <div class="service-img">
-              <img src="img/service-3.jpg" alt="Consultas y Reclamos">
-            </div>
-            <h3>Consultas y Reclamos</h3>
-            <a class="btn" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          
   <!-- Service End -->
   
 
@@ -393,12 +373,12 @@
                             <div class="col-md-6">
                                 <div class="footer-link">
                                     <h2>ACCESOS</h2>
-                                    <a href="about.html">SOBRE NOSOTROS</a>
+                                   <a href="about.html">SOBRE NOSOTROS</a>
                                     <a href="service.html">SERVICIOS</a>
-                                    <a href="portfolio.html">GALERIA</a>
                                     <a href="blog.html">INFORMACION</a>
                                     <a href="single.html">EXTRAS</a>
                                     <a href="contact.html">CONTACTOS</a>
+                                    
                                 </div>
                             </div>
                         </div>
