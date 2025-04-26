@@ -153,6 +153,38 @@
       showSlide(currentSlide);
     }
   });
+  $(document).ready(function() {
+    $('.filter-btn').click(function() {
+        var category = $(this).attr('data-category');
+        if (category == 'todos') {
+            $('.service-item').show();
+        } else {
+            $('.service-item').each(function() {
+                if ($(this).attr('data-category') == category) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        $('.filter-btn').removeClass('active');
+        $(this).addClass('active');
+    });
+});
 
 /********* Fin carrusel *********/
+
+
+
+/********* Boton Filtro Comercios *********/
+function toggleFilter() {
+    const filterPanel = document.getElementById('filter-panel');
+    
+    // Alterna entre mostrar y ocultar el filtro
+    if (filterPanel.style.display === 'block') {
+        filterPanel.style.display = 'none';
+    } else {
+        filterPanel.style.display = 'block';
+    }
+}
 
