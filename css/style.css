@@ -68,6 +68,22 @@ h6 {
 
 
   
+  /* Estilo para el botón de administrador */
+#adminButton {
+    padding: 3px 20px;
+    background-color: #6f2486;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #adminButton:hover {
+    background-color: #4b1c5b;
+  }
 /************INICIO LOGIN*******************/
 
 .popup {
@@ -1227,33 +1243,39 @@ a:focus {
 }
 
 .contact .container-fluid {
-    background: url(../img/contact.jpg) left center no-repeat;
+    background: url(../img/contact.jpg) center center no-repeat; /* Centrar la imagen */
     background-size: cover; /* Asegura que la imagen cubra toda el área */
-    padding: 0; /* Elimina el padding para que la imagen ocupe todo el contenedor */
+    background-position: center; /* Asegura que la imagen se centre */
+    padding: 0;
+    height: 10vh; /* Reducir aún más la altura de la imagen */
+    width: 100%; /* Asegura que la imagen ocupe el 100% del ancho */
 }
 
+/* Ajuste del formulario */
 .contact .contact-form {
     position: relative;
-    padding: 90px 0 90px 45px;
+    padding: 5px 0 5px 3px; /* Reducir padding más */
     background: #000000;
-    max-width: 800px;
-    margin: 0 auto; /* Centra el formulario */
+    max-width: 100%; /* El formulario ahora ocupará todo el ancho disponible */
+    margin: 0 auto;
+    text-align: center;
 }
 
 .contact .contact-form input,
 .contact .contact-form textarea {
-    width: 100%; /* Asegura que los campos de entrada y textarea ocupen todo el ancho disponible */
-    padding: 15px 0;
+    width: 100%;
+    padding: 2px 0; /* Reducir aún más el padding de los campos de entrada */
     background: none;
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #ffffff;
-    margin-bottom: 20px; /* Añadir espacio entre los campos */
+    margin-bottom: 3px; /* Reducir el margen entre los campos */
+    font-size: 6px; /* Reducir más el tamaño de la fuente */
 }
 
 .contact .contact-form .btn {
-    padding: 15px 30px;
-    font-size: 16px;
+    padding: 4px 8px; /* Reducir aún más el padding del botón */
+    font-size: 6px; /* Reducir más el tamaño de la fuente del botón */
     font-weight: 600;
     letter-spacing: 1px;
     color: #ffffff;
@@ -1261,7 +1283,7 @@ a:focus {
     border: 2px solid #6f2486;
     border-radius: 0;
     transition: .3s;
-    width: 100%; /* Hacer el botón más grande en pantallas pequeñas */
+    width: 100%;
 }
 
 .contact .contact-form .btn:hover {
@@ -1277,38 +1299,92 @@ a:focus {
 
 /* ======= MEDIA QUERIES ======= */
 
-/* Para pantallas pequeñas (por debajo de 768px) */
+/* Para pantallas grandes (PC y tabletas grandes) */
+@media (min-width: 992px) {
+    .contact .container-fluid {
+        height: 40vh; /* Mantener la altura de la imagen */
+    }
+
+    .contact .contact-form {
+        max-width: 600px; /* Mantener el ancho máximo del formulario */
+        padding: 40px 20px;
+    }
+
+    .contact .contact-form .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 50%; /* Reducir el tamaño del botón */
+        margin-top: 20px;
+    }
+}
+
+/* Para pantallas medianas (tabletas pequeñas, entre 768px y 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .contact .container-fluid {
+        background-size: contain; /* Ajustar la imagen para que no se estire */
+        height: 35vh; /* Reducir la altura de la imagen */
+    }
+
+    .contact .contact-form {
+        max-width: 80%; /* El formulario ocupará el 80% del ancho */
+        padding: 30px 20px;
+    }
+
+    .contact .contact-form .btn {
+        padding: 12px 25px;
+        font-size: 16px;
+        width: 100%;
+    }
+}
+
+/* Para pantallas pequeñas (menos de 768px, teléfonos y tabletas pequeñas) */
 @media (max-width: 767.98px) {
     .contact .container-fluid {
-        background: none; /* Elimina el fondo en pantallas pequeñas */
-        padding: 0 20px; /* Añadir algo de padding para que no se pegue al borde */
+        background-size: contain; /* Ajuste de la imagen */
+        height: 15vh; /* Ajustar la altura de la imagen */
+        padding: 0 10px; /* Reducir el padding */
     }
-    
+
     .contact .contact-form {
-        padding: 60px 20px; /* Reducir el padding para pantallas más pequeñas */
-        width: 100%; /* El formulario ocupará el 100% del ancho en pantallas pequeñas */
-        margin: 20px auto; /* Añadir algo de margen arriba y abajo */
+        max-width: 90%; /* El formulario ocupará el 90% del ancho */
+        padding: 10px 5px;
+    }
+
+    .contact .contact-form .btn {
+        font-size: 6px; /* Reducir aún más el tamaño de la fuente */
+        padding: 4px 8px;
+        width: 100%; /* Botón a 100% de ancho */
     }
 
     .contact .contact-form input,
     .contact .contact-form textarea {
-        width: 100%; /* Los campos ocuparán todo el ancho en pantallas pequeñas */
-    }
-
-    .contact .contact-form .btn {
-        font-size: 18px; /* Aumentar el tamaño de la fuente del botón en pantallas pequeñas */
-        width: 100%; /* Hacer que el botón ocupe el 100% del ancho en pantallas pequeñas */
+        padding: 2px;
+        font-size: 6px; /* Reducir el tamaño de la fuente */
     }
 }
 
-/* Para pantallas aún más pequeñas (por debajo de 480px) */
+/* Para pantallas muy pequeñas (celulares, menos de 480px) */
 @media (max-width: 480px) {
+    .contact .container-fluid {
+        background-size: contain; /* Ajustar la imagen */
+        height: 8vh; /* Reducir aún más la altura de la imagen */
+    }
+
     .contact .contact-form {
-        padding: 40px 10px; /* Reducir más el padding */
+        max-width: 95%; /* El formulario ocupará el 95% del ancho */
+        padding: 3px 2px; /* Reducir más el padding */
     }
 
     .contact .contact-form .btn {
-        font-size: 16px; /* Ajustar tamaño de fuente del botón */
+        font-size: 5px; /* Reducir aún más el tamaño de la fuente */
+        padding: 3px 6px;
+        width: 100%; /* Botón a 100% de ancho */
+    }
+
+    .contact .contact-form input,
+    .contact .contact-form textarea {
+        padding: 1px;
+        font-size: 5px; /* Reducir aún más el tamaño de la fuente */
     }
 }
 
@@ -1508,14 +1584,14 @@ a:focus {
 
 .stat-item {
     text-align: center;
-    padding: 20px;
-    flex-basis: 30%; /* En pantallas grandes, ocupan el 30% */
+    padding: 15px; /* Reducir el padding */
+    flex-basis: 25%; /* En pantallas grandes, ocupan el 25% */
     margin: 10px 0;  /* Añadir espacio entre los contadores */
 }
 
 .stat-box {
     background-color: #1d2434; /* Fondo oscuro para resaltar */
-    padding: 20px;
+    padding: 15px; /* Reducir el padding */
     border-radius: 12px; /* Bordes más redondeados */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
     margin-bottom: 10px;
@@ -1529,7 +1605,7 @@ a:focus {
 }
 
 .stat-item h3 {
-    font-size: 48px; /* Aumentar el tamaño del número */
+    font-size: 36px; /* Reducir el tamaño del número */
     margin: 0;
     color: #fff;
     font-weight: bold;
@@ -1537,7 +1613,7 @@ a:focus {
 }
 
 .stat-item p {
-    font-size: 18px;
+    font-size: 14px; /* Reducir tamaño del texto */
     color: #1d2434;
     margin-top: 10px;
 }
@@ -1568,18 +1644,33 @@ a:focus {
 
 /* ======= MEDIA QUERIES ======= */
 
-/* Para pantallas medianas (por debajo de 1024px) */
-@media (max-width: 1024px) {
+/* Para pantallas grandes (PC y tabletas grandes) */
+@media (min-width: 992px) {
     .stat-item {
-        flex-basis: 45%; /* Reducir el tamaño de cada contenedor a un 45% en pantallas medianas */
+        flex-basis: 20%; /* Los contadores ocuparán el 20% del ancho en pantallas grandes */
     }
 
     .stat-item h3 {
-        font-size: 40px; /* Reducir tamaño de fuente para adaptarse a pantallas más pequeñas */
+        font-size: 40px; /* Mantener tamaño adecuado */
     }
 
     .stat-item p {
-        font-size: 16px; /* Reducir tamaño de texto para ajustarse mejor */
+        font-size: 16px; /* Tamaño adecuado para pantallas grandes */
+    }
+}
+
+/* Para pantallas medianas (por debajo de 1024px) */
+@media (max-width: 1024px) {
+    .stat-item {
+        flex-basis: 45%; /* Reducir el tamaño de cada contenedor a un 45% */
+    }
+
+    .stat-item h3 {
+        font-size: 32px; /* Reducir tamaño de fuente */
+    }
+
+    .stat-item p {
+        font-size: 14px; /* Reducir tamaño de texto */
     }
 }
 
@@ -1590,27 +1681,11 @@ a:focus {
     }
 
     .stat-item {
-        flex-basis: 30%; /* Mantener el 30% del tamaño de cada contenedor */
+        flex-basis: 40%; /* Mantener el 40% del tamaño de cada contenedor */
     }
 
     .stat-item h3 {
-        font-size: 36px; /* Reducir el tamaño del número */
-    }
-
-    .stat-item p {
-        font-size: 14px; /* Reducir tamaño del texto */
-    }
-}
-
-/* Para pantallas extra pequeñas (por debajo de 576px) */
-@media (max-width: 576px) {
-    .stat-item {
-        flex-basis: 30%; /* Los contadores ocuparán el 30% del espacio en pantallas muy pequeñas */
-        padding: 10px; /* Reducir el padding para pantallas pequeñas */
-    }
-
-    .stat-item h3 {
-        font-size: 30px; /* Reducir aún más el tamaño del número */
+        font-size: 28px; /* Reducir aún más el tamaño del número */
     }
 
     .stat-item p {
@@ -1618,6 +1693,21 @@ a:focus {
     }
 }
 
+/* Para pantallas extra pequeñas (por debajo de 576px) */
+@media (max-width: 576px) {
+    .stat-item {
+        flex-basis: 100%; /* Los contadores ocuparán el 100% del espacio */
+        padding: 8px; /* Reducir el padding para pantallas pequeñas */
+    }
+
+    .stat-item h3 {
+        font-size: 24px; /* Reducir aún más el tamaño del número */
+    }
+
+    .stat-item p {
+        font-size: 10px; /* Reducir aún más el tamaño del texto */
+    }
+}
 
 
 
@@ -1764,47 +1854,58 @@ a:focus {
     }
     
 }
+
+
 /* Galería mejorada */
 .portfolio .portfolio-wrap {
     overflow: hidden;
     border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #000;
-  }
-  
-  .portfolio .portfolio-wrap:hover {
+}
+
+.portfolio .portfolio-wrap:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .portfolio .portfolio-wrap img {
+}
+
+.portfolio .portfolio-wrap img {
     width: 100%;
     height: 250px; /* Ajustar altura de las imágenes */
     object-fit: cover;
     transition: opacity 0.3s ease;
     border-radius: 10px;
-  }
-  
-  .portfolio .portfolio-item {
+}
+
+.portfolio .portfolio-item {
     position: relative;
     margin-bottom: 20px;
     overflow: hidden;
-  }
-  
-  /* Hacer que las imágenes sean responsivas */
-  @media (max-width: 768px) {
+}
+
+/* Hacer que las imágenes sean responsivas */
+@media (max-width: 768px) {
+    .portfolio .row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en formato mosaico */
+        gap: 10px; /* Espacio entre las imágenes */
+    }
+
     .portfolio .portfolio-wrap img {
-      height: 180px;
+        height: 180px; /* Ajustar altura de las imágenes */
+        padding: 2px;
     }
+
     .portfolio .section-header h2 {
-      font-size: 1.5rem;
+        font-size: 1.5rem; /* Ajustar tamaño del título */
     }
-  }
-  
-  /* Agregar espacio entre las imágenes en pantallas grandes */
-  @media (min-width: 992px) {
+}
+
+/* Agregar espacio entre las imágenes en pantallas grandes */
+@media (min-width: 992px) {
     .portfolio .portfolio-wrap {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
+        padding: 2px;
+        background-color: #592069;
     }
-  }
-  
+}
