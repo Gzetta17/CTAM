@@ -188,3 +188,54 @@ function toggleFilter() {
     }
 }
 
+
+/********* Buscador en Comercios Adheridos *********/
+document.getElementById('searchInput').addEventListener('keyup', function() {
+    let input = this.value.toLowerCase();
+    let items = document.querySelectorAll('.service-item');
+
+    items.forEach(function(item) {
+        let title = item.querySelector('h3').innerText.toLowerCase();
+        let description = item.querySelector('p').innerText.toLowerCase();
+        
+        if (title.includes(input) || description.includes(input)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+
+
+
+// Inicializar contadores
+// Inicializar contadores
+let comerciosAdheridos = 500;  // Cambiar este número según la cantidad real
+let tarjetas = 1500;           // Este número es fijo, +1500
+let socios = 3000;             // Este número es fijo, +3000
+
+// Función para actualizar el contador con un efecto animado
+function updateCounter(id, targetValue) {
+    let element = document.getElementById(id);
+    let currentValue = 0;
+    let increment = targetValue / 50;  // Incremento mayor para animar más rápido
+
+    let interval = setInterval(function() {
+        currentValue += increment;
+        if (currentValue >= targetValue) {
+            currentValue = targetValue;
+            clearInterval(interval);
+        }
+        element.innerHTML = Math.floor(currentValue);  // Redondear el número
+    }, 20); // Intervalo de actualización más corto para simular cámara rápida
+}
+
+// Llamar a la función para actualizar cada contador
+updateCounter("comerciosAdheridosCount", comerciosAdheridos);
+updateCounter("tarjetasCount", tarjetas);
+updateCounter("sociosCount", socios);
+
+
+/********* Carrusel de promos en index *********/
+

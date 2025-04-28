@@ -884,9 +884,16 @@ a:focus {
     background-color: #D5B981;
 }
 
+.service-icon i {
+    font-size: 50px; /* o el tamaño que quieras */
+}
+
 @media (max-width: 1024px) {
     .service .service-content {
         grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas medianas */
+    }
+    .service-icon i {
+        font-size: 40px; /* o el tamaño que quieras */
     }
 }
 
@@ -894,7 +901,11 @@ a:focus {
     .service .service-content {
         grid-template-columns: 1fr; /* 1 columna en pantallas pequeñas */
     }
+    .service-icon i {
+        font-size: 35px; /* o el tamaño que quieras */
+    }
 }
+
 
 
 
@@ -1130,13 +1141,13 @@ a:focus {
 }
 
 .blog .blog-text h2 {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
 }
 
 .blog .blog-text p {
     margin-bottom: 6px;
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .blog .blog-item a.btn {
@@ -1202,89 +1213,12 @@ a:focus {
     color: #999999;
 }
 
-/* ======= MEDIA QUERIES ======= */
-
-/* Para pantallas más pequeñas (por debajo de 992px) */
-@media (max-width: 991px) {
-    .single {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-        padding: 5px;
-    }
-
-    /* Filtro reducido al 15% de la pantalla */
-    .single .filter {
-        width: 5%;  /* El filtro ocupa solo el 15% de la pantalla */
-        position: relative;
-        height: auto;
-        margin-right: 0px;  /* Reducir el margen derecho */
-        margin-left: 0px;  /* Reducir el margen izquierdo */
-        padding: 1px;
-    }
-
-    /* Contenido ajustado al 85% de la pantalla */
-    .single .content {
-        width: 90%;  /* El contenido ocupa el 85% del ancho */
-        display: block;
-        font-size: 8px;  /* Reducir tamaño de fuente */
-        padding-left: 0px;
-    }
-
-    .single .filter .filter-btn {
-        font-size: 3px;  /* Reducir tamaño de botones */
-        padding: 2px;
-    }
-
-    /* Reducir márgenes y espaciado de los elementos del contenido */
-    .single .content .blog-item {
-        margin: 0 2px 6px;
-    }
-
-    .single .content .blog-text p {
-        font-size: 3px;
-    }
-
-    .single .content .blog-text h2 {
-        font-size: 6px;
-    }
-}
-
-/* Para pantallas más pequeñas (por debajo de 576px) */
-@media (max-width: 576px) {
-    .single .filter {
-        width: 5%;  /* El filtro ocupa el 15% en pantallas muy pequeñas */
-        padding: 1px;
-    }
-
-    .single .content {
-        display: block;
-    }
-
-    .single .filter .filter-btn {
-        font-size: 2px;  /* Reducir aún más los botones */
-        padding: 2px;
-    }
-
-    .single .content .blog-item {
-        margin: 0 1px 4px;
-    }
-
-    .single .content .blog-text p {
-        font-size: 2px;
-    }
-
-    .single .content .blog-text h2 {
-        font-size: 3px;
-    }
-}
-
 
 
 /*******************************/
 /********* Contact CSS *********/
 /*******************************/
+
 .contact {
     position: relative;
     width: 100%;
@@ -1294,30 +1228,27 @@ a:focus {
 
 .contact .container-fluid {
     background: url(../img/contact.jpg) left center no-repeat;
-    background-size: contain;
+    background-size: cover; /* Asegura que la imagen cubra toda el área */
+    padding: 0; /* Elimina el padding para que la imagen ocupe todo el contenedor */
 }
 
 .contact .contact-form {
     position: relative;
     padding: 90px 0 90px 45px;
     background: #000000;
+    max-width: 800px;
+    margin: 0 auto; /* Centra el formulario */
 }
 
-.contact .contact-form input {
+.contact .contact-form input,
+.contact .contact-form textarea {
+    width: 100%; /* Asegura que los campos de entrada y textarea ocupen todo el ancho disponible */
     padding: 15px 0;
     background: none;
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #ffffff;
-}
-
-.contact .contact-form textarea {
-    height: 90px;
-    padding: 15px 0;
-    background: none;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid #ffffff;;
+    margin-bottom: 20px; /* Añadir espacio entre los campos */
 }
 
 .contact .contact-form .btn {
@@ -1330,6 +1261,7 @@ a:focus {
     border: 2px solid #6f2486;
     border-radius: 0;
     transition: .3s;
+    width: 100%; /* Hacer el botón más grande en pantallas pequeñas */
 }
 
 .contact .contact-form .btn:hover {
@@ -1343,13 +1275,40 @@ a:focus {
     list-style-type: none;
 }
 
+/* ======= MEDIA QUERIES ======= */
+
+/* Para pantallas pequeñas (por debajo de 768px) */
 @media (max-width: 767.98px) {
     .contact .container-fluid {
-        background: none;
+        background: none; /* Elimina el fondo en pantallas pequeñas */
+        padding: 0 20px; /* Añadir algo de padding para que no se pegue al borde */
     }
     
     .contact .contact-form {
-        padding: 90px 0;
+        padding: 60px 20px; /* Reducir el padding para pantallas más pequeñas */
+        width: 100%; /* El formulario ocupará el 100% del ancho en pantallas pequeñas */
+        margin: 20px auto; /* Añadir algo de margen arriba y abajo */
+    }
+
+    .contact .contact-form input,
+    .contact .contact-form textarea {
+        width: 100%; /* Los campos ocuparán todo el ancho en pantallas pequeñas */
+    }
+
+    .contact .contact-form .btn {
+        font-size: 18px; /* Aumentar el tamaño de la fuente del botón en pantallas pequeñas */
+        width: 100%; /* Hacer que el botón ocupe el 100% del ancho en pantallas pequeñas */
+    }
+}
+
+/* Para pantallas aún más pequeñas (por debajo de 480px) */
+@media (max-width: 480px) {
+    .contact .contact-form {
+        padding: 40px 10px; /* Reducir más el padding */
+    }
+
+    .contact .contact-form .btn {
+        font-size: 16px; /* Ajustar tamaño de fuente del botón */
     }
 }
 
@@ -1382,7 +1341,7 @@ a:focus {
 }
 
 .single .ul-group li {
-    margin-left: 2px;
+    margin-left: 1px;
 }
 
 .single .ul-group li::before {
@@ -1399,27 +1358,30 @@ a:focus {
 
 /* Estilos para el filtro */
 .single .filter {
-    width: 300px; /* Ancho fijo para el filtro */
+    width: 250px; /* Ancho fijo para el filtro */
     background-color: #f4f4f4;
     padding: 50px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    height: 100vh; /* Que ocupe toda la altura de la página */
-    position: sticky; /* Fijar el filtro al lado izquierdo */
-    top: 0; /* Fijado en la parte superior */
+    min-height: 100vh; /* Cambiado a min-height */
+    position: sticky;
+    top: 0;
+    overflow-y: auto; /* Habilitar scroll vertical dentro del filtro */
+    max-height: 100vh; /* Máximo igual a la ventana, para no salir de la pantalla */
 }
 
 /* Estilos para los botones del filtro */
 .single .filter .filter-btn {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 6px; /* Menos separación entre botones */
     width: 100%;
-    padding: 10px;
+    padding: 2px 3px; /* Menos espacio interno */
     background-color: #1d2434;
     color: white;
     border: none;
     text-align: center;
     cursor: pointer;
-    font-size: 16px; /* Tamaño consistente */
+    font-size: 14px; /* Tamaño de texto un poco más pequeño */
+    border-radius: 4px; /* (opcional) botones más redondeados para mejor estética */
 }
 
 .single .filter .filter-btn.active {
@@ -1433,6 +1395,230 @@ a:focus {
     padding-left: 25px; /* Espacio entre el filtro y el contenido */
     overflow: hidden; /* Para evitar desbordamiento */
 }
+
+/* ======= MEDIA QUERIES ======= */
+
+/* Para pantallas más pequeñas (por debajo de 992px) */
+/* Para pantallas más pequeñas (por debajo de 991px) */
+@media (max-width: 991px) {
+    .single {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 5px;
+    }
+
+    /* Filtro en el margen izquierdo con 30% de la pantalla */
+    .single .filter {
+        width: 30%;  /* Ocupa el 30% del ancho de la pantalla */
+        position: relative;
+        height: auto;
+        margin-right: 0px;
+        margin-left: 0px;
+        padding: 15px;
+    }
+
+    /* Contenido ajustado al 70% del ancho */
+    .single .content {
+        width: 70%;  /* El contenido ocupa el 70% */
+        display: block;
+        font-size: 12px;
+        padding-left: 20px;
+    }
+
+    .single .filter .filter-btn {
+        font-size: 14px;  /* Tamaño moderado para los botones */
+        padding: 8px;
+    }
+}
+
+/* Para pantallas más pequeñas (por debajo de 576px) */
+@media (max-width: 576px) {
+    .single .filter {
+        width: 35%;  /* El filtro ocupa el 35% en pantallas muy pequeñas */
+        padding: 10px;
+    }
+
+    .single .content {
+        display: block;
+    }
+
+    .single .filter .filter-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .single .content .blog-item {
+        margin: 10px 0;
+    }
+
+    .single .content .blog-text p {
+        font-size: 10px;
+    }
+
+    .single .content .blog-text h2 {
+        font-size: 14px;
+    }
+}
+
+
+
+
+/********* Buscador CSS **********/
+
+
+.search-container {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-container input {
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;  /* Bordes redondeados */
+    border: 2px solid #000000;  /* Borde más visible */
+    font-size: 14px;  /* Aumenta el tamaño de la fuente para mejor legibilidad */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Sombra sutil */
+    transition: box-shadow 0.3s ease;  /* Transición suave para el efecto al enfocar */
+}
+
+/* Sombra más destacada al enfocar el input */
+.search-container input:focus {
+    outline: none;  /* Elimina el contorno por defecto */
+    border-color: #b64cd6;  /* Cambia el color del borde al enfocar */
+    box-shadow: 0 4px 10px rgba(4, 53, 105, 0.3);  /* Sombra más intensa */
+}
+    
+
+
+
+/*******************************/
+/********* Contadores **********/
+/*******************************/
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap; /* Permitir que los elementos se ajusten si es necesario */
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+    flex-basis: 30%; /* En pantallas grandes, ocupan el 30% */
+    margin: 10px 0;  /* Añadir espacio entre los contadores */
+}
+
+.stat-box {
+    background-color: #1d2434; /* Fondo oscuro para resaltar */
+    padding: 20px;
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    margin-bottom: 10px;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+    border: 3px solid #6f2486; /* Recuadro morado */
+}
+
+.stat-box:hover {
+    transform: scale(1.05);
+}
+
+.stat-item h3 {
+    font-size: 48px; /* Aumentar el tamaño del número */
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+    animation: countAnimation 1.5s ease-in-out forwards; /* Animación */
+}
+
+.stat-item p {
+    font-size: 18px;
+    color: #1d2434;
+    margin-top: 10px;
+}
+
+/* Animación original para el contador */
+@keyframes countAnimation {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    25% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    75% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ======= MEDIA QUERIES ======= */
+
+/* Para pantallas medianas (por debajo de 1024px) */
+@media (max-width: 1024px) {
+    .stat-item {
+        flex-basis: 45%; /* Reducir el tamaño de cada contenedor a un 45% en pantallas medianas */
+    }
+
+    .stat-item h3 {
+        font-size: 40px; /* Reducir tamaño de fuente para adaptarse a pantallas más pequeñas */
+    }
+
+    .stat-item p {
+        font-size: 16px; /* Reducir tamaño de texto para ajustarse mejor */
+    }
+}
+
+/* Para pantallas pequeñas (por debajo de 768px) */
+@media (max-width: 768px) {
+    .stats-container {
+        justify-content: space-between; /* Asegurarse de que los contadores se distribuyan */
+    }
+
+    .stat-item {
+        flex-basis: 30%; /* Mantener el 30% del tamaño de cada contenedor */
+    }
+
+    .stat-item h3 {
+        font-size: 36px; /* Reducir el tamaño del número */
+    }
+
+    .stat-item p {
+        font-size: 14px; /* Reducir tamaño del texto */
+    }
+}
+
+/* Para pantallas extra pequeñas (por debajo de 576px) */
+@media (max-width: 576px) {
+    .stat-item {
+        flex-basis: 30%; /* Los contadores ocuparán el 30% del espacio en pantallas muy pequeñas */
+        padding: 10px; /* Reducir el padding para pantallas pequeñas */
+    }
+
+    .stat-item h3 {
+        font-size: 30px; /* Reducir aún más el tamaño del número */
+    }
+
+    .stat-item p {
+        font-size: 12px; /* Reducir aún más el tamaño del texto */
+    }
+}
+
+
 
 
 
