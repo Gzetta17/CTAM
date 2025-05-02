@@ -4,8 +4,13 @@
 body {
     color: #000000;
     background: #ffffff;
-    font-family: 'Open Sans', sans-serif;
-}
+    font-family: 'virtuoso', 'virtuoso';
+    font-weight: 400;
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    
+  }
+
 
 h1,
 h2, 
@@ -15,16 +20,32 @@ h5,
 h6 {
     color: #6f2486;
 }
+h1, h2, h3 {
+    font-family: 'virtuoso', 'virtuoso';
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+  }
+
+
+
+  
+  nav, button, footer {
+    font-family: 'virtuoso', 'virtuoso';
+    font-weight: 500;
+  }
+  
 
 
 /********* inicio carrusel *********/
 .carousel-container {
     position: relative;
-    max-width: 95%;
-    height: 500px;
+    max-width: 100%;
+    height: 600px;
     overflow: hidden;
     margin: 0 auto 2rem;
-    border-radius: 20px;
+    border-radius: 0px;
   }
   
   .carousel-slide {
@@ -429,8 +450,9 @@ a:focus {
 
 
 /*******************************/
-/********** Hero CSS ***********/
+/********** Hero CSS **********/
 /*******************************/
+
 .hero {
     position: relative;
     width: 100%;
@@ -438,6 +460,10 @@ a:focus {
     height: calc(100vh - 60px);
     background: #1D2434;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .hero .container-fluid {
@@ -446,40 +472,112 @@ a:focus {
 
 .hero .hero-image {
     position: relative;
-    text-align: right;
+    text-align: center;
+    margin-bottom: 20px;  /* Espaciado entre imagen y texto */
+}
+
+/* Animación Fade-in para el logo */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero .hero-image img {
-    width: 100%; /* Hace que la imagen ocupe el 100% del contenedor */
-    max-width: 500px; /* Limita el tamaño máximo de la imagen */
-    height: auto; /* Mantiene la proporción de la imagen */
-    margin: 0 auto; /* Centra la imagen */
-    display: block; /* Asegura que la imagen esté alineada correctamente */
+    max-width: 100%;
+    width: 400px;  /* Ajustamos el tamaño */
+    height: auto; 
+    margin: 0 auto; 
+    display: block;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
 }
 
+/* Animación de máquina de escribir para el título */
+.typewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;  /* El texto ocupará el 100% disponible */
+    animation: typing 2s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
+    font-family: "Manrope", sans-serif;
+    color: #f7f9ff;
+    font-size: 2rem;
+}
+
+/* Animación de escritura para el título */
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Parpadeo del cursor */
+@keyframes blink-caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Animación de máquina de escribir para el párrafo */
+.typewriter-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;  /* El texto ocupará el 100% disponible */
+    animation: typing-text 2s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
+    font-family: "Manrope", sans-serif;
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+/* Animación de escritura para el párrafo */
+@keyframes typing-text {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Hero texto */
 .hero .hero-text {
     position: relative;
-    padding-left: 75px;
-    height: calc(100vh - 60px);
+    padding-left: 15px;
+    height: auto;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
 }
 
+/* Espaciado y tamaño del texto */
 .hero .hero-text h1 {
     color: #f7f9ff;
-    font-size: 50px;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 20px;
+    line-height: 1.4;
 }
 
 .hero .hero-text p {
     color: #ffffff;
-    font-size: 18px;
+    font-size: 1.2rem;
     margin-bottom: 25px;
+    line-height: 1.6;
 }
 
+/* Botón de llamada a la acción */
 .hero .hero-text .btn {
     padding: 15px 30px;
     font-size: 16px;
@@ -497,183 +595,62 @@ a:focus {
     background: #6f2486;
 }
 
-.hero .btn-play {
-    position: absolute;
-    z-index: 1;
-    top: 80%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    box-sizing: content-box;
-    display: block;
-    width: 32px;
-    height: 44px;
-    border-radius: 50%;
-    border: none;
+.hero .hero-text .btn:focus {
     outline: none;
-    padding: 18px 20px 18px 28px;
-}
-
-.hero .btn-play:before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: block;
-    width: 80px;
-    height: 80px;
-    background: #6f2486;
-    border-radius: 50%;
-    animation: pulse-border 1500ms ease-out infinite;
-}
-
-.hero .btn-play:after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: block;
-    width: 80px;
-    height: 80px;
-    background: #d8b56e;
-    border-radius: 50%;
-    transition: all 200ms;
-}
-
-.hero .btn-play:hover:after {
-    background-color: darken(#1D2434, 10%);
-}
-
-.hero .btn-play img {
-    position: relative;
-    z-index: 3;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-}
-
-.hero .btn-play span {
-    display: block;
-    position: relative;
-    z-index: 3;
-    width: 0;
-    height: 0;
-    border-left: 32px solid #000000;
-    border-top: 22px solid transparent;
-    border-bottom: 22px solid transparent;
 }
 
 /* Media Query para pantallas pequeñas */
 @media (max-width: 767px) {
-    .hero .hero-image img {
-        max-width: 90%; /* La imagen ocupará hasta el 90% del contenedor en pantallas pequeñas */
-    }
-
     .hero .hero-text h1 {
-        font-size: 32px; /* Ajusta el tamaño del título para pantallas pequeñas */
+        font-size: 1.5rem;  /* Ajuste del tamaño para pantallas pequeñas */
     }
 
     .hero .hero-text p {
-        font-size: 14px; /* Ajusta el tamaño del párrafo */
+        font-size: 1rem;  /* Ajuste del tamaño para párrafo */
     }
 
     .hero .hero-text .btn {
-        font-size: 14px; /* Ajusta el tamaño del botón */
+        font-size: 1rem;
+        padding: 12px 25px;
     }
-}
 
+    .hero .hero-image img {
+        width: 80%;  /* Ajustar el tamaño de la imagen */
+        max-width: 350px;
+    }
 
-@keyframes pulse-border {
-  0% {
-    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
-    opacity: 0;
-  }
-}
-
-#videoModal .modal-dialog {
-    position: relative;
-    max-width: 800px;
-    margin: 60px auto;
-}
-
-#videoModal .modal-body {
-    position: relative;
-    padding: 0px;
-}
-
-#videoModal .close {
-    position: absolute;
-    right: 0px;
-    top: -12px;
-    z-index: 999;
-    font-size: 50px;
-    font-weight: normal;
-    color: #ffffff;
-    opacity: 1;
-}
-
-@media (max-width: 991.98px) {
     .hero .hero-text {
-        padding-left: 15px;
+        padding-top: 20px;  /* Aseguramos que haya espacio entre imagen y texto */
     }
-    
+
+    /* Asegura que el texto no se corte y se ajuste bien */
+    .hero .hero-text p,
     .hero .hero-text h1 {
-        font-size: 35px;
+        text-align: center;
+        line-height: 1.4;
+    }
+}
+
+/* Media Query para pantallas medianas */
+@media (max-width: 991px) {
+    .hero .hero-text h1 {
+        font-size: 1.8rem;
     }
     
     .hero .hero-text p {
-        font-size: 16px;
+        font-size: 1.1rem;
     }
     
     .hero .hero-text .btn {
         padding: 12px 30px;
-        font-size: 15px;
-        letter-spacing: 0;
+        font-size: 1rem;
+    }
+
+    .hero .hero-image img {
+        max-width: 90%;
     }
 }
 
-@media (max-width: 767.98px) {
-    .hero .hero-text h1 {
-        font-size: 30px;
-        font-weight: 600;
-    }
-    
-    .hero .hero-text p {
-        font-size: 14px;
-    }
-    
-    .hero .hero-text .btn {
-        padding: 10px 25px;
-        font-size: 15px;
-        font-weight: 400;
-        letter-spacing: 0;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .hero .hero-text h1 {
-        font-size: 25px;
-        font-weight: 600;
-    }
-    
-    .hero .hero-text p {
-        font-size: 14px;
-    }
-    
-    .hero .hero-text .btn {
-        padding: 8px 20px;
-        font-size: 14px;
-        font-weight: 400;
-        letter-spacing: 0;
-    }
-}
 
 
 /*******************************/
@@ -843,6 +820,24 @@ a:focus {
         height: auto;
     }
 }
+.about-text .decorative-immersion {
+    float: right; /* o 'right' si lo preferís del otro lado */
+    shape-outside: inset(0); /* forma cuadrada */
+    width: 300px;
+    height: 450px;
+    object-fit: cover;
+    margin: 0 20px 20px 0; /* margen entre imagen y texto */
+    shape-margin: 15px;
+}
+
+@media (max-width: 768px) {
+    .about-text .decorative-immersion {
+        float: none;
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+}
+
 
 
 /*******************************/
@@ -854,24 +849,39 @@ a:focus {
     width: 100%;
     padding: 45px 0;
     margin: 100px 0 100px;
+    z-index: 1; /* Aseguramos que el contenido esté por encima de la imagen */
+}
+
+.service .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Oscurece más el fondo para mejorar contraste */
+    z-index: 0; /* La capa oscura debe ir debajo del contenido */
 }
 
 .service .section-header {
     margin-bottom: 30px;
     text-align: center;
+    color: white; /* Cambiamos el color del texto para que contraste con el fondo */
+    z-index: 2; /* Aseguramos que el texto esté sobre el overlay */
+    position: relative;
 }
 
 .service .service-content {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columnas */
     gap: 30px; /* Espacio entre las columnas */
+    z-index: 2; /* Aseguramos que el contenido esté por encima de la imagen */
 }
 
 .service .service-item {
     position: relative;
     padding: 15px;
     text-align: center;
-    background-color: #f7f7f7;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con algo de transparencia */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -928,6 +938,7 @@ a:focus {
         font-size: 35px; /* o el tamaño que quieras */
     }
 }
+
 
 
 
@@ -997,6 +1008,132 @@ a:focus {
     border-color: #6f2486;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 900px;
+    padding: 20px;
+    position: relative;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.modal-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.modal-body img {
+    width: 40%;
+    border-radius: 10px;
+    object-fit: cover;
+    z-index: 2;
+}
+
+.modal-info {
+    width: 45%;
+    z-index: 1;
+}
+
+.modal-info h2 {
+    margin-top: 0;
+    color: #1d2434;
+}
+
+.modal-info p {
+    color: #333;
+    font-size: 16px;
+}
+
+.close {
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.arrow {
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+    color: #444;
+}
+
+.left-arrow {
+    margin-right: 10px;
+}
+
+.right-arrow {
+    margin-left: 10px;
+}
+
+.arrow.hidden {
+    visibility: hidden;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-img {
+    opacity: 0;
+    animation: fadeImage 0.6s ease forwards;
+}
+
+.fade-text {
+    opacity: 0;
+    animation: slideText 0.6s ease forwards;
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeImage {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideText {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal-body img,
+    .modal-info {
+        width: 100%;
+    }
+
+    .arrow {
+        display: none;
+    }
+}
 
 
 /*******************************/
@@ -1255,7 +1392,7 @@ a:focus {
     background-position: center; /* Asegura que la imagen se centre */
     padding: 0;
     height: 10vh; /* Reducir aún más la altura de la imagen */
-    width: 100%; /* Asegura que la imagen ocupe el 100% del ancho */
+    width: 90%; /* Asegura que la imagen ocupe el 100% del ancho */
 }
 
 /* Ajuste del formulario */
@@ -1303,6 +1440,7 @@ a:focus {
     padding: 0;
     list-style-type: none;
 }
+
 
 /* ======= MEDIA QUERIES ======= */
 

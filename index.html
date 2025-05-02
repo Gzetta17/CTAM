@@ -11,6 +11,9 @@
             
 
             <!-- Google Font -->
+             <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Righteous&display=swap" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
             <!-- CSS Libraries -->
@@ -28,6 +31,7 @@
         
         </head>
         <link rel="stylesheet" href="css/animations.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
         
         
@@ -67,19 +71,6 @@
         </div>
 
 
-    <!-- Botón para cargar imagen (se muestra luego del login) -->
-    <button id="popupButton" style="display: none;">Pop-up</button>
-
-
-    <div id="imagePopupContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 9998;">
-    <div style="position: relative;">
-        <button id="closePopupBtn" style="position: absolute; top: -10px; right: -10px;">X</button>
-        <div id="imagePopup"></div>
-    </div>
-    </div>
-
-
 
 
         <!-- Nav Bar Start -->
@@ -109,33 +100,35 @@
             </div>
         </div>
         <!-- Nav Bar End -->
-
-
-    <!-- Hero Start -->
-    <div class="hero">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Texto -->
-                <div class="col-12 col-md-6 order-1 order-md-1 d-flex flex-column justify-content-center align-items-center align-items-md-start text-center text-md-start p-3">
-                    <div class="hero-text">
-                        <h1 style="font-family: 'Segoe UI', sans-serif;">CTAM - "VA CON VOS SIEMPRE"</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasell nec pretum mi. Curabi ornare velit non. Aliqua metus tortor auctor quis sem.
-                        </p>
-                        <a class="btn mt-3" href="about.html" style="margin: 0 auto;">SABER MÁS</a>
-                    </div>
-                </div>
-
-                <!-- Logo -->
-                <div class="col-12 col-md-6 order-2 order-md-2 d-flex justify-content-center align-items-center">
-                    <div class="hero-image text-center p-3">
-                        <img src="img/logo.png" alt="Hero Image" style="width: 620px; max-width: 90%; height: auto; display: block;">
-                    </div>
-                </div>
-            </div>
+<!-- Hero Start -->
+<div class="hero">
+    <div class="container-fluid">
+      <div class="row flex-column-reverse flex-md-row align-items-center">
+        <!-- Texto -->
+        <div class="col-12 col-md-6 text-center text-md-start p-4">
+          <div class="hero-text">
+            <h1 class="typewriter">CTAM - "VA CON VOS SIEMPRE"</h1>
+            <p class="typewriter-text">Lorem ipsum dolor sit amet elit. Phasell nec pretum mi. Curabi ornare velit non.</p>
+            <a class="btn mt-3" href="about.html">SABER MÁS</a>
+          </div>
         </div>
+  
+        <!-- Logo -->
+        <div class="col-12 col-md-6 text-center p-4">
+          <div class="hero-image">
+            <img src="img/logo.png" alt="Logo CTAM" class="img-fluid logo-img">
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  
+  
     <!-- Hero End -->
+
+
+
+
     <div class="stats-container">
         <div class="stat-item">
             <div class="stat-box">
@@ -157,68 +150,73 @@
         </div>
     </div>
 
-
-
-        <!-- Service Start -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-        <div class="service-item animated">
-        <div class="service py-5 bg-light">
-            <div class="container">
-            <div class="section-header text-center mb-5">
-                <p class="text-muted">AUTOGESTIÓN</p>
-                <h2 class="animated slide-up" class="fw-bold">Gestiona tus necesidades</h2>
-            </div>
+<br>
+<br>
+<br>
+<br>
+       <!-- Service Start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<div class="section-header text-center mb-5">
+    <h1 class="text-muted">AUTOGESTIÓN</h1>
+    <h2 class="animated slide-up fw-bold">Gestiona tus necesidades</h2>
+</div>
+<div class="service-item animated">
+    <div class="service py-5 bg-light" style="position: relative; background-image: url('img/Fondo-autoservicio.jpg'); background-size: cover; background-position: center;">
+        <!-- Capa de oscurecimiento -->
+        <div class="overlay"></div>
+        <div class="container">
+           
             <div class="row">
                 <!-- Servicio 1 -->
                 <div class="col-md-3 text-center mb-4">
-                <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
-                    <div class="service-icon mb-3">
-                    <i class="bi bi-receipt fs-2 text-primary"></i>
+                    <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
+                        <div class="service-icon mb-3">
+                            <i class="bi bi-receipt fs-2 text-primary"></i>
+                        </div>
+                        <h5>Consulta tu factura</h5>
+                        <a class="btn btn-outline-primary mt-3" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
                     </div>
-                    <h5>Consulta tu factura</h5>
-                    <a class="btn btn-outline-primary mt-3" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
                 </div>
-                </div>
-        
+
                 <!-- Servicio 2 -->
                 <div class="col-md-3 text-center mb-4">
-                <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
-                    <div class="service-icon mb-3">
-                    <i class="bi bi-credit-card-2-front fs-2 text-success"></i>
+                    <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
+                        <div class="service-icon mb-3">
+                            <i class="bi bi-credit-card-2-front fs-2 text-success"></i>
+                        </div>
+                        <h5>Consultar tu tarjeta</h5>
+                        <a class="btn btn-outline-success mt-3" href="https://www.infotarjetas.com.ar/Login.aspx?tid=42">MOSTRAR</a>
                     </div>
-                    <h5>Consultar tu tarjeta</h5>
-                    <a class="btn btn-outline-success mt-3" href="https://www.infotarjetas.com.ar/Login.aspx?tid=42">MOSTRAR</a>
                 </div>
-                </div>
-        
+
                 <!-- Servicio 3 -->
                 <div class="col-md-3 text-center mb-4">
-                <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
-                    <div class="service-icon mb-3">
-                    <i class="bi bi-telephone-forward fs-2 text-warning"></i>
+                    <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
+                        <div class="service-icon mb-3">
+                            <i class="bi bi-telephone-forward fs-2 text-warning"></i>
+                        </div>
+                        <h5>Guía Telefónica</h5>
+                        <a class="btn btn-outline-warning mt-3" href="https://ctam.micoop.com.ar/guia2">MOSTRAR</a>
                     </div>
-                    <h5>Guía Telefónica</h5>
-                    <a class="btn btn-outline-warning mt-3" href="https://ctam.micoop.com.ar/guia2">MOSTRAR</a>
                 </div>
-                </div>
-        
+
                 <!-- Servicio 4 -->
                 <div class="col-md-3 text-center mb-4">
-                <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
-                    <div class="service-icon mb-3">
-                    <i class="bi bi-chat-left-dots fs-2 text-danger"></i>
+                    <div class="service-item p-3 border rounded bg-white shadow-sm h-100">
+                        <div class="service-icon mb-3">
+                            <i class="bi bi-chat-left-dots fs-2 text-danger"></i>
+                        </div>
+                        <h5>Consultas y Reclamos</h5>
+                        <a class="btn btn-outline-danger mt-3" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
                     </div>
-                    <h5>Consultas y Reclamos</h5>
-                    <a class="btn btn-outline-danger mt-3" href="https://ctam.micoop.com.ar/login">MOSTRAR</a>
-                </div>
                 </div>
             </div>
-            </div>
         </div>
-        </div>
-            <!-- Service End -->
-            
+    </div>
+</div>
+<!-- Service End -->
+
+
         
 
 
@@ -293,62 +291,80 @@
             <!-- Testimonial End -->
 
 
-            <!-- Team Start -->
-            <div class="team">
-                <div class="container">
-                    <div class="section-header text-center">
-                        <p>ORGANIGRAMA</p>
-                        <h2></h2>
+           <!-- Team Start -->
+<div class="team">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>ORGANIGRAMA</p>
+            <h2></h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="img/team-1.jpg" alt="Team Image">
                     </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="team-item">
-                                <div class="team-img">
-                                    <img src="img/team-1.jpg" alt="Team Image">
-                                </div>
-                                <div class="team-text">
-                                    <h2>Postulante</h2>
-                                    <p>Rango</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="team-item">
-                                <div class="team-img">
-                                    <img src="img/team-2.jpg" alt="Team Image">
-                                </div>
-                                <div class="team-text">
-                                    <h2>Postulante</h2>
-                                    <p>Rango</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="team-item">
-                                <div class="team-img">
-                                    <img src="img/team-3.jpg" alt="Team Image">
-                                </div>
-                                <div class="team-text">
-                                    <h2>Postulante</h2>
-                                    <p>Rango</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="team-item">
-                                <div class="team-img">
-                                    <img src="img/team-4.jpg" alt="Team Image">
-                                </div>
-                                <div class="team-text">
-                                    <h2>Postulante</h2>
-                                    <p>Rango</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="team-text">
+                        <h2>Postulante 1</h2>
+                        <p>Rango A</p>
                     </div>
                 </div>
             </div>
-            <!-- Team End -->
+            <div class="col-lg-3 col-md-6">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="img/team-2.jpg" alt="Team Image">
+                    </div>
+                    <div class="team-text">
+                        <h2>Postulante 2</h2>
+                        <p>Rango B</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="img/team-3.jpg" alt="Team Image">
+                    </div>
+                    <div class="team-text">
+                        <h2>Postulante 3</h2>
+                        <p>Rango C</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="img/team-4.jpg" alt="Team Image">
+                    </div>
+                    <div class="team-text">
+                        <h2>Postulante 4</h2>
+                        <p>Rango D</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Team End -->
+
+<!-- Modal -->
+<div id="teamModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <span class="arrow left-arrow">&#10094;</span> <!-- ◀ -->
+        <img id="modalImage" src="" alt="Foto ampliada" class="fade-img">
+        <div id="modalInfo" class="modal-info fade-text">
+          <h2 id="modalTitle">Título</h2>
+          <p id="modalText">Texto del miembro</p>
+        </div>
+        <span class="arrow right-arrow">&#10095;</span> <!-- ▶ -->
+      </div>
+    </div>
+  </div>
+  
+
 
 
             
