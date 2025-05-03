@@ -38,39 +38,54 @@
             
     <body>
 
-        <button id="adminButton">Administrador</button>
-        
-
-        <!-- Pop-up de Login -->
-        <div id="loginPopup" class="popup">
-        <div class="popup-content">
-            <span class="close" id="closeLoginPopup">&times;</span>
-            <h2>Iniciar sesión</h2>
-            <form id="loginForm">
-            <label for="username">Usuario:</label>
-            <input type="text" id="username" required>
-            <label for="password">Contraseña:</label>
-                <input type="password" id="password" required>
-                
-            
-            <button type="submit">Ingresar</button>
-            </form>
-            
-        </div>
-        </div>
-
-        <button id="uploadImageButton" style="display: none;">POP-UP</button>
-
-        <div id="uploadImageModal" style="display: none;">
-            <div>
-            <h2>Subir Imagen para Pop-up</h2>
-            <input type="file" id="imageInput" accept="image/*">
-            <button id="saveImageButton">Guardar Imagen</button>
-            <button id="closeModalButton">Cerrar</button>
-            </div>
-        </div>
 
 
+ 
+
+ <!-- BOTONES EN HEADER -->
+<header>
+    <button id="adminButton">Administrador</button>
+    <button id="popupNavButton" style="display: none;">Pop-Up</button>
+  </header>
+  
+  
+  <!-- POP-UP DE LOGIN -->
+  <div id="loginPopup">
+    <div class="loginBox">
+      <span id="closeLoginPopup">&times;</span>
+      <h2>Acceso Administrador</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Usuario" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <span id="togglePassword" class="eye">&#128065;</span>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- PANEL DE ADMINISTRADOR PARA CARGAR IMAGEN -->
+<div id="adminPanel">
+    <span class="close" id="closeAdminPanel">&times;</span>
+    <h3>Subir imagen para pop-up</h3>
+    <input type="file" id="popupImgInput" accept="image/*">
+    <button id="savePopupBtn">Guardar imagen</button>
+  
+    <div id="imageOptions" style="display: none;">
+      <button id="modifyPopupBtn">Modificar imagen</button>
+      <button id="deletePopupBtn">Eliminar imagen</button>
+    </div>
+  </div>
+  
+  
+  
+  <!-- POP-UP PÚBLICO PARA VISITANTES -->
+  <div id="publicPopup">
+    <div class="popupContent">
+      <button id="closePublicPopup">&times;</button>
+      <img id="publicImage" src="" alt="Publicidad">
+    </div>
+  </div>
+  
 
 
         <!-- Nav Bar Start -->
@@ -107,8 +122,8 @@
         <!-- Texto -->
         <div class="col-12 col-md-6 text-center text-md-start p-4">
           <div class="hero-text">
-            <h1 class="typewriter">CTAM - "VA CON VOS SIEMPRE"</h1>
-            <p class="typewriter-text">Lorem ipsum dolor sit amet elit. Phasell nec pretum mi. Curabi ornare velit non.</p>
+            <h1 class="typewriter">CTAM, VA CON VOS SIEMPRE</h1>
+            <p class="typewriter-text">Lorem ipsum dolor sit amet elit. Phasell nec pretum mi.</p>
             <a class="btn mt-3" href="about.html">SABER MÁS</a>
           </div>
         </div>

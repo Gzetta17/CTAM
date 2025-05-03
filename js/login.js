@@ -1,106 +1,106 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const adminButton = document.getElementById('adminButton');
-    const loginPopup = document.getElementById('loginPopup');
-    const closeLoginPopup = document.getElementById('closeLoginPopup');
-    const loginForm = document.getElementById('loginForm');
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const popupButton = document.getElementById('popupNavButton');
-    const imageUploadPopup = document.getElementById('imageUploadPopup');
-    const closeImagePopup = document.getElementById('closeImagePopup');
-    const popupImageInput = document.getElementById('popupImageInput');
-    const saveImageButton = document.getElementById('saveImageButton');
-    const publicPopup = document.getElementById('publicPopup');
-    const publicImage = document.getElementById('publicImage');
-    const closePublicPopup = document.getElementById('closePublicPopup');
-  
-    // Mostrar pop-up de login
-    adminButton.addEventListener('click', () => {
-      loginPopup.style.display = 'flex';
-    });
-  
-    // Cerrar pop-up login
-    closeLoginPopup.addEventListener('click', () => {
+  const adminButton = document.getElementById('adminButton');
+  const loginPopup = document.getElementById('loginPopup');
+  const closeLoginPopup = document.getElementById('closeLoginPopup');
+  const loginForm = document.getElementById('loginForm');
+  const popupButton = document.getElementById('popupNavButton');
+  const adminPanel = document.getElementById('adminPanel');
+  const closeAdminPanel = document.getElementById('closeAdminPanel');
+  const savePopupBtn = document.getElementById('savePopupBtn');
+  const popupImgInput = document.getElementById('popupImgInput');
+  const imageOptions = document.getElementById('imageOptions');
+  const modifyPopupBtn = document.getElementById('modifyPopupBtn');
+  const deletePopupBtn = document.getElementById('deletePopupBtn');
+  const publicPopup = document.getElementById('publicPopup');
+  const publicImage = document.getElementById('publicImage');
+  const closePublicPopup = document.getElementById('closePublicPopup');
+
+  // Abrir login
+  adminButton.addEventListener('click', () => {
+    loginPopup.style.display = 'flex';
+  });
+
+  // Cerrar login
+  closeLoginPopup.addEventListener('click', () => {
+    loginPopup.style.display = 'none';
+  });
+
+  // Procesar login
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === 'admin' && password === 'admin123') {
+      sessionStorage.setItem('isLoggedIn', 'true');
       loginPopup.style.display = 'none';
-    });
-  
-    // Cerrar cualquier pop-up haciendo clic fuera
-    window.addEventListener('click', function (e) {
-      if (e.target === loginPopup) loginPopup.style.display = 'none';
-      if (e.target === imageUploadPopup) imageUploadPopup.style.display = 'none';
-      if (e.target === publicPopup) publicPopup.style.display = 'none';
-    });
-  
-    // Mostrar/ocultar contraseña
-    togglePassword.addEventListener('click', function () {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
-    });
-  
-    // Login válido (usuario y contraseña fijos)
-    loginForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = passwordInput.value;
-  
-      if (username === 'admin' && password === 'admin123') {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        popupButton.style.display = 'block';
-        loginPopup.style.display = 'none';
-      } else {
-        alert('Credenciales incorrectas');
-      }
-    });
-  
-    // Mostrar el botón POP-UP si ya está logueado desde antes
-    if (sessionStorage.getItem('isLoggedIn') === 'true') {
-      popupButton.style.display = 'block';
+      popupButton.style.display = 'inline-block'; // Mostrar el botón de administrador
+    } else {
+      alert('Credenciales incorrectas');
     }
-  
-    // Mostrar pop-up para cargar imagen
-    popupButton.addEventListener('click', () => {
-      imageUploadPopup.style.display = 'flex';
-    });
-  
-    // Cerrar pop-up de carga de imagen
-    closeImagePopup.addEventListener('click', () => {
-      imageUploadPopup.style.display = 'none';
-    });
-  
-    // Guardar imagen en localStorage y mostrar al público
-    saveImageButton.addEventListener('click', () => {
-      const file = popupImageInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-          localStorage.setItem('popupImage', reader.result);
-          alert('Imagen guardada con éxito.');
-          imageUploadPopup.style.display = 'none';
-          showPublicPopup(reader.result);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert('Seleccioná una imagen');
-      }
-    });
-  
-    // Mostrar pop-up con imagen si existe en localStorage
-    function showPublicPopup(src) {
-      publicImage.src = src;
-      publicPopup.style.display = 'flex';
+  });
+
+  // Mostrar el botón si ya está logueado
+  if (sessionStorage.getItem('isLoggedIn') === 'true') {
+    popupButton.style.display = 'inline-block';
+  }
+
+  // Mostrar panel de carga al hacer clic en el botón Pop-Up
+  popupButton.addEventListener('click', () => {
+    adminPanel.style.display = 'block';
+  });
+
+  // Cerrar el panel de administración
+  closeAdminPanel.addEventListener('click', () => {
+    adminPanel.style.display = 'none';
+  });
+
+  // Guardar imagen y mostrar al público
+  savePopupBtn.addEventListener('click', () => {
+    const input = popupImgInput;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        localStorage.setItem('popupImage', e.target.result);
+        alert('Imagen guardada. Se mostrará al iniciar la página.');
+        imageOptions.style.display = 'block';  // Mostrar opciones de modificación y eliminación
+        adminPanel.style.display = 'none';  // Ocultar el panel de administración
+      };
+      reader.readAsDataURL(input.files[0]);
     }
-  
-    // Cerrar pop-up público
+  });
+
+  // Mostrar el popup público al visitante si existe imagen
+  const savedImage = localStorage.getItem('popupImage');
+  if (savedImage) {
+    publicImage.src = savedImage;
+    publicPopup.style.display = 'flex';
+
+    // Cerrar el popup público
     closePublicPopup.addEventListener('click', () => {
       publicPopup.style.display = 'none';
     });
-  
-    // Mostrar imagen al público al cargar la página
-    const savedImage = localStorage.getItem('popupImage');
-    if (savedImage) {
-      showPublicPopup(savedImage);
-    }
-  });
-  
-  
+
+    // Opciones de modificar o eliminar imagen
+    imageOptions.style.display = 'block'; // Mostrar las opciones
+
+    // Modificar imagen
+    modifyPopupBtn.addEventListener('click', () => {
+      adminPanel.style.display = 'block';  // Mostrar panel de carga
+      publicPopup.style.display = 'none';  // Ocultar pop-up público
+      imageOptions.style.display = 'none';  // Ocultar las opciones
+    });
+
+    // Eliminar imagen
+    deletePopupBtn.addEventListener('click', () => {
+      localStorage.removeItem('popupImage');
+      publicPopup.style.display = 'none';  // Ocultar pop-up público
+      imageOptions.style.display = 'none';  // Ocultar las opciones
+      alert('Imagen eliminada.');
+    });
+  } else {
+    imageOptions.style.display = 'none';  // Asegurarse de que las opciones no se muestren si no hay imagen
+  }
+});
+
+
