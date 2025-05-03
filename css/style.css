@@ -90,11 +90,10 @@ h1, h2, h3 {
 
 
 
-
 /****************************************************/
 /************ LOGIN y POP UP ***********************/
 /**************************************************/
-
+/* Panel de login */
 #loginPopup {
     display: none;
     position: fixed;
@@ -102,7 +101,7 @@ h1, h2, h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    background-color: rgba(0, 0, 0, 0.6);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -170,7 +169,7 @@ h1, h2, h3 {
 
 .password-wrapper input {
   width: 100%;
-  padding: 10px 40px 10px 10px; /* Espacio para el ojo a la derecha */
+  padding: 10px 40px 10px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
@@ -185,20 +184,8 @@ h1, h2, h3 {
   cursor: pointer;
   color: #6f2486;
 }
-/* Ícono del ojo */
-.eye {
-    position: absolute;
-    right: 35px;
-    top: 157px; /* ajustado para alinear con el campo de contraseña */
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #6f2486;
-    cursor: pointer;
-  }
-  
 
-
-/************ PANEL DE ADMIN PARA CARGAR POP-UP ************/
+/* PANEL DE ADMIN PARA CARGAR POP-UP */
 #adminPanel {
     display: none;
     position: fixed;
@@ -244,7 +231,7 @@ h1, h2, h3 {
     cursor: pointer;
     transition: background 0.3s;
     width: 100%;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #savePopupBtn:hover {
@@ -256,7 +243,7 @@ h1, h2, h3 {
     margin-top: 20px;
     display: none;
     text-align: center;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #imageOptions button {
@@ -267,15 +254,14 @@ h1, h2, h3 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #imageOptions button:hover {
     background-color: #5c1e6f;
-    
 }
 
-/************ POP-UP PÚBLICO PARA LOS VISITANTES ************/
+/* POP-UP PÚBLICO PARA LOS VISITANTES */
 #publicPopup {
     display: none;
     position: fixed;
@@ -302,7 +288,7 @@ h1, h2, h3 {
 #publicPopup img {
     width: 100%;
     border-radius: 15px;
-    margin-bottom:  0px;
+    margin-bottom: 0px;
 }
 
 #closePublicPopup {
@@ -329,7 +315,7 @@ h1, h2, h3 {
     background-color: #5c1e6f;
 }
 
-/************ ESTILOS PARA BOTONES EN HEADER ************/
+/* ESTILOS PARA BOTONES EN HEADER */
 #adminButton, #popupNavButton {
     background-color: #6f2486;
     color: white;
@@ -339,21 +325,130 @@ h1, h2, h3 {
     cursor: pointer;
     font-size: 12px;
     margin-left: 0px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #adminButton:hover, #popupNavButton:hover {
     background-color: #5c1e6f;
 }
 
+/* Responsividad */
+@media (max-width: 768px) {
+    #loginPopup .loginBox {
+        max-width: 90%;
+        padding: 15px;
+    }
 
-  
+    #loginPopup .loginBox h2 {
+        font-size: 20px;
+    }
 
-  
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
+        padding: 8px;
+        font-size: 14px;
+    }
 
+    #loginPopup .loginBox button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    #adminPanel {
+        width: 90%;
+        padding: 15px;
+    }
+
+    #adminPanel h3 {
+        font-size: 18px;
+    }
+
+    #popupImgInput {
+        margin-top: 5px;
+    }
+
+    #savePopupBtn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    #imageOptions button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+
+    #publicPopup img {
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    #adminButton, #popupNavButton {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #loginPopup .loginBox {
+        max-width: 85%;
+        padding: 10px;
+    }
+
+    #loginPopup .loginBox h2 {
+        font-size: 18px;
+    }
+
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    #loginPopup .loginBox button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #adminPanel {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #adminPanel h3 {
+        font-size: 16px;
+    }
+
+    #savePopupBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    #imageOptions button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+
+    #publicPopup img {
+        width: 100%;
+    }
+
+    #adminButton, #popupNavButton {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
 /**************************************************/
 /************ FIN LOGIN y POP UP ************/
 /**************************************************/
+
 
 
 
