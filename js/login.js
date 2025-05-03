@@ -104,3 +104,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordField = document.getElementById('password');
+
+  togglePassword.addEventListener('click', function () {
+    // Alternar el tipo de input entre 'password' y 'text'
+    const type = passwordField.type === 'password' ? 'text' : 'password';
+    passwordField.type = type;
+
+    // Cambiar el ícono de cruz (para contraseña oculta) o ojo (para contraseña visible)
+    this.innerHTML = type === 'password' ? '&#128065;' : '&#10006;'; // Ojo (👁️) o Cruz (❌)
+  });
+});
