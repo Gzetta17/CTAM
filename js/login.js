@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const comercioImagenInput = document.getElementById('comercioImagen');
   const comerciosContainer = document.getElementById('comerciosContainer');
 
+  let comercioIndexToModify = null; // Para almacenar el índice del comercio a modificar
+
   // Mostrar login
   adminButton.addEventListener('click', () => {
     loginPopup.style.display = 'flex';
@@ -112,6 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Abrir modal para agregar comercio
   agregarComercioBtn.addEventListener('click', () => {
     agregarComercioModal.style.display = 'block';
+    comercioIndexToModify = null; // Resetear el índice al abrir para agregar nuevo comercio
+    // Limpiar los campos del formulario para agregar nuevo comercio
+    comercioNombreInput.value = '';
+    comercioCategoriaInput.value = '';
+    comercioImagenInput.value = '';
   });
 
   // Cerrar modal de agregar comercio
@@ -149,18 +156,28 @@ document.addEventListener('DOMContentLoaded', function () {
         comercioImagenInput.value = ''; // Se puede agregar para cambiar la imagen si es necesario
         agregarComercioModal.style.display = 'block';
 
+        // Guardar el índice para modificar el comercio
+        comercioIndexToModify = index;
+
         // Cambiar el botón de guardar a "Modificar"
         const saveButton = document.getElementById('guardarComercioBtn');
         saveButton.textContent = 'Modificar';
         saveButton.onclick = () => {
           const updatedName = comercioNombreInput.value.trim();
           const updatedCategory = comercioCategoriaInput.value.trim();
+          const updatedImage = comercioImagenInput.files[0] ? URL.createObjectURL(comercioImagenInput.files[0]) : comercio.image;
+
           if (updatedName && updatedCategory) {
-            comercio.name = updatedName;
-            comercio.category = updatedCategory;
+            // Actualizar el comercio en el array
+            const comercios = JSON.parse(sessionStorage.getItem('comercios'));
+            comercios[comercioIndexToModify] = {
+              name: updatedName,
+              category: updatedCategory,
+              image: updatedImage
+            };
             sessionStorage.setItem('comercios', JSON.stringify(comercios));
-            renderComercios();
-            agregarComercioModal.style.display = 'none';
+            renderComercios(); // Volver a renderizar los comercios
+            agregarComercioModal.style.display = 'none'; // Cerrar el modal
           } else {
             alert('Por favor complete todos los campos');
           }
@@ -183,36 +200,40 @@ document.addEventListener('DOMContentLoaded', function () {
   // Cargar los comercios al iniciar
   renderComercios();
 
-  // Guardar el comercio al hacer clic en 'Guardar'
+  // Guardar el comercio al hacer clic en 'Guardar' o 'Modificar'
   document.getElementById('guardarComercioBtn').addEventListener('click', () => {
     const name = comercioNombreInput.value.trim();
     const category = comercioCategoriaInput.value.trim();
     const imageInput = comercioImagenInput.files[0];
+    const comercios = JSON.parse(sessionStorage.getItem('comercios')) || [];
 
-    if (name && category && imageInput) {
+    if (name && category) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        const newCommerce = {
-          name: name,
-          category: category,
-          image: e.target.result
-        };
-        let comercios = JSON.parse(sessionStorage.getItem('comercios')) || [];
-        comercios.push(newCommerce);
+        // Si estamos en modo modificación
+        if (comercioIndexToModify !== null) {
+          comercios[comercioIndexToModify] = {
+            name: name,
+            category: category,
+            image: imageInput ? e.target.result : comercios[comercioIndexToModify].image
+          };
+        } else {
+          // Si estamos en modo agregar
+          comercios.push({
+            name: name,
+            category: category,
+            image: imageInput ? e.target.result : ''
+          });
+        }
         sessionStorage.setItem('comercios', JSON.stringify(comercios));
-
-        // Limpiar el formulario
-        comercioNombreInput.value = '';
-        comercioCategoriaInput.value = '';
-        comercioImagenInput.value = '';
-
-        // Cerrar el modal
-        agregarComercioModal.style.display = 'none';
-
-        // Volver a renderizar los comercios
-        renderComercios();
+        renderComercios(); // Volver a renderizar los comercios
+        agregarComercioModal.style.display = 'none'; // Cerrar el modal
       };
-      reader.readAsDataURL(imageInput);
+      if (imageInput) {
+        reader.readAsDataURL(imageInput);
+      } else {
+        reader.onload(); // Usar la imagen anterior si no se carga una nueva
+      }
     } else {
       alert('Por favor complete todos los campos');
     }
