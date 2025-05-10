@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <title>CTAM - VA CON VOS SIEMPRE</title>
@@ -25,261 +25,217 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    <style>
-        /* CSS insertado aquí */
-    </style>
 </head>
+<!-- BOTONES EN HEADER -->
+<!-- Header con botones -->
+<header>
+   <button id="adminButton">Administrador</button>
+   <button id="popupNavButton" style="display: none;">Pop-Up</button>
+   <button id="agregarComercioBtn" class="btn btn-primary" style="display:none;">Agregar Comercio</button>
+</header>
 
-    <body>
-        <!-- Nav Bar Start -->
-        <div class="navbar navbar-expand-lg bg-dark navbar-dark">
-            <div class="container-fluid">
-                <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <div class="navbar-nav ml-auto">
-                        <a href="index.html" class="nav-item nav-link active">INICIO</a>
-                        <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
-                        <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
-                        <a href="service.html" class="nav-item nav-link">TIENDA</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">TARJETA</a>
-                            <div class="dropdown-menu">
-                                <a href="blog.html" class="dropdown-item">PROMOCIONES</a>
-                                <a href="single.html" class="dropdown-item">COMERCIOS ADHERIDOS</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Nav Bar End -->
-
-        <!-- Page Header Start -->
-        <div class="page-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h2>COMERCIOS</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Page Header End -->
-        <div class="search-container" style="margin: 50px 0 10px;">
-            <input type="text" id="searchInput" placeholder="Buscar comercio..." style="width: 800px; padding: 5px;">
-        </div>
-
-        <!-- Página Principal Start -->
-        <div class="single">
-            <!-- Filtro a la izquierda -->
-            <div class="filter">
-                <button class="filter-btn active" data-category="todos">Todos</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-                <button class="filter-btn" data-category="categoria1">Categoría 1</button>
-                <button class="filter-btn" data-category="categoria2">Categoría 2</button>
-                <button class="filter-btn" data-category="categoria3">Categoría 3</button>
-            </div>
-
-            
-
-            <!-- Contenido a la derecha -->
-            <div class="content">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria1">
-                        <div class="service-img">
-                            <img src="img/service-1.jpg" alt="Image">
-                        </div>
-                        <h3>Capote</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria2">
-                        <div class="service-img">
-                            <img src="img/service-2.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                    
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                    <div class="col-lg-4 col-md-6 service-item" data-category="categoria3">
-                        <div class="service-img">
-                            <img src="img/service-3.jpg" alt="Image">
-                        </div>
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi.</p>
-                        
-                    </div>
-                        
-                </div>
-            </div>
-        </div>
-        <!-- Página Principal End -->
-
-       
-
-
-        <!-- Footer Start -->
-<div class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="footer-contact">
-                            <h2>Contactos</h2>
-                            <p><i class="fa fa-map-marker-alt"></i> 25 de Mayo ***</p>
-                            <p><i class="fa fa-phone-alt"></i> +54-3585-405009</p>
-                            <p><i class="fa fa-envelope"></i> adanchugonzalo@hotmail.com</p>
-                            <div class="footer-social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-youtube"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="footer-link">
-                            <h2>ACCESOS</h2>
-                            <a href="about.html">SOBRE NOSOTROS</a>
-                            <a href="service.html">SERVICIOS</a>
-                            <a href="blog.html">INFORMACION</a>
-                            <a href="single.html">COMERCIOS</a>
-                            <a href="contact.html">CONTACTOS</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="footer-newsletter">
-                   
-    
-                      <!-- Mapa -->
-       <div class="container">
-        <div class="row">
-            <div class="col-12">              
-
-                 
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3322.021856896615!2d-64.02390802500712!3d-33.630675273318616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95ce375680abc3b1%3A0x34416641f4024627!2sCTAM%20(Cooperativa%20Telef%C3%B3nica%20de%20Adelia%20Mar%C3%ADa%20Ltda.)!5e0!3m2!1ses!2sus!4v1745363029926!5m2!1ses!2sus" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-     
-            </div>
-        </div>
-    </div>
-    <!-- FIN Mapa -->  
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Panel de login -->
+<div id="loginPopup">
+   <div class="loginBox">
+     <span id="closeLoginPopup">&times;</span>
+     <h2>Acceso Administrador</h2>
+     <form id="loginForm">
+       <input type="text" id="username" placeholder="Usuario" required>
+       <div class="password-wrapper">
+         <input type="password" id="password" placeholder="Contraseña" required>
+         <span id="togglePassword" class="eye">&#128065;</span>
+       </div>
+       <button type="submit">Login</button>
+     </form>
+   </div>
+ </div>
+ 
+ <!-- PANEL DE ADMINISTRADOR PARA CARGAR IMAGEN -->
+<div id="adminPanel">
+   <span class="close" id="closeAdminPanel">&times;</span>
+   <h3>Subir imagen para pop-up</h3>
+   <input type="file" id="popupImgInput" accept="image/*">
+   <button id="savePopupBtn">Guardar imagen</button>
+ 
+   <div id="imageOptions" style="display: none;">
+    <button class="btn-modificar">Modificar</button>
+    <button class="btn-eliminar">Eliminar</button>
+   </div>
 </div>
-<!-- Footer End -->
-        <div class="container copyright py-3">
-            <div class="row d-flex align-items-center justify-content-between">
-                <div class="col-md-6 text-center text-md-left">
-                    <p class="mb-0 text-muted">&copy; <a href="#" class="text-decoration-none">GA</a> - Todos los derechos reservados.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-right">
-                    <p class="mb-0"><a href="#" class="text-decoration-none text-muted">Gonzalo Adanchú</a></p>
-                </div>
+ 
+<!-- POP-UP PÚBLICO PARA VISITANTES -->
+<div id="publicPopup">
+   <div class="popupContent">
+     <button id="closePublicPopup">&times;</button>
+     <img id="publicImage" src="" alt="Publicidad">
+   </div>
+</div>
+
+<!-- Modal Agregar Comercio -->
+<div id="agregarComercioModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Comercio</h5>
+                <button type="button" class="close" id="closeAgregarComercioModal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="agregarComercioForm">
+                    <div class="form-group">
+                        <label for="comercioNombre">Nombre del Comercio</label>
+                        <input type="text" class="form-control" id="comercioNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comercioCategoria">Categoría</label>
+                        <input type="text" class="form-control" id="comercioCategoria" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comercioImagen">Imagen</label>
+                        <input type="file" class="form-control-file" id="comercioImagen" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
             </div>
         </div>
-        <!-- Copyright End -->
-        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    </div>
+ </div>
+ 
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/isotope/isotope.pkgd.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
+<body>
+   <!-- Nav Bar Start -->
+   <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+       <div class="container-fluid">
+           <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
+           <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+               <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+               <div class="navbar-nav ml-auto">
+                   <a href="index.html" class="nav-item nav-link active">INICIO</a>
+                   <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
+                   <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
+                   <a href="service.html" class="nav-item nav-link">TIENDA</a>
+                   <div class="nav-item dropdown">
+                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">TARJETA</a>
+                       <div class="dropdown-menu">
+                           <a href="blog.html" class="dropdown-item">PROMOCIONES</a>
+                           <a href="single.html" class="dropdown-item">COMERCIOS ADHERIDOS</a>
+                       </div>
+                   </div>
+                   <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Nav Bar End -->
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+   <!-- Page Header Start -->
+   <div class="page-header">
+       <div class="container">
+           <div class="row">
+               <div class="col-12">
+                   <h2>COMERCIOS</h2>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Page Header End -->
+
+   <div class="search-container" style="margin: 50px 0 10px; text-align: center;">
+       <input type="text" id="searchInput" placeholder="Buscar comercio..." style="width: 80%; max-width: 800px; padding: 8px;">
+   </div>
+
+  <!-- Página principal con comercios -->
+<div class="single d-flex">
+   <div class="filter pr-3">
+       <button class="filter-btn active btn btn-outline-primary btn-block mb-2" data-category="todos">Todos</button>
+       <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria1">Categoría 1</button>
+       <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria2">Categoría 2</button>
+       <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria3">Categoría 3</button>
+   </div>
+
+   <div class="content flex-grow-1">
+       <div class="row" id="comerciosContainer">
+           <!-- Los comercios serán cargados dinámicamente aquí -->
+       </div>
+   </div>
+</div>
+
+   <!-- Footer Start -->
+   <div class="footer">
+       <div class="container">
+           <div class="row">
+               <div class="col-lg-7">
+                   <div class="row">
+                       <div class="col-md-6">
+                           <div class="footer-contact">
+                               <h2>Contactos</h2>
+                               <p><i class="fa fa-map-marker-alt"></i> 25 de Mayo ***</p>
+                               <p><i class="fa fa-phone-alt"></i> +54-3585-405009</p>
+                               <p><i class="fa fa-envelope"></i> adanchugonzalo@hotmail.com</p>
+                               <div class="footer-social">
+                                   <a href=""><i class="fab fa-twitter"></i></a>
+                                   <a href=""><i class="fab fa-facebook-f"></i></a>
+                                   <a href=""><i class="fab fa-youtube"></i></a>
+                                   <a href=""><i class="fab fa-instagram"></i></a>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-6">
+                           <div class="footer-link">
+                               <h2>ACCESOS</h2>
+                               <a href="about.html">SOBRE NOSOTROS</a>
+                               <a href="service.html">SERVICIOS</a>
+                               <a href="blog.html">INFORMACION</a>
+                               <a href="single.html">COMERCIOS</a>
+                               <a href="contact.html">CONTACTOS</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-lg-5">
+                   <div class="footer-newsletter">
+                       <!-- Mapa -->
+                       <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                       <!-- FIN Mapa -->
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Footer End -->
+
+    <!-- Copyright Start -->
+    <div class="container copyright py-3">
+        <div class="row d-flex align-items-center justify-content-between">
+            <div class="col-md-6 text-center text-md-left">
+                <p class="mb-0 text-muted">&copy; <a href="#" class="text-decoration-none">GA</a> - Todos los derechos reservados.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-right">
+                <p class="mb-0"><a href="#" class="text-decoration-none text-muted">Gonzalo Adanchú</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+
+</body>
+</html>

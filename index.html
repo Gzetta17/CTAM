@@ -46,6 +46,9 @@
 <header>
     <button id="adminButton">Administrador</button>
     <button id="popupNavButton" style="display: none;">Pop-Up</button>
+    <!-- Botón Agregar Comercio -->
+<button id="agregarComercioBtn" class="btn btn-primary" style="display:none;">Agregar Comercio</button>
+
   </header>
   
   
@@ -89,7 +92,40 @@
     </div>
   </div>
   
-
+ <!-- Modal Agregar Comercio -->
+<div id="agregarComercioModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar Comercio</h5>
+          <button type="button" class="close" id="closeAgregarComercioModal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="agregarComercioForm">
+            <div class="form-group">
+              <label for="comercioNombre">Nombre del Comercio</label>
+              <input type="text" class="form-control" id="comercioNombre" required>
+            </div>
+            <div class="form-group">
+              <label for="comercioCategoria">Categoría</label>
+              <input type="text" class="form-control" id="comercioCategoria" required>
+            </div>
+            <div class="form-group">
+              <label for="comercioImagen">Imagen</label>
+              <input type="file" class="form-control-file" id="comercioImagen" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="closeAgregarComercioModalFooter">Cerrar</button>
+          <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
         <!-- Nav Bar Start -->
         <div class="navbar navbar-expand-lg bg-dark navbar-dark">
