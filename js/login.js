@@ -74,11 +74,16 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Imagen guardada');
         imageOptions.style.display = 'block';
         adminPanel.style.display = 'none';
+
+        // Mostrar la imagen cargada en el pop-up
+        publicImage.src = e.target.result;
+        publicPopup.style.display = 'flex'; // Mostrar el pop-up con la imagen cargada
       };
       reader.readAsDataURL(input.files[0]);
     }
   });
 
+  // Verificar si ya hay una imagen guardada en sessionStorage
   const savedImage = sessionStorage.getItem('popupImage');
   if (savedImage) {
     publicImage.src = savedImage;
@@ -213,4 +218,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
-``
