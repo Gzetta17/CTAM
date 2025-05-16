@@ -57,3 +57,14 @@ function handleImageUpload(inputElement) {
 
 // Escuchar cambios en el almacenamiento para actualizar sin recargar la página
 window.addEventListener('storage', checkLoginState);
+
+
+
+// PANTALLA DE CARGA
+  // Cuando la página esté completamente cargada, se oculta el loader
+    window.onload = function() {
+        const loader = document.getElementById('loader');
+        loader.style.display = 'none';
+    };
+
+

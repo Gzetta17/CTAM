@@ -8,13 +8,14 @@
             <meta content="Free Website Template" name="description">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            
+            <!-- CTAM LOGO PAGES -->
+            <link href="img/logo.png" rel="icon">
 
             <!-- Google Font -->
              <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Righteous&display=swap" rel="stylesheet">
-            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+             <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Righteous&display=swap" rel="stylesheet">
+             <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
             <!-- CSS Libraries -->
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -23,6 +24,8 @@
             <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
             <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
             <!-- Template Stylesheet -->
             <link href="css/style.css" rel="stylesheet">
 
@@ -34,98 +37,93 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
         
-        
-            
-    <body>
 
 
 
- 
 
- <!-- BOTONES EN HEADER -->
+        <!-- BOTONES EN HEADER -->
+<!-- Header con botones -->
 <header>
-    <button id="adminButton">Administrador</button>
-    <button id="popupNavButton" style="display: none;">Pop-Up</button>
-    <!-- Botón Agregar Comercio -->
-<button id="agregarComercioBtn" class="btn btn-primary" style="display:none;">Agregar Comercio</button>
+   <button id="adminButton">Administrador</button>
+   <button id="popupNavButton" style="display: none;">Pop-Up</button>
+   <button id="agregarComercioBtn" class="btn btn-primary" style="display:none;">Agregar Comercio</button>
+</header>
 
-  </header>
-  
-  
- <!-- Panel de login -->
+<!-- Panel de login -->
 <div id="loginPopup">
-    <div class="loginBox">
-      <span id="closeLoginPopup">&times;</span>
-      <h2>Acceso Administrador</h2>
-      <form id="loginForm">
-        <input type="text" id="username" placeholder="Usuario" required>
-        <div class="password-wrapper">
-          <input type="password" id="password" placeholder="Contraseña" required>
-          <span id="togglePassword" class="eye">&#128065;</span>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-  
-  
-  <!-- PANEL DE ADMINISTRADOR PARA CARGAR IMAGEN -->
+   <div class="loginBox">
+     <span id="closeLoginPopup">&times;</span>
+     <h2>Acceso Administrador</h2>
+     <form id="loginForm">
+       <input type="text" id="username" placeholder="Usuario" required>
+       <div class="password-wrapper">
+         <input type="password" id="password" placeholder="Contraseña" required>
+         <span id="togglePassword" class="eye">&#128065;</span>
+       </div>
+       <button type="submit">Login</button>
+     </form>
+   </div>
+ </div>
+ 
+ <!-- PANEL DE ADMINISTRADOR PARA CARGAR IMAGEN -->
 <div id="adminPanel">
-    <span class="close" id="closeAdminPanel">&times;</span>
-    <h3>Subir imagen para pop-up</h3>
-    <input type="file" id="popupImgInput" accept="image/*">
-    <button id="savePopupBtn">Guardar imagen</button>
-  
-    <div id="imageOptions" style="display: none;">
-      <button id="modifyPopupBtn">Modificar imagen</button>
-      <button id="deletePopupBtn">Eliminar imagen</button>
-    </div>
-  </div>
-  
-  
-  
-  <!-- POP-UP PÚBLICO PARA VISITANTES -->
-  <div id="publicPopup">
-    <div class="popupContent">
-      <button id="closePublicPopup">&times;</button>
-      <img id="publicImage" src="" alt="Publicidad">
-    </div>
-  </div>
-  
- <!-- Modal Agregar Comercio -->
+   <span class="close" id="closeAdminPanel">&times;</span>
+   <h3>Subir imagen para pop-up</h3>
+   <input type="file" id="popupImgInput" accept="image/*">
+   <button id="savePopupBtn">Guardar imagen</button>
+ 
+   <div id="imageOptions" style="display: none;">
+    <button class="btn-modificar">Modificar</button>
+    <button class="btn-eliminar">Eliminar</button>
+   </div>
+</div>
+ 
+<!-- POP-UP PÚBLICO PARA VISITANTES -->
+<div id="publicPopup">
+   <div class="popupContent">
+     <button id="closePublicPopup">&times;</button>
+     <img id="publicImage" src="" alt="Publicidad">
+   </div>
+</div>
+
+<!-- Modal Agregar Comercio -->
 <div id="agregarComercioModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Agregar Comercio</h5>
-          <button type="button" class="close" id="closeAgregarComercioModal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="agregarComercioForm">
-            <div class="form-group">
-              <label for="comercioNombre">Nombre del Comercio</label>
-              <input type="text" class="form-control" id="comercioNombre" required>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Comercio</h5>
+                <button type="button" class="close" id="closeAgregarComercioModal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="form-group">
-              <label for="comercioCategoria">Categoría</label>
-              <input type="text" class="form-control" id="comercioCategoria" required>
+            <div class="modal-body">
+                <form id="agregarComercioForm">
+                    <div class="form-group">
+                        <label for="comercioNombre">Nombre del Comercio</label>
+                        <input type="text" class="form-control" id="comercioNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comercioCategoria">Categoría</label>
+                        <input type="text" class="form-control" id="comercioCategoria" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comercioImagen">Imagen</label>
+                        <input type="file" class="form-control-file" id="comercioImagen" required>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-              <label for="comercioImagen">Imagen</label>
-              <input type="file" class="form-control-file" id="comercioImagen" required>
+            <div class="modal-footer">
+                
+                <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
             </div>
-          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="closeAgregarComercioModalFooter">Cerrar</button>
-          <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
-        </div>
-      </div>
     </div>
-  </div>
+ </div>
+ 
+            
+    <body>
   
+
 
         <!-- Nav Bar Start -->
         <div class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -154,6 +152,8 @@
             </div>
         </div>
         <!-- Nav Bar End -->
+
+
 <!-- Hero Start -->
 <div class="hero">
     <div class="container-fluid">
@@ -182,6 +182,27 @@
 
 
 
+ <!-- PUBLICIDAD NUEVA -->
+<section class="banner-publicidad">
+ <a href="tu-enlace.html" class="banner-publicidad">
+  <div class="banner-contenido">
+    <div class="texto-banner">
+      <span class="subtitulo">RENOVAMOS NUESTRA IMAGEN</span>
+      <h2 class="titulo">SEGUIMOS CON LA MISMA MOTIVACION</h2>
+      <span class="ver-productos">VER MAS →</span>
+    </div>
+    <div class="imagen-banner">
+      <img src="img/TARJETA CTAM.png" alt="Publicidad Adidas">
+    </div>
+  </div>
+</a>
+
+</section>
+<!-- FIN PUBLICIDAD NUEVA -->
+
+
+
+ <!-- CONTADORES -->
 
     <div class="stats-container">
         <div class="stat-item">
@@ -203,6 +224,9 @@
             <p>Socios</p>
         </div>
     </div>
+<!-- FIN CONTADORES -->
+
+
 
 <br>
 <br>
@@ -298,7 +322,7 @@
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulputate. Aliquam metus tortor, auctor id gravida condimentum, viverra quis sem. Curabitur non nisl nec nisi scelerisque maximus. Aenean consectetur convallis porttitor. Aliquam interdum at lacus non blandit.
                                 </p>
-                                <a class="btn" href="single.html">MOSTRAR MAS</a>
+                                <a class="btn" href="about.html">MOSTRAR MAS</a>
                             </div>
                         </div>
                     </div>
@@ -308,41 +332,47 @@
             <!-- About End -->
 
 
-        
+
+
+  <!-- Publicidad -->
+   <section class="promo-section">
+
+  <a href="tu-link-1.html" class="promo-link">
+    <div class="promo-card">
+      <h3>TARJETA CTAM</h3>
+      <img src="img/TARJETA CTAM.png" alt="Tarjeta CTAM">
+      <div class="promo-desc">
+        <span class="cuotas">De <strong>6 A 12 CUOTAS</strong><br> SIN INTERÉS</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="tu-link-2.html" class="promo-link">
+    <div class="promo-card">
+      <h3>FIBRA ÓPTICA</h3>
+      <img src="img/Fibra Optica.png" alt="Fibra Óptica">
+      <div class="promo-desc">
+        <span class="cuotas"><strong>SOLICITA</strong><br> y mejorá tu servicios</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="tu-link-3.html" class="promo-link">
+    <div class="promo-card">
+      <h3>NEXOS TV</h3>
+      <img src="img/HBO MAX.png" alt="Nexos TV">
+      <div class="promo-desc">
+        <span class="cuotas">PAQUETE HBO<br> 100% Bonificado</span>
+      </div>
+    </div>
+  </a>
+
+</section>
+
+  <!-- Fin Publicidad -->
     
             
-            <!-- Testimonial Start -->
-            <div class="testimonial">
-                <div class="container">
-                    <div class="owl-carousel testimonials-carousel">
-                        <div class="testimonial-item">
-                            <img src="img/testimonial-1.jpg" alt="Image">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut mollis mauris. Vivamus egestas eleifend dui ac consequat. Fusce venenatis at lectus in malesuada. Suspendisse sit amet dolor et odio varius mattis.
-                            </p>
-                            <h2>Postulante</h2>
-                            <h3>Profession</h3>
-                        </div>
-                        <div class="testimonial-item">
-                            <img src="img/testimonial-2.jpg" alt="Image">
-                            <p>
-                                Phasellus pellentesque tempus pretium. Quisque in enim sit amet purus venenatis porttitor sed non velit. Vivamus vehicula finibus tortor. Aliquam vehicula molestie pulvinar. Sed varius libero in leo finibus, ac consectetur tortor rutrum.
-                            </p>
-                            <h2>Postulante</h2>
-                            <h3>Profession</h3>
-                        </div>
-                        <div class="testimonial-item">
-                            <img src="img/testimonial-3.jpg" alt="Image">
-                            <p>
-                                Sed in lectus eu eros tincidunt cursus. Aliquam eleifend velit nisl. Sed et posuere urna, ut vestibulum massa. Integer quis magna non enim luctus interdum. Phasellus sed eleifend erat. Aliquam ligula ex, semper vel tempor pellentesque, pretium eu nulla.
-                            </p>
-                            <h2>Postulante</h2>
-                            <h3>Profession</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Testimonial End -->
+
 
 
            <!-- Team Start -->
@@ -401,6 +431,9 @@
     </div>
 </div>
 <!-- Team End -->
+
+
+
 
 <!-- Modal -->
 <div id="teamModal" class="modal">

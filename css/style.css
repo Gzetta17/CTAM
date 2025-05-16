@@ -38,6 +38,10 @@ h1, h2, h3 {
   
 
 
+
+  
+
+
 /********* inicio carrusel *********/
 .carousel-container {
     position: relative;
@@ -812,7 +816,7 @@ a:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: column; 
     height: 60px;
     padding: 0 10px;
     text-align: center;
@@ -943,7 +947,7 @@ a:focus {
     
     .navbar a.nav-link {
         padding: 8px 15px;
-        font-size: 14px;
+        font-size: 11px;
         letter-spacing: 1px;
         text-transform: uppercase;
     }
@@ -1169,13 +1173,14 @@ a:focus {
 
 
 
+
 /*******************************/
 /******* Page Header CSS *******/
 /*******************************/
 .page-header {
     position: relative;
     margin-bottom: 30px;
-    padding: 78px 0 5px 0;
+    padding: 52px 0 5px 0;
     text-align: center;
     background: #1D2434;
 }
@@ -1366,6 +1371,7 @@ a:focus {
     padding: 45px 0;
     margin: 100px 0 100px;
     z-index: 1; /* Aseguramos que el contenido esté por encima de la imagen */
+    
 }
 
 .service .overlay {
@@ -1400,6 +1406,7 @@ a:focus {
     background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con algo de transparencia */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
 }
 
 .service .service-img img {
@@ -1454,6 +1461,219 @@ a:focus {
         font-size: 35px; /* o el tamaño que quieras */
     }
 }
+
+
+
+
+
+/********************************************/
+/********* INICIO NUEVA PUBLICIDAD *********/
+/******************************************/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.banner-publicidad {
+  display: block;
+  background: #151a27;
+  color: #fff;
+  padding: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  margin: 1rem auto;
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.banner-publicidad:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.banner-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.texto-banner {
+  max-width: 600px;
+}
+
+.subtitulo {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.ver-productos {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+
+@keyframes flotar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.imagen-banner img {
+  max-height: 200px;
+  object-fit: contain;
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+  
+}
+
+@keyframes desplazamiento-lateral {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.texto-banner {
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+}
+
+
+
+
+/*****************************************/
+/********* FIN NUEVA PUBLICIDAD *********/
+/***************************************/
+
+
+
+
+
+
+/**************************************/
+/********* INICIO PUBLICIDAD *********/
+/************************************/
+
+.promo-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem;
+  background: linear-gradient(to bottom, #1d2434, #1d2434);
+  flex-wrap: wrap;
+}
+
+.promo-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 1 1 30%;
+  max-width: 32%;
+  min-width: 280px;
+}
+
+.promo-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #D5B981;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  
+}
+
+.promo-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px #D5B981, 0 4px 10px #D5B981;
+
+}
+
+.promo-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;  /* Negrita */
+  font-size: 1.4rem;
+  margin: 0;
+  letter-spacing: 1px;  /* Espaciado entre letras */
+  color: #6f2486;  /* Blanco para destacar */
+  
+}
+
+
+.promo-card img {
+  max-width: 100%;
+  max-height: 120px;
+  margin: 0 auto;
+  object-fit: contain;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+
+.promo-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.promo-desc .cuotas {
+  background: #D5B981;
+  color: black;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  word-wrap: break-word;
+  font-family: "Manrope", sans-serif;
+  
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+
+/**************************************/
+/*********** FIN PUBLICIDAD **********/
+/************************************/
+
+
+
+
+
+
+
 
 
 
@@ -1652,93 +1872,6 @@ a:focus {
 }
 
 
-/*******************************/
-/******* Testimonial CSS *******/
-/*******************************/
-.testimonial {
-    position: relative;
-    margin: 45px 0;
-    padding: 120px 0;
-    background: linear-gradient(rgba(29, 36, 52, 1), rgba(29, 36, 52, .5), rgba(29, 36, 52, 1)), url(../img/testimonial-bg.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.testimonial .container {
-    max-width: 700px;
-}
-
-.testimonial .testimonials-carousel {
-    position: relative;
-    width: 100%;
-}
-
-.testimonial .testimonial-item {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.testimonial .testimonial-item img {
-    width: 60px;
-    border-radius: 60px;
-    margin-bottom: 25px;
-}
-
-.testimonial .testimonial-item p {
-    color: #ffffff;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.testimonial .testimonial-item h2 {
-    color: #D5B981;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.testimonial .testimonial-item h3 {
-    color: #999999;
-    font-size: 16px;
-    font-weight: 300;
-    margin: 0;
-}
-
-.testimonial .owl-nav {
-    width: 135px;
-    margin-top: 45px;
-    display: flex;
-}
-
-.testimonial .owl-nav .owl-prev,
-.testimonial .owl-nav .owl-next {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6f2486;
-    background: #1d2434;
-    font-size: 22px;
-    transition: .3s;
-}
-
-.testimonial .owl-nav .owl-next {
-    margin-left: 15px;
-}
-
-.testimonial .owl-nav .owl-prev:hover,
-.testimonial .owl-nav .owl-next:hover {
-    color: #1d2434;
-    background: #6f2486;
-}
-
 
 /*******************************/
 /*********** Blog CSS **********/
@@ -1771,7 +1904,7 @@ a:focus {
 .blog .blog-img {
     position: relative;
     width: 100%;
-    height: 180px;
+    height: 250px;
     overflow: hidden;
 }
 
@@ -1888,6 +2021,9 @@ a:focus {
 .blog .pagination .disabled .page-link {
     color: #999999;
 }
+
+
+
 
 
 
@@ -2238,7 +2374,7 @@ a:focus {
 .stats-container {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0;
+    margin: 150px 0 10px;
     font-family: Arial, sans-serif;
     flex-wrap: wrap; /* Permitir que los elementos se ajusten si es necesario */
 }
