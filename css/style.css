@@ -44,52 +44,68 @@ h1, h2, h3 {
 
 /********* inicio carrusel *********/
 .carousel-container {
-    position: relative;
-    max-width: 100%;
-    height: 400px;
-    overflow: hidden;
-    margin: 0 auto 2rem;
-    border-radius: 0px;
-  }
-  
-  .carousel-slide {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .carousel-slide.active {
-    display: block;
-  }
-  
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Mantiene proporción en todos los dispositivos */
+  overflow: hidden;
+  margin: 0 auto 2rem;
+  border-radius: 0;
+}
+
+.carousel-slide {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+/* Responsive ajustes */
+@media (max-width: 768px) {
   .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.4);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1;
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
   }
-  
-  .carousel-btn.prev {
-    left: 10px;
+}
+
+@media (max-width: 480px) {
+  .carousel-btn {
+    font-size: 1rem;
+    padding: 0.3rem 0.6rem;
   }
-  
-  .carousel-btn.next {
-    right: 10px;
-  }
-  /********* Fin carrusel *********/
+}
+/********* Fin carrusel *********/
+
 
 
 
@@ -2028,12 +2044,13 @@ a:focus {
 /*******************************************/
 /*********** Inicio Foto + info ***********/
 /*****************************************/
+
 .container {
   position: relative;
   width: 100%;
   max-width: 1500px;
-  max-height: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .background-image {
@@ -2051,6 +2068,7 @@ a:focus {
   padding: 20px;
   max-width: 300px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: all 0.3s ease-in-out;
 }
 
 .text-box h2 {
@@ -2078,10 +2096,51 @@ a:focus {
   background-color: #a83e3e;
 }
 
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  .text-box {
+    top: auto;
+    bottom: 10%;
+    right: 50%;
+    transform: translateX(50%);
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .text-box h2 {
+    font-size: 18px;
+  }
+
+  .text-box p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-box {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 10px;
+  }
+
+  .text-box h2 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .text-box p {
+    font-size: 12px;
+    text-align: justify;
+  }
+}
 
 /*******************************************/
 /************ Fin Foto + info *************/
 /*****************************************/
+
 
 
 
