@@ -242,3 +242,53 @@ updateCounter("sociosCount", socios);
 
 
 
+/********* Carrusel + Info tarjeta *********/
+const track = document.getElementById('track');
+const progressBar = document.getElementById('progressBar');
+const carousel = document.getElementById('carousel');
+
+const totalSlides = track.children.length;
+let index = 0;
+let interval;
+let progressInterval;
+const slideDuration = 5000; // 5 segundos
+
+function goToSlide(i) {
+  track.style.transform = `translateX(-${i * 100}%)`;
+  progressBar.style.transition = "none";
+  progressBar.style.width = "0%";
+
+  // Barra de progreso animada
+  setTimeout(() => {
+    progressBar.style.transition = `width ${slideDuration}ms linear`;
+    progressBar.style.width = "100%";
+  }, 50);
+}
+
+function startCarousel() {
+  goToSlide(index);
+
+  interval = setInterval(() => {
+    index = (index + 1) % totalSlides;
+    goToSlide(index);
+  }, slideDuration);
+}
+
+function stopCarousel() {
+  clearInterval(interval);
+  progressBar.style.transition = "none";
+  progressBar.style.width = "0%";
+}
+
+// Pausar al pasar el mouse
+carousel.addEventListener('mouseenter', stopCarousel);
+carousel.addEventListener('mouseleave', () => {
+  startCarousel();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  startCarousel();
+});
+
+/********* Fin Carrusel + Info tarjeta *********/
+

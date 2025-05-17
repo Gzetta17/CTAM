@@ -46,7 +46,7 @@ h1, h2, h3 {
 .carousel-container {
     position: relative;
     max-width: 100%;
-    height: 600px;
+    height: 400px;
     overflow: hidden;
     margin: 0 auto 2rem;
     border-radius: 0px;
@@ -786,7 +786,7 @@ a:focus {
 }
 
 .back-to-top i {
-    color: #1d2434;
+    color: #101318;
     padding-top: 10px;
 }
 
@@ -942,7 +942,7 @@ a:focus {
     
     .navbar.nav-sticky {
         padding: 10px 60px;
-        background: #1d2434 !important;
+        background: #101318 !important;
     }
     
     .navbar a.nav-link {
@@ -956,7 +956,7 @@ a:focus {
 @media (max-width: 991.98px) {   
     .navbar {
         padding: 15px;
-        background: #1d2434 !important;
+        background: #101318 !important;
     }
     
     .navbar a.nav-link {
@@ -978,7 +978,7 @@ a:focus {
     width: 100%;
     margin-bottom: 45px;
     height: calc(100vh - 60px);
-    background: #1D2434;
+    background: #101318;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -1182,7 +1182,7 @@ a:focus {
     margin-bottom: 30px;
     padding: 52px 0 5px 0;
     text-align: center;
-    background: #1D2434;
+    background: #101318;
 }
 
 .page-header h2 {
@@ -1296,7 +1296,7 @@ a:focus {
     right: 60px;
     bottom: 60px;
     left: -60px;
-    background: #1d2434;
+    background: #101318;
     z-index: 0;
 }
 
@@ -1323,8 +1323,8 @@ a:focus {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 1px;
-    color: #1d2434;
-    border: 2px solid #1d2434;
+    color: #101318;
+    border: 2px solid #101318;
     border-radius: 0;
     background: none;
     transition: .3s;
@@ -1332,7 +1332,7 @@ a:focus {
 
 .about .about-text a.btn:hover {
     color: #D5B981;
-    background: #1d2434;
+    background: #101318;
 }
 
 @media (max-width: 767.98px) {
@@ -1575,7 +1575,7 @@ a:focus {
   justify-content: space-between;
   gap: 1rem;
   padding: 2rem;
-  background: linear-gradient(to bottom, #1d2434, #1d2434);
+  background: linear-gradient(to bottom, #101318, #101318);
   flex-wrap: wrap;
 }
 
@@ -1790,7 +1790,7 @@ a:focus {
 
 .modal-info h2 {
     margin-top: 0;
-    color: #1d2434;
+    color: #101318;
 }
 
 .modal-info p {
@@ -1893,9 +1893,9 @@ a:focus {
 .blog .blog-item {
     position: relative;
     margin: 0 4px 8px;
-    background: #1d2434;
+    background: #101318;
     overflow: hidden;
-    border: 3px solid #1d2434;
+    border: 3px solid #101318;
     border-radius: 6px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1919,7 +1919,7 @@ a:focus {
 .blog .blog-meta {
     position: relative;
     padding: 5px 10px;
-    background-color: #1d2434;
+    background-color: #101318;
     border-bottom: 1px solid #ddd;
 }
 
@@ -1943,7 +1943,7 @@ a:focus {
 .blog .blog-text {
     position: relative;
     padding: 10px;
-    background-color: #1d2434;
+    background-color: #101318;
     color: white;
     border-top: 1px solid #ddd;
     border-radius: 0 0 4px 4px;
@@ -1976,7 +1976,7 @@ a:focus {
 }
 
 .blog .blog-item a.btn:hover {
-    background: #1d2434;
+    background: #101318;
     color: #6f2486;
 }
 
@@ -1995,27 +1995,27 @@ a:focus {
     align-items: center;
     justify-content: center;
     color: #6f2486;
-    background: #1d2434;
+    background: #101318;
     font-size: 16px;
     transition: .3s;
 }
 
 .blog .owl-nav .owl-prev:hover,
 .blog .owl-nav .owl-next:hover {
-    color: #1d2434;
+    color: #101318;
     background: #6f2486;
 }
 
 .blog .pagination .page-link {
-    color: #1d2434;
+    color: #101318;
     border-radius: 0;
-    border-color: #1d2434;
+    border-color: #101318;
 }
 
 .blog .pagination .page-link:hover,
 .blog .pagination .page-item.active .page-link {
     color: #6f2486;
-    background: #1d2434;
+    background: #101318;
 }
 
 .blog .pagination .disabled .page-link {
@@ -2025,165 +2025,116 @@ a:focus {
 
 
 
+/*******************************************/
+/*********** Inicio Foto + info ***********/
+/*****************************************/
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1500px;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.background-image {
+  width: 100%;
+  display: block;
+  height: auto;
+  border-radius: 10px;
+}
+
+.text-box {
+  position: absolute;
+  top: 30%;
+  right: 10%;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  max-width: 300px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.text-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.text-box p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.read-more-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #c44d4d;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background-color: #a83e3e;
+}
+
+
+/*******************************************/
+/************ Fin Foto + info *************/
+/*****************************************/
+
+
+
 
 
 /*******************************/
 /********* Contact CSS *********/
 /*******************************/
 
-.contact {
-    position: relative;
-    width: 100%;
-    margin: 45px 0;
-    background: #000000;
-}
-
-.contact .container-fluid {
-    background: url(../img/contact.jpg) center center no-repeat; /* Centrar la imagen */
-    background-size: cover; /* Asegura que la imagen cubra toda el área */
-    background-position: center; /* Asegura que la imagen se centre */
-    padding: 0;
-    height: 10vh; /* Reducir aún más la altura de la imagen */
-    width: 90%; /* Asegura que la imagen ocupe el 100% del ancho */
-}
-
-/* Ajuste del formulario */
-.contact .contact-form {
-    position: relative;
-    padding: 5px 0 5px 3px; /* Reducir padding más */
-    background: #000000;
-    max-width: 100%; /* El formulario ahora ocupará todo el ancho disponible */
-    margin: 0 auto;
-    text-align: center;
-}
-
-.contact .contact-form input,
-.contact .contact-form textarea {
-    width: 100%;
-    padding: 2px 0; /* Reducir aún más el padding de los campos de entrada */
-    background: none;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid #ffffff;
-    margin-bottom: 3px; /* Reducir el margen entre los campos */
-    font-size: 6px; /* Reducir más el tamaño de la fuente */
-}
-
-.contact .contact-form .btn {
-    padding: 4px 8px; /* Reducir aún más el padding del botón */
-    font-size: 6px; /* Reducir más el tamaño de la fuente del botón */
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #ffffff;
-    background: none;
-    border: 2px solid #6f2486;
-    border-radius: 0;
-    transition: .3s;
-    width: 100%;
-}
-
-.contact .contact-form .btn:hover {
-    color: #1d2434;
-    background: #6f2486;
-}
-
-.contact .help-block ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-
-/* ======= MEDIA QUERIES ======= */
-
-/* Para pantallas grandes (PC y tabletas grandes) */
-@media (min-width: 992px) {
-    .contact .container-fluid {
-        height: 40vh; /* Mantener la altura de la imagen */
+ .info-section {
+      background-color: #101318;
+      padding: 50px 20px;
+      text-align: center;
+      color: white;
     }
 
-    .contact .contact-form {
-        max-width: 600px; /* Mantener el ancho máximo del formulario */
-        padding: 40px 20px;
+    .info-section h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
     }
 
-    .contact .contact-form .btn {
-        padding: 10px 20px;
-        font-size: 14px;
-        width: 50%; /* Reducir el tamaño del botón */
-        margin-top: 20px;
-    }
-}
-
-/* Para pantallas medianas (tabletas pequeñas, entre 768px y 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
-    .contact .container-fluid {
-        background-size: contain; /* Ajustar la imagen para que no se estire */
-        height: 35vh; /* Reducir la altura de la imagen */
+    .info-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
 
-    .contact .contact-form {
-        max-width: 80%; /* El formulario ocupará el 80% del ancho */
-        padding: 30px 20px;
+    .info-card {
+      background-color: white;
+      color: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      text-align: left;
     }
 
-    .contact .contact-form .btn {
-        padding: 12px 25px;
-        font-size: 16px;
-        width: 100%;
-    }
-}
-
-/* Para pantallas pequeñas (menos de 768px, teléfonos y tabletas pequeñas) */
-@media (max-width: 767.98px) {
-    .contact .container-fluid {
-        background-size: contain; /* Ajuste de la imagen */
-        height: 15vh; /* Ajustar la altura de la imagen */
-        padding: 0 10px; /* Reducir el padding */
+    .info-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
     }
 
-    .contact .contact-form {
-        max-width: 90%; /* El formulario ocupará el 90% del ancho */
-        padding: 10px 5px;
+    .info-card p {
+      margin: 5px 0;
+      font-size: 14px;
     }
 
-    .contact .contact-form .btn {
-        font-size: 6px; /* Reducir aún más el tamaño de la fuente */
-        padding: 4px 8px;
-        width: 100%; /* Botón a 100% de ancho */
+    @media (max-width: 768px) {
+      .info-card {
+        width: 90%;
+      }
     }
-
-    .contact .contact-form input,
-    .contact .contact-form textarea {
-        padding: 2px;
-        font-size: 6px; /* Reducir el tamaño de la fuente */
-    }
-}
-
-/* Para pantallas muy pequeñas (celulares, menos de 480px) */
-@media (max-width: 480px) {
-    .contact .container-fluid {
-        background-size: contain; /* Ajustar la imagen */
-        height: 8vh; /* Reducir aún más la altura de la imagen */
-    }
-
-    .contact .contact-form {
-        max-width: 95%; /* El formulario ocupará el 95% del ancho */
-        padding: 3px 2px; /* Reducir más el padding */
-    }
-
-    .contact .contact-form .btn {
-        font-size: 5px; /* Reducir aún más el tamaño de la fuente */
-        padding: 3px 6px;
-        width: 100%; /* Botón a 100% de ancho */
-    }
-
-    .contact .contact-form input,
-    .contact .contact-form textarea {
-        padding: 1px;
-        font-size: 5px; /* Reducir aún más el tamaño de la fuente */
-    }
-}
 
 
 /*******************************/
@@ -2248,7 +2199,7 @@ a:focus {
     margin-bottom: 6px; /* Menos separación entre botones */
     width: 100%;
     padding: 2px 3px; /* Menos espacio interno */
-    background-color: #1d2434;
+    background-color: #101318;
     color: white;
     border: none;
     text-align: center;
@@ -2387,7 +2338,7 @@ a:focus {
 }
 
 .stat-box {
-    background-color: #1d2434; /* Fondo oscuro para resaltar */
+    background-color: #101318; /* Fondo oscuro para resaltar */
     padding: 15px; /* Reducir el padding */
     border-radius: 12px; /* Bordes más redondeados */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
@@ -2411,7 +2362,7 @@ a:focus {
 
 .stat-item p {
     font-size: 14px; /* Reducir tamaño del texto */
-    color: #1d2434;
+    color: #101318;
     margin-top: 10px;
 }
 
@@ -2516,7 +2467,7 @@ a:focus {
     position: relative;
     margin-top: 45px;
     padding-top: 90px;
-    background: #000000;
+    background: #101318;
 }
 
 .footer .footer-contact,
@@ -2591,7 +2542,7 @@ a:focus {
 
 .footer .footer-newsletter input {
     height: 60px;
-    border: 2px solid #1d2434;
+    border: 2px solid #101318;
     border-radius: 0;
 }
 
@@ -2603,16 +2554,16 @@ a:focus {
     padding: 8px 20px;
     font-size: 14px;
     font-weight: 600;
-    color: #1d2434;
+    color: #101318;
     background: none;
     border-radius: 0;
-    border: 2px solid #1d2434;
+    border: 2px solid #101318;
     transition: .3s;
 }
 
 .footer .footer-newsletter .btn:hover {
     color: #6f2486;
-    background: #1d2434;
+    background: #101318;
 }
 
 .footer .copyright {
@@ -2632,10 +2583,10 @@ a:focus {
 
 .footer .copyright .col-md-6:last-child p {
     text-align: right;
-}
+}   
 
 .footer .copyright p a {
-    color: #1d2434;
+    color: #101318;
     font-weight: 700;
 }
 
