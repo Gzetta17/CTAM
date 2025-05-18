@@ -167,7 +167,7 @@ h1, h2, h3 {
 #loginPopup .loginBox button {
     width: 100%;
     padding: 10px;
-    background-color: #6f2486;
+    background-color: #101318;
     color: white;
     border: none;
     border-radius: 5px;
@@ -339,7 +339,7 @@ h1, h2, h3 {
 
 /* ESTILOS PARA BOTONES EN HEADER */
 #adminButton, #popupNavButton {
-    background-color: #6f2486;
+    background-color: #101318;
     color: white;
     padding: 5px 15px;
     border: none;
@@ -473,7 +473,7 @@ h1, h2, h3 {
    Botón "Agregar Comercio"
 ---------------------------- */
 #agregarComercioBtn {
-    background-color: #6f2486;
+    background-color: #101318;
     color: white;
     padding: 5px 15px;
     border: none;
@@ -983,6 +983,11 @@ a:focus {
         box-shadow: none;
     }
 }
+
+
+
+
+
 
 
 /*******************************/
@@ -1622,7 +1627,7 @@ a:focus {
 
 .promo-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px #1f3357, 0 4px 10px #1f3357;
+  box-shadow: 0 8px 20px #2f1638, 0 4px 10px #2f1638;
 
 }
 

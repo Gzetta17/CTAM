@@ -86,7 +86,7 @@ rightArrow.addEventListener('click', () => {
 });
 
 
-
+//Galería Index
 
 // Opcionalmente puedes agregar un efecto adicional con JS, pero no es necesario para el filtro B/N
 document.querySelectorAll('.gallery img').forEach(img => {
@@ -98,3 +98,8 @@ document.querySelectorAll('.gallery img').forEach(img => {
     img.classList.remove('hovered');
   });
 });
+//Fin galería Index
+
+
+
+
