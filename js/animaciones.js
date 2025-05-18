@@ -85,3 +85,16 @@ rightArrow.addEventListener('click', () => {
     }
 });
 
+
+
+
+// Opcionalmente puedes agregar un efecto adicional con JS, pero no es necesario para el filtro B/N
+document.querySelectorAll('.gallery img').forEach(img => {
+  img.addEventListener('mouseenter', () => {
+    img.classList.add('hovered');
+  });
+
+  img.addEventListener('mouseleave', () => {
+    img.classList.remove('hovered');
+  });
+});

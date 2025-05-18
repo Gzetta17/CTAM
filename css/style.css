@@ -1604,7 +1604,7 @@ a:focus {
 }
 
 .promo-card {
-  background: white;
+  background: #1f3357;
   border-radius: 12px;
   padding: 1rem;
   color: #D5B981;
@@ -1622,7 +1622,7 @@ a:focus {
 
 .promo-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px #D5B981, 0 4px 10px #D5B981;
+  box-shadow: 0 8px 20px #1f3357, 0 4px 10px #1f3357;
 
 }
 
@@ -1632,7 +1632,7 @@ a:focus {
   font-size: 1.4rem;
   margin: 0;
   letter-spacing: 1px;  /* Espaciado entre letras */
-  color: #6f2486;  /* Blanco para destacar */
+  color: #ffffff;  /* Blanco para destacar */
   
 }
 
@@ -1654,8 +1654,8 @@ a:focus {
 }
 
 .promo-desc .cuotas {
-  background: #D5B981;
-  color: black;
+  background: #6f2486;
+  color: rgb(255, 255, 255);
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
   font-weight: bold;
@@ -1886,6 +1886,62 @@ a:focus {
         display: none;
     }
 }
+
+
+
+/*************************************/
+/*********** Galería index **********/
+/***********************************/
+.gallery {
+  column-count: 4;
+  column-gap: 0;
+  padding: 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.4s ease, transform 0.3s ease;
+  break-inside: avoid;
+}
+
+.gallery img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.02);
+}
+
+
+@media (max-width: 1200px) {
+  .gallery {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    column-count: 1;
+  }
+}
+
+
+/*****************************************/
+/*********** Fin Galería index **********/
+/***************************************/
+
+
+
+
+
+
 
 
 
