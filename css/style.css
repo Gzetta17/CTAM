@@ -46,6 +46,7 @@ h1, h2, h3 {
 .carousel-container {
   position: relative;
   width: 100%;
+  height: 350px;
   aspect-ratio: 16 / 9; /* Mantiene proporción en todos los dispositivos */
   overflow: hidden;
   margin: 0 auto 2rem;
@@ -1425,24 +1426,24 @@ a:focus {
     padding: 15px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con algo de transparencia */
-    border-radius: 8px;
+    border-radius: 50px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     
 }
 
 .service .service-img img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .service .service-item h3 {
-    font-size: 18px;
+    font-size: 25px;
     margin-top: 15px;
 }
 
 .service .service-item p {
     font-size: 14px;
-    color: #555;
+    color: #000000;
     margin-top: 10px;
 }
 
@@ -1482,6 +1483,22 @@ a:focus {
         font-size: 35px; /* o el tamaño que quieras */
     }
 }
+.service .service-item {
+    position: relative;
+    padding: 20px; /* más espacio interno */
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(26, 24, 24, 0.603);
+    border: 2px solid #1f1c1c4f; /* borde visible para separar cada recuadro */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service .service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
 
 
 
@@ -1584,6 +1601,212 @@ a:focus {
 
 
 
+/********************************************/
+/*********** INICIO PROMOCIONES ************/
+/******************************************/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.banner-promociones {
+  display: block;
+  background: #570b0b;
+  color: #fff;
+  padding: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  margin: 1rem auto;
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.banner-promociones:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.banner-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.texto-banner {
+  max-width: 600px;
+}
+
+.subtitulo {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.ver-productos {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+
+
+@keyframes flotar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.imagen-banner img {
+  max-height: 200px;
+  object-fit: contain;
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+  
+}
+
+@keyframes desplazamiento-lateral {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.texto-banner {
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+}
+
+
+
+
+/*****************************************/
+/************ FIN PROMOCIONES ***********/
+/***************************************/
+
+
+/********************************************/
+/*********** INICIO PROMOCIONES ************/
+/******************************************/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.banner-comercios {
+  display: block;
+  background: #092529;
+  color: #fff;
+  padding: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  margin: 1rem auto;
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.banner-comercios:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.banner-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+
+
+.texto-banner {
+  max-width: 600px;
+}
+
+
+.subtitulo {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.ver-productos {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+
+
+@keyframes flotar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.imagen-banner img {
+  max-height: 200px;
+  object-fit: contain;
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+  
+}
+
+@keyframes desplazamiento-lateral {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.texto-banner {
+  animation: desplazamiento-lateral 5s ease-in-out infinite;
+}
+
+
+/* Color modificable para todos los textos del banner */
+.texto-color-custom {
+  --texto-color: #d8cece; /* Puedes cambiar este valor */
+}
+
+.texto-color-custom .subtitulo,
+.texto-color-custom .titulo,
+.texto-color-custom .ver-productos {
+  color: #ccc;
+}
+
+/*****************************************/
+/************* FIN COMERCIOS ************/
+/***************************************/
+
+
 
 
 
@@ -1596,7 +1819,7 @@ a:focus {
   justify-content: space-between;
   gap: 1rem;
   padding: 2rem;
-  background: linear-gradient(to bottom, #101318, #101318);
+  background: linear-gradient(to bottom, #131f36, #192d4e);
   flex-wrap: wrap;
 }
 
@@ -1609,12 +1832,12 @@ a:focus {
 }
 
 .promo-card {
-  background: #1f3357;
+  background: #ececec;
   border-radius: 12px;
   padding: 1rem;
   color: #D5B981;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  box-shadow: 0 0 15px #131f36;
   height: 320px;
   display: flex;
   flex-direction: column;
@@ -1637,7 +1860,7 @@ a:focus {
   font-size: 1.4rem;
   margin: 0;
   letter-spacing: 1px;  /* Espaciado entre letras */
-  color: #ffffff;  /* Blanco para destacar */
+  color: #133066;  /* Blanco para destacar */
   
 }
 
@@ -1691,6 +1914,299 @@ a:focus {
 
 
 
+
+
+/************************************************/
+/************** Servicio individual ************/
+/**********************************************/
+
+.team-section {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 60px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.team-text {
+  flex: 1 1 40%;
+  padding-right: 40px;
+}
+
+.team-text h1 {
+  font-size: 3em;
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+
+.team-text h1 span {
+  font-weight: 500;
+}
+
+.team-text p {
+  font-size: 0.95em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.read-more {
+  display: inline-block;
+  background: orange;
+  color: black;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 0.9em;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.read-more span {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  background: #ff9900;
+}
+
+.result-text {
+  margin-top: 40px;
+  font-size: 1.1em;
+}
+
+.result-text strong {
+  color: black;
+}
+
+.team-photos {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.photo-row {
+  display: flex;
+  gap: 20px;
+}
+
+.team-photos img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.founder-label {
+  font-size: 0.8em;
+  color: #999;
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
+
+@media (max-width: 1024px) {
+  .team-section {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+
+  .team-text {
+    padding-right: 0;
+    margin-bottom: 40px;
+  }
+
+  .team-text h1 {
+    font-size: 2.5em;
+  }
+
+  .read-more {
+    padding: 12px 25px;
+    font-size: 0.85em;
+  }
+
+  .result-text {
+    font-size: 1em;
+  }
+
+  .team-photos {
+    align-items: center;
+  }
+
+  .photo-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .team-photos img {
+    max-width: 45%;
+    margin-bottom: 20px;
+  }
+
+  .founder-label {
+    position: static;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .team-text h1 {
+    font-size: 2em;
+  }
+
+  .team-photos img {
+    max-width: 90%;
+  }
+
+  .read-more {
+    padding: 10px 20px;
+  }
+}
+
+.team-photos img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.team-photos img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+/*************************************************/
+/************ Fin Servicios Individual **********/
+/***********************************************/
+
+
+
+/*******************************************************/
+/************ Tarjetas informacion Servicios **********/
+/*****************************************************/
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 50px;
+  gap: 30px;
+}
+
+.card {
+  background: #131f36;
+  border-radius: 16px;
+  padding: 30px 20px;
+  width: 280px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #000000;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  border-color: #D5B981;
+}
+
+.card.green {
+  background: linear-gradient(135deg, #D5B981, #D5B981);
+  color: white;
+}
+
+.icono img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card p {
+  font-size: 14px;
+  color: #fff6f6;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #000000;
+  width: 360px;
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.568);
+}
+
+.modal-content img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.modal-content p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.close {
+  color: white;
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/***********************************************************/
+/************ FIN Tarjetas informacion Servicios **********/
+/*********************************************************/
 
 
 
