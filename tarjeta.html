@@ -260,6 +260,106 @@
 
 
 
+
+<section>
+
+  <!-- TÍTULO CENTRADO EN PANTALLA -->
+  <div class="title-wrapper">
+    <h1 class="section-title">Promociones especiales</h1>
+  </div>
+
+  <!-- GALERÍA DE IMÁGENES -->
+  <div class="container-comercio">
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio1.jpg" alt="Producto 1">
+      <div class="overlay-text">
+        <h2>Producto 1</h2>
+        <p>Promoción válida hasta fin de mes. ¡Aprovechá!</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 1</h2>
+        
+      </div>
+    </div>
+
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio2.jpg" alt="Producto 2">
+      <div class="overlay-text">
+        <h2>Producto 2</h2>
+        <p>Oferta exclusiva por compras mayores a $10.000</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 2</h2>
+        
+        
+      </div>
+    </div>
+
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio3.jpg" alt="Producto 3">
+      <div class="overlay-text">
+        <h2>Producto 3</h2>
+        <p>2x1 solo los fines de semana</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 3</h2>
+        
+      </div>
+    </div>
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio4.jpg" alt="Producto 1">
+      <div class="overlay-text">
+        <h2>Producto 1</h2>
+        <p>Promoción válida hasta fin de mes. ¡Aprovechá!</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 1</h2>
+        
+      </div>
+    </div>
+
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio1.jpg" alt="Producto 2">
+      <div class="overlay-text">
+        <h2>Producto 2</h2>
+        <p>Oferta exclusiva por compras mayores a $10.000</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 2</h2>
+        
+        
+      </div>
+    </div>
+
+    <div class="image-box" onclick="toggleOverlay(this)">
+      <img src="img/comercio2.jpg" alt="Producto 3">
+      <div class="overlay-text">
+        <h2>Producto 3</h2>
+        <p>2x1 solo los fines de semana</p>
+      </div>
+      <div class="text-overlay">
+        <h3>Producto 2</h3>
+        <h2>Producto 3</h2>
+        
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+
 <!-- Imagen y texto -->
 <section>
   <div class="container">
@@ -398,6 +498,14 @@
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <!-- Script externo de animaciones -->
     <script src="js/animaciones.js"></script>
+
+
+     <!-- Promociones comercio -->
+    <script>
+    function toggleOverlay(box) {
+      box.classList.toggle("active");
+    }
+  </script>
 
             
             
