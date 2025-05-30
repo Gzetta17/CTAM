@@ -150,13 +150,26 @@
 
 <!-- Hero Start -->
 <div class="hero">
+          <!-- Líneas verticales animadas -->
+<div class="vertical-lines">
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+  <div class="line"></div>
+</div>
     <div class="container-fluid">
       <div class="row flex-column-reverse flex-md-row align-items-center">
         <!-- Texto -->
         <div class="col-12 col-md-6 text-center text-md-start p-4">
           <div class="hero-text">
-            <h1 class="typewriter">CTAM, VA CON VOS SIEMPRE</h1>
-            <p class="typewriter-text">Lorem ipsum dolor sit amet elit. Phasell nec pretum mi.</p>
+            <h1 class="typewriter">CTAM, </h1>
+            <h1 class="typewriter-text">VA CON VOS, SIEMPRE</h1>
             <a class="btn mt-3" href="about.html">SABER MÁS</a>
           </div>
         </div>
@@ -384,107 +397,17 @@
 
 
 
-           <!-- Team Start -->
-<div class="team">
-    <div class="container">
-        <div class="section-header text-center">
-            <p>ORGANIGRAMA</p>
-            <h2></h2>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="team-item">
-                    <div class="team-img">
-                        <img src="img/team-1.jpg" alt="Team Image">
-                    </div>
-                    <div class="team-text">
-                        <h2>Postulante 1</h2>
-                        <p>Rango A</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="team-item">
-                    <div class="team-img">
-                        <img src="img/team-2.jpg" alt="Team Image">
-                    </div>
-                    <div class="team-text">
-                        <h2>Postulante 2</h2>
-                        <p>Rango B</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="team-item">
-                    <div class="team-img">
-                        <img src="img/team-3.jpg" alt="Team Image">
-                    </div>
-                    <div class="team-text">
-                        <h2>Postulante 3</h2>
-                        <p>Rango C</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="team-item">
-                    <div class="team-img">
-                        <img src="img/team-4.jpg" alt="Team Image">
-                    </div>
-                    <div class="team-text">
-                        <h2>Postulante 4</h2>
-                        <p>Rango D</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Team End -->
+    
 
 
 
-
-<!-- Modal -->
-<div id="teamModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="modal-body">
-        <span class="arrow left-arrow">&#10094;</span> <!-- ◀ -->
-        <img id="modalImage" src="" alt="Foto ampliada" class="fade-img">
-        <div id="modalInfo" class="modal-info fade-text">
-          <h2 id="modalTitle">Título</h2>
-          <p id="modalText">Texto del miembro</p>
-        </div>
-        <span class="arrow right-arrow">&#10095;</span> <!-- ▶ -->
-      </div>
-    </div>
-  </div>
   
 
 
 
             
             
-            
-        <!-- inicio carrusel -->
-
-        <div id="carouselExample" class="carousel-container">
-            <div class="carousel-slide active">
-            <img src="img/testimonial-bg.jpg" alt="Imagen 1">
-            </div>
-            <div class="carousel-slide">
-            <img src="img/single.jpg" alt="Imagen 2">
-            </div>
-            <div class="carousel-slide">
-            <img src="img/price-8.jpg" alt="Imagen 3">
-            </div>
-            <button class="carousel-btn prev">❮</button>
-            <button class="carousel-btn next">❯</button>
-        </div>
-
-            <!-- fin carrusel -->
-
-
+      
 
             <!-- Footer Start -->
     <div class="footer">
@@ -579,7 +502,19 @@
     <!-- Script externo de animaciones -->
     <script src="js/animaciones.js"></script>
 
-            
+                        <script>
+  const container = document.querySelector('.lines');
+  for (let i = 0; i < 40; i++) {
+    const line = document.createElement('span');
+    const hue = Math.floor(Math.random() * 360); // color HSL
+    const left = Math.random() * 100 + '%';      // posición horizontal
+    const speed = (5 + Math.random() * 10) + 's'; // duración variable
+    line.style.setProperty('--hue', hue);
+    line.style.setProperty('--left', left);
+    line.style.setProperty('--speed', speed);
+    container.appendChild(line);
+  }
+</script>
             
 
         </body>
