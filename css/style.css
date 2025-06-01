@@ -2115,9 +2115,157 @@ a:focus {
 
 
 
+/**************************************/
+/************* CTAM PLAY  ************/
+/************************************/
+
+.container-play {
+    display: flex;
+    max-width: 100%; 
+    margin-top: 100px;
+    background-color: #131f36 ; 
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  
+}
+
+.content-play {
+    background: #fffdfd;
+    flex: 1;
+    padding: 20px 40px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-radius: 100px;
+}
+
+.about-tag {
+    background-color: #f7b32c; 
+    color: #1a1a1a;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+    display: inline-block;
+}
 
 
 
+.image-source {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 30px;
+}
+
+.image-section-play {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; 
+}
+
+.main-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover; 
+    border-radius: 10px; 
+}
+
+
+body::before,
+body::after,
+.image-section-play::before,
+.image-section-play::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    z-index: 0; 
+}
+
+.body::before { 
+    width: 600px;
+    height: 600px;
+    background-color: #1effc3; 
+    bottom: -200px;
+    right: -200px;
+    filter: blur(80px);
+}
+
+body::after { 
+    width: 400px;
+    height: 400px;
+    
+    top: -150px;
+    left: -100px;
+    filter: blur(70px);
+    transform: rotate(45deg); 
+}
+
+.image-section-play::before { 
+    width: 300px;
+    height: 300px;
+    background-color: #00bcd4; 
+    top: 50px;
+    right: 50px;
+    filter: blur(60px);
+    opacity: 0.4;
+}
+
+.image-section-play::after { 
+    width: 250px;
+    height: 30px;
+    background-color: #f7b32c;
+    bottom: 100px;
+    left: 20px;
+    filter: blur(20px);
+    opacity: 0.5;
+    border-radius: 15px;
+    transform: rotate(-20deg);
+}
+
+
+
+@media (max-width: 992px) {
+    .container-play {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .content-play {
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .image-section {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    .content {
+        padding: 30px 20px;
+    }
+}
 
 
 
@@ -2585,6 +2733,233 @@ a:focus {
     visibility: hidden;
 }
 
+/* ======== Distinción de rangos ======== */
+
+.team .high-rank .team-text h2 {
+    color: #6f2486;
+    font-weight: 700;
+    font-size: 1.4rem;
+    border-bottom: 3px solid #6f2486;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+}
+
+.team .mid-rank .team-text h2 {
+    color: #6f2486;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-bottom: 3px solid #6f2486;
+    padding-bottom: 4px;
+    margin-bottom: 7px;
+}
+
+.team .grouped-rank .team-text h2 {
+    color: #6f2486;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-bottom: 3px solid #6f2486;
+    padding-bottom: 4px;
+    margin-bottom: 7px;
+}
+
+/* Cuadro agrupador para áreas */
+.team .grouped-rank {
+    
+    
+    
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+}
+
+/* Tamaños específicos para imágenes */
+
+.presidente-rank {
+    width: 400px;
+    margin: 0 auto 60px auto; /* centrado y con espacio abajo */
+    text-align: center;
+    position: relative;
+    
+}
+
+.presidente-rank .team-img img {
+    width: 300px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0 auto; /* centrar horizontalmente */
+}
+
+
+.presidente-rank .team-text {
+    background-color: #eaeaea;
+    
+    padding: 20px;
+}
+
+.presidente-rank .team-text h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6f2486;
+    border-bottom: 3px solid #6f2486;
+    padding-bottom: 5px;
+}
+
+
+/* Síndicos: fotos más pequeñas */
+.team .mid-rank.sindicos .team-img img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.gerente-rank {
+    width: 260px;
+    background: #fff;
+    box-shadow: 0 0 8px #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px auto;
+    text-align: center;
+}
+
+.gerente-rank .team-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    
+}
+
+.gerente-rank .team-text h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #6f2486;
+    margin-bottom: 5px;
+    
+}
+
+.gerente-rank .team-text p {
+    margin: 0;
+    font-size: 1rem;
+    
+}
+
+.gerente-seccion {
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.areas-seccion {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+
+/* Ajustes específicos para los síndicos */
+.team .team-item.sindico {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Imagen del síndico: tamaño mediano ajustado */
+.team .team-item.sindico .team-img img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 0; /* elimina margen extra arriba */
+}
+
+/* Elimina espacio innecesario en el card */
+.team .team-item.sindico .team-img {
+    margin-bottom: 0;
+    padding: 0;
+    height: auto;
+}
+
+/* Áreas: un poco más grandes */
+.team .grouped-rank .team-img img {
+    width: 260px;
+    height: 160px;
+    object-fit: cover;
+}
+
+/* Vocales suplentes: estándar */
+.team .mid-rank.vocales-suplentes .team-img img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* Estilo general de team items */
+.team .team-item {
+    background: white;
+    box-shadow: 0 0 8px #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Imagen con borde redondeado */
+.team .team-img img {
+    border-radius: 10px;
+}
+
+/* Texto rango contraste */
+.team .team-text p {
+    font-weight: 500;
+    color: #222;
+}
+.area-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.area-card .area-image img {
+  width: 350px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.area-card .area-info {
+  flex: 1;
+  margin-left: 25px;
+  min-width: 250px;
+}
+
+.area-card .area-info h3 {
+  font-size: 1.2rem;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.area-card .area-info p {
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+
 /* Animaciones */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
@@ -2997,111 +3372,6 @@ a:focus {
 /***************************************************/
 
 
-
-
-
-
-
-
-/*******************************************/
-/*********** Inicio Foto + info ***********/
-/*****************************************/
-
-.container {
-  position: relative;
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.background-image {
-  width: 100%;
-  display: block;
-  height: auto;
-  border-radius: 10px;
-}
-
-.text-box {
-  position: absolute;
-  top: 30%;
-  right: 10%;
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 20px;
-  max-width: 300px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  transition: all 0.3s ease-in-out;
-}
-
-.text-box h2 {
-  margin-top: 0;
-  font-size: 20px;
-}
-
-.text-box p {
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 15px;
-}
-
-.read-more-btn {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #c44d4d;
-  color: white;
-  text-decoration: none;
-  border-radius: 3px;
-  transition: background 0.3s ease;
-}
-
-.read-more-btn:hover {
-  background-color: #a83e3e;
-}
-
-/* RESPONSIVE STYLES */
-@media (max-width: 768px) {
-  .text-box {
-    top: auto;
-    bottom: 10%;
-    right: 50%;
-    transform: translateX(50%);
-    max-width: 90%;
-    padding: 15px;
-  }
-
-  .text-box h2 {
-    font-size: 18px;
-  }
-
-  .text-box p {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .text-box {
-    position: static;
-    transform: none;
-    margin-top: 1rem;
-    background-color: transparent;
-    box-shadow: none;
-    padding: 10px;
-  }
-
-  .text-box h2 {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .text-box p {
-    font-size: 12px;
-    text-align: justify;
-  }
-}
-
-/*******************************************/
-/************ Fin Foto + info *************/
-/*****************************************/
 
 
 
