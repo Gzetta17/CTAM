@@ -1879,7 +1879,7 @@ a:focus {
   justify-content: space-between;
   gap: 1rem;
   padding: 2rem;
-  background: linear-gradient(to bottom, #131f36, #192d4e);
+  
   flex-wrap: wrap;
 }
 
@@ -2583,71 +2583,76 @@ body::after {
 
 
 
-
 /*******************************/
 /*********** Team CSS **********/
 /*******************************/
-.team {
-    position: relative;
-    width: 100%;
-    padding: 45px 0 15px 0;
-    border-radius: 10px;
+.about-text {
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  line-height: 1.6;
+  font-size: 17px;
 }
 
-.team .team-item {
+.year-block {
+  margin-bottom: 50px;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 30px;
+}
+
+.year-block h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #f8f8f8;
+  font-weight: 700;
+}
+
+.year-block p {
+  margin-bottom: 15px;
+}
+
+.decorative-immersion {
+  width: 280px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  margin: 0 25px 15px 0;
+  object-fit: cover;
+}
+
+.decorative-immersion.left {
+  float: left;
+  shape-outside: inset(0);
+}
+
+.decorative-immersion.right {
+  float: right;
+  margin: 0 0 15px 25px;
+  shape-outside: inset(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .decorative-immersion,
+  .decorative-immersion.left,
+  .decorative-immersion.right {
+    float: none;
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .year-block {
+    border-bottom: none;
+    padding-bottom: 0;
     margin-bottom: 30px;
+  }
 }
 
-.team .team-img {
-    position: relative;
-}
-
-.team .team-img::after {
-    position: absolute;
-    content: "";
-    top: 15px;
-    right: 15px;
-    bottom: 15px;
-    left: 15px;
-    background: transparent;
-    border: 1px solid #D5B981;
-    transition: .3s;
-    z-index: 1;
-}
-
-.team .team-img img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.team .team-text {
-    position: relative;
-    margin: -60px 15px 0 15px;
-    padding: 30px 15px;
-    text-align: center;
-    background: #F6F6F7;
-    transition: .3s;
-    z-index: 2;
-    border-radius: 10px;
-}
-
-.team .team-text h2 {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.team .team-text p {
-    margin: 0;
-    color: #333333;
-}
-
-.team .team-item:hover .team-text {
-    background: #D5B981;
-}
-
-.team .team-item:hover .team-img::after {
-    border-color: #6f2486;
-}
+/* Modal styles */
 
 .modal {
     display: none;
@@ -2670,338 +2675,235 @@ body::after {
     max-width: 900px;
     padding: 20px;
     position: relative;
-    animation: fadeIn 0.4s ease-out;
-}
+   
 
-.modal-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.modal-body img {
-    width: 40%;
-    border-radius: 10px;
-    object-fit: cover;
-    z-index: 2;
-}
-
-.modal-info {
-    width: 45%;
-    z-index: 1;
-}
-
-.modal-info h2 {
-    margin-top: 0;
-    color: #101318;
-}
-
-.modal-info p {
-    color: #333;
-    font-size: 16px;
-}
-
-.close {
-    color: #aaa;
-    font-size: 30px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.arrow {
-    font-size: 30px;
-    cursor: pointer;
-    user-select: none;
-    color: #444;
-}
-
-.left-arrow {
-    margin-right: 10px;
-}
-
-.right-arrow {
-    margin-left: 10px;
-}
-
-.arrow.hidden {
-    visibility: hidden;
-}
-
-/* ======== Distinción de rangos ======== */
-
-.team .high-rank .team-text h2 {
-    color: #6f2486;
-    font-weight: 700;
-    font-size: 1.4rem;
-    border-bottom: 3px solid #6f2486;
-    padding-bottom: 5px;
-    margin-bottom: 8px;
-}
-
-.team .mid-rank .team-text h2 {
-    color: #6f2486;
-    font-weight: 600;
-    font-size: 1.2rem;
-    border-bottom: 3px solid #6f2486;
-    padding-bottom: 4px;
-    margin-bottom: 7px;
-}
-
-.team .grouped-rank .team-text h2 {
-    color: #6f2486;
-    font-weight: 600;
-    font-size: 1.2rem;
-    border-bottom: 3px solid #6f2486;
-    padding-bottom: 4px;
-    margin-bottom: 7px;
-}
-
-/* Cuadro agrupador para áreas */
-.team .grouped-rank {
-    
-    
-    
-    padding: 15px;
-    margin-bottom: 25px;
-    border-radius: 10px;
-}
-
-/* Tamaños específicos para imágenes */
-
-.presidente-rank {
-    width: 400px;
-    margin: 0 auto 60px auto; /* centrado y con espacio abajo */
-    text-align: center;
-    position: relative;
-    
-}
-
-.presidente-rank .team-img img {
-    width: 300px;
-    height: 450px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin: 0 auto; /* centrar horizontalmente */
 }
 
 
-.presidente-rank .team-text {
-    background-color: #eaeaea;
-    
-    padding: 20px;
+
+
+
+
+
+
+.organigrama {
+  max-width: 1600px;
+  margin: auto;
 }
 
-.presidente-rank .team-text h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #6f2486;
-    border-bottom: 3px solid #6f2486;
-    padding-bottom: 5px;
-}
-
-
-/* Síndicos: fotos más pequeñas */
-.team .mid-rank.sindicos .team-img img {
-    width: 300px;
-    height: 400px;
-    object-fit: cover;
-}
-
-.gerente-rank {
-    width: 260px;
-    background: #fff;
-    box-shadow: 0 0 8px #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px auto;
-    text-align: center;
-}
-
-.gerente-rank .team-img img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    
-}
-
-.gerente-rank .team-text h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #6f2486;
-    margin-bottom: 5px;
-    
-}
-
-.gerente-rank .team-text p {
-    margin: 0;
-    font-size: 1rem;
-    
-}
-
-.gerente-seccion {
-    margin: 40px auto;
-    display: flex;
-    justify-content: center;
-    
-}
-
-.areas-seccion {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-
-/* Ajustes específicos para los síndicos */
-.team .team-item.sindico {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Imagen del síndico: tamaño mediano ajustado */
-.team .team-item.sindico .team-img img {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    margin-top: 0; /* elimina margen extra arriba */
-}
-
-/* Elimina espacio innecesario en el card */
-.team .team-item.sindico .team-img {
-    margin-bottom: 0;
-    padding: 0;
-    height: auto;
-}
-
-/* Áreas: un poco más grandes */
-.team .grouped-rank .team-img img {
-    width: 260px;
-    height: 160px;
-    object-fit: cover;
-}
-
-/* Vocales suplentes: estándar */
-.team .mid-rank.vocales-suplentes .team-img img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-}
-
-/* Estilo general de team items */
-.team .team-item {
-    background: white;
-    box-shadow: 0 0 8px #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Imagen con borde redondeado */
-.team .team-img img {
-    border-radius: 10px;
-}
-
-/* Texto rango contraste */
-.team .team-text p {
-    font-weight: 500;
-    color: #222;
-}
-.area-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f9f9f9;
+h2 {
+  background-color: #151a27;
+  color: white;
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.area-card .area-image img {
-  width: 350px;
-  height: auto;
   border-radius: 10px;
+  margin-top: 60px;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Grupo de personas */
+.grupo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin: 30px 0;
+  justify-items: center;
+}
+
+
+/* Tarjeta de persona */
+.miembro {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.miembro img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
   object-fit: cover;
+  border-radius: 10%;
+  margin-bottom: 20px;
+  border: 4px solid #ccc;
 }
 
-.area-card .area-info {
-  flex: 1;
-  margin-left: 25px;
-  min-width: 250px;
+.miembro p {
+  font-size: 1.5em;
 }
 
-.area-card .area-info h3 {
-  font-size: 1.2rem;
-  border-bottom: 2px solid #000;
-  padding-bottom: 5px;
+/* Área (una sola imagen + lista) */
+.area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-top: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 800px; /* triplicado */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.area img {
+  width: 600px; /* triplicado */
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.area ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.area ul li {
   margin-bottom: 10px;
 }
 
-.area-card .area-info p {
-  font-size: 0.9rem;
-  margin: 4px 0;
-}
-
-
-/* Animaciones */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-img {
-    opacity: 0;
-    animation: fadeImage 0.6s ease forwards;
-}
-
-.fade-text {
-    opacity: 0;
-    animation: slideText 0.6s ease forwards;
-    animation-delay: 0.2s;
-}
-
-@keyframes fadeImage {
-    from { opacity: 0; transform: translateX(-40px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideText {
-    from { opacity: 0; transform: translateX(40px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
+/* Responsive para celulares */
 @media (max-width: 768px) {
-    .modal-body {
-        flex-direction: column;
-        text-align: center;
-    }
+  .miembro {
+    width: 100%;
+    padding: 20px;
+  }
 
-    .modal-body img,
-    .modal-info {
-        width: 100%;
-    }
+  .miembro img {
+    width: 240px;
+    height: 240px;
+  }
 
-    .arrow {
-        display: none;
-    }
+  .area {
+    padding: 20px;
+  }
+
+  .area img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .area ul {
+    font-size: 1.2em;
+  }
 }
+
+
+
+/* Animación al cargar */
+@keyframes zoomFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Aplica a todo el organigrama */
+.organigrama .miembro,
+.organigrama .area,
+.organigrama h2 {
+  animation: zoomFadeIn 0.8s ease-out both;
+}
+
+/* Retardo escalonado para un efecto de aparición progresiva */
+.organigrama .miembro:nth-child(1) { animation-delay: 0.1s; }
+.organigrama .miembro:nth-child(2) { animation-delay: 0.2s; }
+.organigrama .miembro:nth-child(3) { animation-delay: 0.3s; }
+.organigrama .miembro:nth-child(4) { animation-delay: 0.4s; }
+/* Podés seguir con más si tenés más miembros */
+
+.organigrama .area:nth-of-type(1) { animation-delay: 0.5s; }
+.organigrama .area:nth-of-type(2) { animation-delay: 0.6s; }
+.organigrama .area:nth-of-type(3) { animation-delay: 0.7s; }
+
+.organigrama h2 {
+  animation-duration: 0.6s;
+}
+
+
+/* Efecto al pasar el mouse por miembros */
+.organigrama .miembro:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto al pasar el mouse por áreas */
+.organigrama .area:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+/* Base para permitir animación */
+.organigrama .miembro,
+.organigrama .area {
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  will-change: transform;
+}
+
+/* Hover para tarjetas individuales */
+.organigrama .miembro:hover {
+  transform: scale(1.08);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+  border-color: #d5b981; /* Color dorado o institucional si querés destacar */
+}
+
+/* Hover para áreas */
+.organigrama .area:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  border-color: #d5b981;
+}
+
+/* Envoltorio visual para aplicar zoom a la imagen */
+.miembro img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+/* Zoom suave solo a la imagen al hacer hover */
+.miembro:hover img {
+  transform: scale(1.05);
+}
+.area img {
+  transition: transform 0.4s ease;
+}
+
+.area:hover img {
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
