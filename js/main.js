@@ -292,3 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /********* Fin Carrusel + Info tarjeta *********/
 
+document.getElementById('adminButton').addEventListener('click', function() {
+    document.getElementById('loginPopup').style.display = 'block';
+});
