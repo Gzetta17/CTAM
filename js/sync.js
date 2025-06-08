@@ -60,11 +60,8 @@ window.addEventListener('storage', checkLoginState);
 
 
 
-// PANTALLA DE CARGA
-  // Cuando la página esté completamente cargada, se oculta el loader
-    window.onload = function() {
-        const loader = document.getElementById('loader');
-        loader.style.display = 'none';
-    };
 
 
+
+
+ 
