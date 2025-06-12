@@ -142,6 +142,637 @@ h1, h2, h3 {
    /************Fin Animaciones*******************/
 
 
+
+
+
+
+
+
+/**********************************************************************/
+/************ LOGIN y POP UP, Agregar comercio ***********************/
+/********************************************************************/
+/* Panel de login */
+#loginPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#loginPopup .loginBox {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+#closeLoginPopup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    color: red;
+    cursor: pointer;
+}
+
+#loginPopup .loginBox h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+}
+
+#loginPopup .loginBox input[type="text"],
+#loginPopup .loginBox input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#loginPopup .loginBox button {
+    width: 100%;
+    padding: 10px;
+    background-color: #101318;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#loginPopup .loginBox button:hover {
+    background-color: #5c1e6f;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+
+.password-wrapper {
+    position: relative;
+  }
+  
+  .password-wrapper input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* Espacio a la derecha para el ícono */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-75%); /* Centra verticalmente el ícono */
+    font-size: 18px;
+    cursor: pointer;
+    color: #6f2486; /* Color del ícono */
+  }
+  
+
+/* PANEL DE ADMIN PARA CARGAR POP-UP */
+#adminPanel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+}
+
+#adminPanel .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    color: red;
+    cursor: pointer;
+}
+
+#adminPanel h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#popupImgInput {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#savePopupBtn {
+    margin-top: 20px;
+    background-color: #6f2486;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#savePopupBtn:hover {
+    background-color: #5c1e6f;
+}
+
+/* Botones para editar/eliminar imagen */
+#imageOptions {
+    margin-top: 20px;
+    display: none;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#imageOptions button {
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #6f2486;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#imageOptions button:hover {
+    background-color: #5c1e6f;
+}
+
+/* POP-UP PÚBLICO PARA LOS VISITANTES */
+#publicPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+#publicPopup .popupContent {
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+}
+
+#publicPopup img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 0px;
+}
+
+#closePublicPopup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 12px;
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#publicPopup button {
+    padding: 1px 5px;
+    background-color: #6f2486;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#publicPopup button:hover {
+    background-color: #5c1e6f;
+}
+
+/* ESTILOS PARA BOTONES EN HEADER */
+#adminButton, #popupNavButton {
+    background-color: #101318;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 0px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#adminButton:hover, #popupNavButton:hover {
+    background-color: #5c1e6f;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #loginPopup .loginBox {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    #loginPopup .loginBox h2 {
+        font-size: 20px;
+    }
+
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    #loginPopup .loginBox button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    #adminPanel {
+        width: 90%;
+        padding: 15px;
+    }
+
+    #adminPanel h3 {
+        font-size: 18px;
+    }
+
+    #popupImgInput {
+        margin-top: 5px;
+    }
+
+    #savePopupBtn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    #imageOptions button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+
+    #publicPopup img {
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    #adminButton, #popupNavButton {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #loginPopup .loginBox {
+        max-width: 85%;
+        padding: 10px;
+    }
+
+    #loginPopup .loginBox h2 {
+        font-size: 18px;
+    }
+
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    #loginPopup .loginBox button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #adminPanel {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #adminPanel h3 {
+        font-size: 16px;
+    }
+
+    #savePopupBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    #imageOptions button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+
+    #publicPopup img {
+        width: 100%;
+    }
+
+    #adminButton, #popupNavButton {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
+
+
+/* ----------------------------
+   Botón "Agregar Comercio"
+---------------------------- */
+#agregarComercioBtn {
+    background-color: #101318;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 0px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#agregarComercioBtn:hover {
+    background-color: #5c1e6f;
+}
+
+/* ----------------------------
+   Modal - Fondo y Contenido
+---------------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-dialog {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    margin: 0;
+}
+
+.close {
+    font-size: 30px;
+    cursor: pointer;
+    color: #aaa;
+    background: none;
+    border: none;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-body .form-group {
+    margin-bottom: 15px;
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-footer .btn {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-primary {
+    background-color: #5c1e6f;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #5c1e6f;
+}
+
+/* ----------------------------
+   Contenedor de Comercios
+---------------------------- */
+#comerciosContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+/* ----------------------------
+   Botones "Modificar" y "Eliminar"
+---------------------------- */
+.comercioCard .buttons .btn-modificar {
+    background-color: #5c1e6f; /* Cambia el color a azul */
+}
+
+.comercioCard .buttons .btn-modificar:hover {
+    background-color: #D5B981; /* Color cuando se pasa el mouse */
+}
+
+.comercioCard .buttons .btn-eliminar {
+    background-color: #D5B981; /* Color de eliminación, un tono naranja */
+}
+
+.comercioCard .buttons .btn-eliminar:hover {
+    background-color: #5c1e6f; /* Color al pasar el mouse */
+}
+
+/* ----------------------------
+   Tarjeta Individual de Comercio
+---------------------------- */
+.comercioCard {
+    background-color: #5c1e6f; /* Fondo gris claro */
+    padding: 20px;
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.comercioCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Efecto de sombra al pasar el mouse */
+}
+
+.comercioCard img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.comercioCard h3 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.comercioCard p {
+    font-size: 14px;
+    color: #555;
+}
+
+.comercioCard .buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.comercioCard .buttons button {
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.comercioCard .buttons .btn-modificar {
+    background-color: #4CAF50;
+}
+
+.comercioCard .buttons .btn-modificar:hover {
+    background-color: #45a049;
+}
+
+.comercioCard .buttons .btn-eliminar,
+.comercioCard .buttons .delete {
+    background-color: #f44336;
+}
+
+.comercioCard .buttons .btn-eliminar:hover,
+.comercioCard .buttons .delete:hover {
+    background-color: #da190b;
+}
+
+/* ----------------------------
+   Diseño Responsivo
+---------------------------- */
+@media (max-width: 768px) {
+    .comercioCard {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .comercioCard {
+        width: 100%;
+    }
+
+    .modal-dialog {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .comercioCard .buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .comercioCard .buttons button {
+        width: 100%;
+    }
+}
+
+
+
+
+
+/**************************************************************/
+/************ FIN LOGIN, POP UP, Agregar comercio ************/
+/************************************************************/
+
+
+
+
+
+
+
+
+
  
 a {
     color: #454545;
