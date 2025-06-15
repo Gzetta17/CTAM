@@ -295,3 +295,41 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('adminButton').addEventListener('click', function() {
     document.getElementById('loginPopup').style.display = 'block';
 });
+
+
+
+
+
+/********* Fin Noticias  *********/
+function mostrarPopup(card, titulo, descripcion) {
+  const popup = document.getElementById("popup-noticia");
+  const tituloElemento = document.getElementById("popupTitulo");
+  const descripcionElemento = document.getElementById("popupDescripcion");
+  const imagenElemento = document.getElementById("popupImagen");
+
+  // Obtener imagen de la miniatura (tarjeta)
+  const imagenMiniatura = card.querySelector("img");
+  const imagenURL = imagenMiniatura ? imagenMiniatura.src : "";
+
+  tituloElemento.textContent = titulo;
+  descripcionElemento.textContent = descripcion;
+  imagenElemento.src = imagenURL;
+
+  popup.style.display = "block";
+}
+
+function cerrarPopup() {
+  document.getElementById("popup-noticia").style.display = "none";
+}
+
+// Cerrar popup si clicas fuera del contenido
+window.addEventListener("click", function(event) {
+  const popup = document.getElementById("popup-noticia");
+  if (event.target === popup) {
+    cerrarPopup();
+  }
+});
+
+
+
+/********* Fin Noticias *********/
