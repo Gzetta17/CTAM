@@ -67,23 +67,29 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Guardar la imagen del popup
-  savePopupBtn.addEventListener('click', () => {
-    const input = popupImgInput;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        sessionStorage.setItem('popupImage', e.target.result);
-        alert('Imagen guardada');
-        imageOptions.style.display = 'block';
-        adminPanel.style.display = 'none';
+ savePopupBtn.addEventListener('click', () => {
+  const file = popupImgInput.files[0];
+  if (!file) return alert('Selecciona una imagen');
 
-        // Mostrar la imagen cargada en el pop-up
-        publicImage.src = e.target.result;
-        publicPopup.style.display = 'flex'; // Mostrar el pop-up con la imagen cargada
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  });
+  const formData = new FormData();
+  formData.append('image', file);
+
+  fetch('http://localhost:3000/api/popup', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al guardar imagen');
+      alert('Imagen guardada');
+      adminPanel.style.display = 'none';
+      fetchAndShowPopup(); // volver a cargar la imagen desde el servidor
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error al subir la imagen');
+    });
+});
+
 
   // Verificar si ya hay una imagen guardada en sessionStorage
   const savedImage = sessionStorage.getItem('popupImage');
@@ -239,3 +245,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+
+
+
+// Si estamos en modo agregar POP-UP
+function fetchAndShowPopup() {
+  fetch('http://localhost:3000/api/popup')
+    .then(res => {
+      if (!res.ok) throw new Error('No hay imagen guardada');
+      return res.blob();
+    })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      publicImage.src = url;
+      publicPopup.style.display = 'flex';
+    })
+    .catch(err => {
+      console.log('No se pudo cargar imagen del popup:', err.message);
+    });
+}

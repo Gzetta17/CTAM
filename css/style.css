@@ -2138,34 +2138,39 @@ a:focus {
 
 .container-play {
     display: flex;
-    max-width: 100%; 
+    max-width: 100%;
     margin-top: 100px;
-    background-color: #131f36 ; 
-    border-radius: 10px;
+    background-color: #fdfcfc;
     overflow: hidden;
     position: relative;
-  
+
+    /* AÑADIDO PARA SOMBRA Y BORDE */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%; /* o el ancho que desees */
 }
 
-.content-play {
-    background: #fffdfd;
-    flex: 1;
-    padding: 20px 40px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    border-radius: 100px;
+.container-play {
+    border: 6px solid #d52cf7ad; /* mismo color que el .about-tag */
+    border-radius: 16px;
+    background-color: #fdfcfc;
+    padding: 10px;
+    margin: 100px auto;
+    width: 90%;
+    overflow: hidden;
 }
+  
 
 .about-tag {
-    background-color: #f7b32c; 
-    color: #1a1a1a;
+    background-color: #d52cf7ad; 
+    color: #000000;
     padding: 8px 15px;
     border-radius: 5px;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: 2rem;
     margin-bottom: 20px;
     display: inline-block;
 }
@@ -2192,7 +2197,7 @@ a:focus {
     height: auto;
     display: block;
     object-fit: cover; 
-    border-radius: 10px; 
+   
 }
 
 
@@ -2226,15 +2231,7 @@ body::after {
     transform: rotate(45deg); 
 }
 
-.image-section-play::before { 
-    width: 300px;
-    height: 300px;
-    background-color: #00bcd4; 
-    top: 50px;
-    right: 50px;
-    filter: blur(60px);
-    opacity: 0.4;
-}
+
 
 .image-section-play::after { 
     width: 250px;
@@ -2248,7 +2245,10 @@ body::after {
     transform: rotate(-20deg);
 }
 
-
+.nexos-image {
+    width: 300px;   /* O cualquier tamaño que desees */
+    height: auto;
+}
 
 @media (max-width: 992px) {
     .container-play {
@@ -2481,11 +2481,28 @@ h1 {
 /**********************************************/
 
 
+/************************************************/
+/******************** QRS **********************/
+/**********************************************/
 
+.contenedor-imagenes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+}
 
+.contenedor-imagenes img {
+    width: 300px;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
 
-
-
+/************************************************/
+/***************** FIN QRS *********************/
+/**********************************************/
 
 
 /************************************************/

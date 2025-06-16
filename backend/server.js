@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   res.send('Servidor funcionando correctamente');
 });
 
-const popupRoutes = require('./routers/popup');
+const popupRoutes = require('./routes/popup');
 app.use('/api', popupRoutes);
 app.use('/uploads', express.static('uploads')); // para servir las imágenes
 
