@@ -301,35 +301,24 @@ document.getElementById('adminButton').addEventListener('click', function() {
 
 
 /********* Fin Noticias  *********/
-function mostrarPopup(card, titulo, descripcion) {
-  const popup = document.getElementById("popup-noticia");
-  const tituloElemento = document.getElementById("popupTitulo");
-  const descripcionElemento = document.getElementById("popupDescripcion");
-  const imagenElemento = document.getElementById("popupImagen");
+function mostrarPopup(card) {
+  const popup = document.getElementById('popup-noticia');
+  const titulo = card.querySelector('.news-title').textContent;
+  const contenidoHTML = card.querySelector('.popup-content-hidden').innerHTML;
+  const imgSrc = card.querySelector('img').src;
 
-  // Obtener imagen de la miniatura (tarjeta)
-  const imagenMiniatura = card.querySelector("img");
-  const imagenURL = imagenMiniatura ? imagenMiniatura.src : "";
+  document.getElementById('popupTitulo').textContent = titulo;
+  document.getElementById('popupImagen').src = imgSrc;
 
-  tituloElemento.textContent = titulo;
-  descripcionElemento.textContent = descripcion;
-  imagenElemento.src = imagenURL;
+  const descripcionContainer = document.getElementById('popupDescripcion');
+  descripcionContainer.innerHTML = contenidoHTML;
 
-  popup.style.display = "block";
+  popup.style.display = 'block';
 }
 
 function cerrarPopup() {
-  document.getElementById("popup-noticia").style.display = "none";
+  document.getElementById('popup-noticia').style.display = 'none';
 }
-
-// Cerrar popup si clicas fuera del contenido
-window.addEventListener("click", function(event) {
-  const popup = document.getElementById("popup-noticia");
-  if (event.target === popup) {
-    cerrarPopup();
-  }
-});
-
 
 
 /********* Fin Noticias *********/
