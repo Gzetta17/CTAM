@@ -206,45 +206,69 @@ document.addEventListener('DOMContentLoaded', function () {
   // Cargar los comercios al iniciar
   renderComercios();
 
-  // Guardar el comercio al hacer clic en 'Guardar' o 'Modificar'
-  document.getElementById('guardarComercioBtn').addEventListener('click', () => {
-    const name = comercioNombreInput.value.trim();
-    const category = comercioCategoriaInput.value.trim();
-    const imageInput = comercioImagenInput.files[0];
-    const comercios = JSON.parse(sessionStorage.getItem('comercios')) || [];
 
-    if (name && category) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        // Si estamos en modo modificación
-        if (comercioIndexToModify !== null) {
-          comercios[comercioIndexToModify] = {
-            name: name,
-            category: category,
-            image: imageInput ? e.target.result : comercios[comercioIndexToModify].image
-          };
-        } else {
-          // Si estamos en modo agregar
-          comercios.push({
-            name: name,
-            category: category,
-            image: imageInput ? e.target.result : ''
-          });
-        }
-        sessionStorage.setItem('comercios', JSON.stringify(comercios));
-        renderComercios(); // Volver a renderizar los comercios
-        agregarComercioModal.style.display = 'none'; // Cerrar el modal
-      };
-      if (imageInput) {
-        reader.readAsDataURL(imageInput);
-      } else {
-        reader.onload(); // Usar la imagen anterior si no se carga una nueva
-      }
-    } else {
-      alert('Por favor complete todos los campos');
-    }
-  });
+function cargarComercios() {
+  fetch('http://localhost:3000/api/comercios')
+    .then(res => res.json())
+    .then(comercios => {
+      comerciosContainer.innerHTML = '';
+      comercios.forEach(comercio => {
+        const card = document.createElement('div');
+        card.classList.add('col-md-4', 'service-item');
+        card.innerHTML = `
+          <h3>${comercio.nombre}</h3>
+          <p>${comercio.categoria}</p>
+          <img src="${comercio.imagen}" alt="${comercio.nombre}" class="img-fluid">
+        `;
+        comerciosContainer.appendChild(card);
+      });
+    })
+    .catch(err => {
+      console.error('Error al cargar comercios:', err);
+    });
+}
+
+
+
+
+
+  // Guardar el comercio al hacer clic en 'Guardar' o 'Modificar'
+document.getElementById('guardarComercioBtn').addEventListener('click', () => {
+  const nombre = comercioNombreInput.value.trim();
+  const categoria = comercioCategoriaInput.value.trim();
+  const imagen = comercioImagenInput.files[0];
+
+  if (!nombre || !categoria || !imagen) {
+    alert('Por favor complete todos los campos');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('nombre', nombre);
+  formData.append('categoria', categoria);
+  formData.append('imagen', imagen);
+
+  fetch('http://localhost:3000/api/comercios', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al guardar comercio');
+      return res.json();
+    })
+    .then(() => {
+      alert('Comercio guardado con éxito');
+      agregarComercioModal.style.display = 'none';
+      cargarComercios(); // recargar lista desde MongoDB
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error al guardar comercio');
+    });
 });
+
+
+
 
 
 
@@ -264,4 +288,6 @@ function fetchAndShowPopup() {
     .catch(err => {
       console.log('No se pudo cargar imagen del popup:', err.message);
     });
-}
+
+// Cargar comercios desde MongoDB al iniciar
+cargarComercios();

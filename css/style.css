@@ -2495,20 +2495,45 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap; /* Permite que las imágenes se ajusten en varias líneas */
     padding: 20px;
     gap: 20px;
 }
 
 .contenedor-imagenes img {
-    width: 300px;
+    width: 100%;
+    max-width: 300px; /* Tamaño máximo */
     height: auto;
     border: 2px solid #ccc;
     border-radius: 10px;
 }
 
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .contenedor-imagenes {
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .contenedor-imagenes img {
+        max-width: 90%; /* Las imágenes ocuparán más espacio disponible */
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-imagenes img {
+        max-width: 100%;
+    }
+}
+
 /************************************************/
 /***************** FIN QRS *********************/
 /**********************************************/
+
+
+
+
+
 
 
 /************************************************/

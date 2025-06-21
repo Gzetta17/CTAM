@@ -39,3 +39,8 @@ app.listen(PORT, () => {
 
 
 
+
+
+
+const comercioRoutes = require('./routes/comercio');
+app.use('/api', comercioRoutes);
