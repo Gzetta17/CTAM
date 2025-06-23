@@ -322,3 +322,40 @@ function cerrarPopup() {
 
 
 /********* Fin Noticias *********/
+
+
+
+/********* Agregar Noticias *********/
+
+document.getElementById('guardarNoticiaBtn').addEventListener('click', () => {
+  const titulo = document.getElementById('noticiaTitulo').value.trim();
+  const descripcion = document.getElementById('noticiaDescripcion').value.trim();
+  const imagen = document.getElementById('noticiaImagen').files[0];
+
+  if (!titulo || !descripcion || !imagen) {
+    return alert('Todos los campos son obligatorios');
+  }
+
+  const formData = new FormData();
+  formData.append('title', titulo);
+  formData.append('description', descripcion);
+  formData.append('image', imagen);
+
+  fetch('http://localhost:3000/api/noticia', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert('Noticia guardada correctamente');
+    document.getElementById('noticiaTitulo').value = '';
+    document.getElementById('noticiaDescripcion').value = '';
+    document.getElementById('noticiaImagen').value = '';
+  })
+  .catch(err => {
+    console.error('Error al guardar noticia:', err);
+    alert('Error al guardar noticia');
+  });
+});
+
+/********* Fin Agregar Noticias *********/

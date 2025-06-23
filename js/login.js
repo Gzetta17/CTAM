@@ -22,8 +22,55 @@ document.addEventListener('DOMContentLoaded', function () {
   const comercioCategoriaInput = document.getElementById('comercioCategoria');
   const comercioImagenInput = document.getElementById('comercioImagen');
   const comerciosContainer = document.getElementById('comerciosContainer');
+  let comercioIndexToModify = null;
+  const agregarNoticiasBtn = document.getElementById('agregarNoticias');
+const noticiaPanel = document.getElementById('noticiaPanel');
+const guardarNoticiaBtn = document.getElementById('guardarNoticiaBtn');
+const noticiaTituloInput = document.getElementById('noticiaTitulo');
+const noticiaDescripcionInput = document.getElementById('noticiaDescripcion');
+const noticiaImagenInput = document.getElementById('noticiaImagen');
 
-  let comercioIndexToModify = null; // Para almacenar el índice del comercio a modificar
+
+
+guardarNoticiaBtn.addEventListener('click', () => {
+  const titulo = noticiaTituloInput.value.trim();
+  const descripcion = noticiaDescripcionInput.value.trim();
+  const imagen = noticiaImagenInput.files[0];
+
+  if (!titulo || !descripcion || !imagen) {
+    alert('Por favor completa todos los campos');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('title', titulo);
+  formData.append('description', descripcion);
+  formData.append('image', imagen);
+
+  fetch('http://localhost:3000/api/noticias', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al guardar noticia');
+      return res.json();
+    })
+    .then(() => {
+      alert('Noticia guardada con éxito');
+      noticiaPanel.style.display = 'none';
+      noticiaTituloInput.value = '';
+      noticiaDescripcionInput.value = '';
+      noticiaImagenInput.value = '';
+      renderNoticias();
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error al guardar la noticia');
+    });
+});
+
+
+
 
   // Mostrar login
   adminButton.addEventListener('click', () => {
@@ -56,238 +103,205 @@ document.addEventListener('DOMContentLoaded', function () {
     agregarComercioBtn.style.display = 'inline-block';
   }
 
-  // Abrir el panel de administrador
-  popupButton.addEventListener('click', () => {
-    adminPanel.style.display = 'block';
-  });
+  // Abrir y cerrar panel de administrador
+  popupButton.addEventListener('click', () => adminPanel.style.display = 'block');
+  closeAdminPanel.addEventListener('click', () => adminPanel.style.display = 'none');
 
-  // Cerrar el panel de administrador
-  closeAdminPanel.addEventListener('click', () => {
-    adminPanel.style.display = 'none';
-  });
+  // Guardar imagen del popup
+  savePopupBtn.addEventListener('click', () => {
+    const file = popupImgInput.files[0];
+    if (!file) return alert('Selecciona una imagen');
 
-  // Guardar la imagen del popup
- savePopupBtn.addEventListener('click', () => {
-  const file = popupImgInput.files[0];
-  if (!file) return alert('Selecciona una imagen');
+    const formData = new FormData();
+    formData.append('image', file);
 
-  const formData = new FormData();
-  formData.append('image', file);
-
-  fetch('http://localhost:3000/api/popup', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Error al guardar imagen');
-      alert('Imagen guardada');
-      adminPanel.style.display = 'none';
-      fetchAndShowPopup(); // volver a cargar la imagen desde el servidor
+    fetch('http://localhost:3000/api/popup', {
+      method: 'POST',
+      body: formData
     })
-    .catch(err => {
-      console.error(err);
-      alert('Error al subir la imagen');
-    });
-});
+      .then(res => {
+        if (!res.ok) throw new Error('Error al guardar imagen');
+        alert('Imagen guardada');
+        adminPanel.style.display = 'none';
+        fetchAndShowPopup();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error al subir la imagen');
+      });
+  });
 
-
-  // Verificar si ya hay una imagen guardada en sessionStorage
-  const savedImage = sessionStorage.getItem('popupImage');
-  if (savedImage) {
-    publicImage.src = savedImage;
-    publicPopup.style.display = 'flex';
-
-    closePublicPopup.addEventListener('click', () => {
-      publicPopup.style.display = 'none';
-    });
-
-    modifyPopupBtn.addEventListener('click', () => {
-      adminPanel.style.display = 'block';
-      publicPopup.style.display = 'none';
-      imageOptions.style.display = 'none';
-    });
-
-    deletePopupBtn.addEventListener('click', () => {
-      sessionStorage.removeItem('popupImage');
-      publicPopup.style.display = 'none';
-      imageOptions.style.display = 'none';
-      alert('Imagen eliminada');
-    });
-  } else {
+  // POPUP público si hay imagen
+  closePublicPopup.addEventListener('click', () => publicPopup.style.display = 'none');
+  modifyPopupBtn.addEventListener('click', () => {
+    adminPanel.style.display = 'block';
+    publicPopup.style.display = 'none';
     imageOptions.style.display = 'none';
-  }
+  });
+  deletePopupBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('popupImage');
+    publicPopup.style.display = 'none';
+    imageOptions.style.display = 'none';
+    alert('Imagen eliminada');
+  });
 
-  // Abrir modal para agregar comercio
+  // Modal agregar comercio
   agregarComercioBtn.addEventListener('click', () => {
     agregarComercioModal.style.display = 'block';
-    comercioIndexToModify = null; // Resetear el índice al abrir para agregar nuevo comercio
-    // Limpiar los campos del formulario para agregar nuevo comercio
+    comercioIndexToModify = null;
     comercioNombreInput.value = '';
     comercioCategoriaInput.value = '';
     comercioImagenInput.value = '';
   });
+  closeAgregarComercioModal.addEventListener('click', () => agregarComercioModal.style.display = 'none');
 
-  // Cerrar modal de agregar comercio
-  closeAgregarComercioModal.addEventListener('click', () => {
-    agregarComercioModal.style.display = 'none';
+  // Guardar comercio
+  document.getElementById('guardarComercioBtn').addEventListener('click', () => {
+    const nombre = comercioNombreInput.value.trim();
+    const categoria = comercioCategoriaInput.value.trim();
+    const imagen = comercioImagenInput.files[0];
+
+    if (!nombre || !categoria || !imagen) {
+      alert('Por favor complete todos los campos');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('categoria', categoria);
+    formData.append('imagen', imagen);
+
+    fetch('http://localhost:3000/api/comercios', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al guardar comercio');
+        return res.json();
+      })
+      .then(() => {
+        alert('Comercio guardado con éxito');
+        agregarComercioModal.style.display = 'none';
+        cargarComercios();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error al guardar comercio');
+      });
   });
 
-  // Función para renderizar los comercios desde el sessionStorage
-  function renderComercios() {
-    const comercios = JSON.parse(sessionStorage.getItem('comercios')) || [];
-    comerciosContainer.innerHTML = '';
-    comercios.forEach((comercio, index) => {
-      const newCommerce = document.createElement('div');
-      newCommerce.classList.add('col-md-4', 'service-item');
-      newCommerce.innerHTML = `
-        <h3>${comercio.name}</h3>
-        <p>${comercio.category}</p>
-        <img src="${comercio.image}" alt="${comercio.name}" class="img-fluid">
-        <button class="modifyBtn" data-index="${index}">Modificar</button>
-        <button class="deleteBtn" data-index="${index}">Eliminar</button>
-      `;
-      comerciosContainer.appendChild(newCommerce);
-    });
-
-    // Añadir eventos a los botones de modificar y eliminar
-    const modifyBtns = document.querySelectorAll('.modifyBtn');
-    modifyBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const index = e.target.getAttribute('data-index');
-        const comercios = JSON.parse(sessionStorage.getItem('comercios'));
-        const comercio = comercios[index];
-
-        comercioNombreInput.value = comercio.name;
-        comercioCategoriaInput.value = comercio.category;
-        comercioImagenInput.value = ''; // Se puede agregar para cambiar la imagen si es necesario
-        agregarComercioModal.style.display = 'block';
-
-        // Guardar el índice para modificar el comercio
-        comercioIndexToModify = index;
-
-        // Cambiar el botón de guardar a "Modificar"
-        const saveButton = document.getElementById('guardarComercioBtn');
-        saveButton.textContent = 'Modificar';
-        saveButton.onclick = () => {
-          const updatedName = comercioNombreInput.value.trim();
-          const updatedCategory = comercioCategoriaInput.value.trim();
-          const updatedImage = comercioImagenInput.files[0] ? URL.createObjectURL(comercioImagenInput.files[0]) : comercio.image;
-
-          if (updatedName && updatedCategory) {
-            // Actualizar el comercio en el array
-            const comercios = JSON.parse(sessionStorage.getItem('comercios'));
-            comercios[comercioIndexToModify] = {
-              name: updatedName,
-              category: updatedCategory,
-              image: updatedImage
-            };
-            sessionStorage.setItem('comercios', JSON.stringify(comercios));
-            renderComercios(); // Volver a renderizar los comercios
-            agregarComercioModal.style.display = 'none'; // Cerrar el modal
-          } else {
-            alert('Por favor complete todos los campos');
-          }
-        };
-      });
-    });
-
-    const deleteBtns = document.querySelectorAll('.deleteBtn');
-    deleteBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const index = e.target.getAttribute('data-index');
-        let comercios = JSON.parse(sessionStorage.getItem('comercios'));
-        comercios.splice(index, 1);
-        sessionStorage.setItem('comercios', JSON.stringify(comercios));
-        renderComercios();
-      });
-    });
+  // Mostrar comercios desde MongoDB
+  function cargarComercios() {
+    fetch('http://localhost:3000/api/comercios')
+      .then(res => res.json())
+      .then(comercios => {
+        comerciosContainer.innerHTML = '';
+        comercios.forEach(comercio => {
+          const base64Image = `data:${comercio.image.contentType};base64,${arrayBufferToBase64(comercio.image.data.data)}`;
+          const comercioHTML = `
+            <div class="col-md-4 service-item">
+              <h3>${comercio.name}</h3>
+              <p>${comercio.category}</p>
+              <img src="${base64Image}" alt="${comercio.name}" class="img-fluid">
+            </div>
+          `;
+          comerciosContainer.insertAdjacentHTML('beforeend', comercioHTML);
+        });
+      })
+      .catch(err => console.error('Error al cargar comercios:', err));
   }
 
-  // Cargar los comercios al iniciar
-  renderComercios();
-
-
-function cargarComercios() {
-  fetch('http://localhost:3000/api/comercios')
-    .then(res => res.json())
-    .then(comercios => {
-      comerciosContainer.innerHTML = '';
-      comercios.forEach(comercio => {
-        const card = document.createElement('div');
-        card.classList.add('col-md-4', 'service-item');
-        card.innerHTML = `
-          <h3>${comercio.nombre}</h3>
-          <p>${comercio.categoria}</p>
-          <img src="${comercio.imagen}" alt="${comercio.nombre}" class="img-fluid">
-        `;
-        comerciosContainer.appendChild(card);
-      });
-    })
-    .catch(err => {
-      console.error('Error al cargar comercios:', err);
-    });
-}
-
-
-
-
-
-  // Guardar el comercio al hacer clic en 'Guardar' o 'Modificar'
-document.getElementById('guardarComercioBtn').addEventListener('click', () => {
-  const nombre = comercioNombreInput.value.trim();
-  const categoria = comercioCategoriaInput.value.trim();
-  const imagen = comercioImagenInput.files[0];
-
-  if (!nombre || !categoria || !imagen) {
-    alert('Por favor complete todos los campos');
-    return;
+  function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 
-  const formData = new FormData();
-  formData.append('nombre', nombre);
-  formData.append('categoria', categoria);
-  formData.append('imagen', imagen);
+  // Mostrar popup público si hay imagen
+  function fetchAndShowPopup() {
+    fetch('http://localhost:3000/api/popup')
+      .then(res => {
+        if (!res.ok) throw new Error('No hay imagen guardada');
+        return res.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        publicImage.src = url;
+        publicPopup.style.display = 'flex';
+      })
+      .catch(err => {
+        console.log('No se pudo cargar imagen del popup:', err.message);
+      });
+  }
 
-  fetch('http://localhost:3000/api/comercios', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Error al guardar comercio');
-      return res.json();
-    })
-    .then(() => {
-      alert('Comercio guardado con éxito');
-      agregarComercioModal.style.display = 'none';
-      cargarComercios(); // recargar lista desde MongoDB
-    })
-    .catch(err => {
-      console.error(err);
-      alert('Error al guardar comercio');
+  // Mostrar noticias desde MongoDB
+  function renderNoticias() {
+    const contenedor = document.getElementById('noticiasContainer');
+    if (!contenedor) return;
+
+    fetch('http://localhost:3000/api/noticias')
+      .then(res => res.json())
+      .then(noticias => {
+        contenedor.innerHTML = '';
+        noticias.forEach((noticia, index) => {
+          const card = document.createElement('div');
+          card.classList.add('col-md-3');
+          card.innerHTML = `
+            <div class="card h-100">
+              <img src="http://localhost:3000/uploads/${noticia.image}" class="card-img-top" alt="${noticia.title}">
+              <div class="card-body">
+                <h5 class="card-title text-primary">Noticia ${index + 1}</h5>
+                <p class="card-text">${noticia.description.slice(0, 100)}...</p>
+              </div>
+            </div>
+          `;
+          card.addEventListener('click', () => {
+            mostrarNoticiaModal(noticia);
+          });
+          contenedor.appendChild(card);
+        });
+      })
+      .catch(err => console.error('Error al cargar noticias:', err));
+  }
+
+  function mostrarNoticiaModal(noticia) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal', 'fade', 'show');
+    modal.style.display = 'block';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    modal.innerHTML = `
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <button class="close" style="position: absolute; right: 10px; top: 5px; font-size: 2rem;">&times;</button>
+          <img src="http://localhost:3000/uploads/${noticia.image}" class="img-fluid" alt="${noticia.title}">
+          <div class="modal-header bg-dark text-white justify-content-center">
+            <h5 class="modal-title">${noticia.title}</h5>
+          </div>
+          <div class="modal-body text-dark" style="max-height: 400px; overflow-y: auto;">
+            <p>${noticia.description}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    modal.querySelector('.close').addEventListener('click', () => {
+      modal.remove();
     });
+    document.body.appendChild(modal);
+  }
+
+  agregarNoticiasBtn.addEventListener('click', () => {
+  noticiaPanel.style.display = 'block';
 });
 
 
 
 
+  // Ejecutar al cargar
+  fetchAndShowPopup();
+  cargarComercios();
+  renderNoticias();
+});
 
-
-
-// Si estamos en modo agregar POP-UP
-function fetchAndShowPopup() {
-  fetch('http://localhost:3000/api/popup')
-    .then(res => {
-      if (!res.ok) throw new Error('No hay imagen guardada');
-      return res.blob();
-    })
-    .then(blob => {
-      const url = URL.createObjectURL(blob);
-      publicImage.src = url;
-      publicPopup.style.display = 'flex';
-    })
-    .catch(err => {
-      console.log('No se pudo cargar imagen del popup:', err.message);
-    });
-
-// Cargar comercios desde MongoDB al iniciar
-cargarComercios();

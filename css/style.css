@@ -2294,7 +2294,7 @@ body::after {
 
 
 /************************************************/
-/*************** FIN NOTICIAS ******************/
+/***************  NOTICIAS ******************/
 /**********************************************/
 
 .wrapper {
@@ -2473,6 +2473,42 @@ h1 {
 }
 
 
+
+#noticiaPanel {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  padding: 20px;
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+#noticiaPanel input[type="text"],
+#noticiaPanel textarea,
+#noticiaPanel input[type="file"] {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#guardarNoticiaBtn {
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#guardarNoticiaBtn:hover {
+  background-color: #4a148c;
+}
+
+
 /************************************************/
 /*************** FIN NOTICIAS ******************/
 /**********************************************/
@@ -2529,6 +2565,12 @@ h1 {
 /************************************************/
 /***************** FIN QRS *********************/
 /**********************************************/
+
+
+
+
+
+
 
 
 

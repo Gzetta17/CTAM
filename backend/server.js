@@ -44,3 +44,8 @@ app.listen(PORT, () => {
 
 const comercioRoutes = require('./routes/comercio');
 app.use('/api', comercioRoutes);
+
+
+
+const noticiaRoutes = require('./routes/noticia');
+app.use('/api', noticiaRoutes);
