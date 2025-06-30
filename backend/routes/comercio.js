@@ -1,10 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const path = require('path');
 const Comercio = require('../models/comercio');
 
-// Cargar imagen con multer
-const storage = multer.memoryStorage();
+// Configuración de multer para guardar archivos en disco
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const name = file.fieldname + '-' + Date.now() + ext;
+    cb(null, name);
+  }
+});
+
 const upload = multer({ storage });
 
 // Ruta POST para guardar un comercio
@@ -13,10 +24,7 @@ router.post('/comercios', upload.single('imagen'), async (req, res) => {
     const nuevoComercio = new Comercio({
       nombre: req.body.nombre,
       categoria: req.body.categoria,
-      imagen: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      }
+      imagenPath: req.file.filename // Guardamos solo el nombre de archivo
     });
 
     await nuevoComercio.save();
@@ -27,15 +35,16 @@ router.post('/comercios', upload.single('imagen'), async (req, res) => {
   }
 });
 
-// Ruta GET para obtener todos los comercios
+// Ruta GET para obtener comercios
 router.get('/comercios', async (req, res) => {
   try {
     const comercios = await Comercio.find().sort({ createdAt: -1 });
+    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
     const formatted = comercios.map(c => ({
       id: c._id,
       nombre: c.nombre,
       categoria: c.categoria,
-      imagen: `data:${c.imagen.contentType};base64,${c.imagen.data.toString('base64')}`
+      imagen: baseUrl + c.imagenPath
     }));
     res.json(formatted);
   } catch (err) {

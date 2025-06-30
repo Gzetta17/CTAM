@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -20,32 +19,22 @@ mongoose.connect('mongodb://localhost:27017/ctamDB', {
 
 // Rutas
 const authRoutes = require('./routes/auth');
+const popupRoutes = require('./routes/popup');
+const comercioRoutes = require('./routes/comercio');
+const noticiaRoutes = require('./routes/noticia');
+
 app.use('/api', authRoutes);
+app.use('/api', popupRoutes);
+app.use('/api', comercioRoutes);
+app.use('/api', noticiaRoutes);
+app.use('/uploads', express.static('uploads')); // Para servir imágenes
 
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.send('Servidor funcionando correctamente');
 });
 
-const popupRoutes = require('./routes/popup');
-app.use('/api', popupRoutes);
-app.use('/uploads', express.static('uploads')); // para servir las imágenes
-
-
-// Iniciar servidor (AL FINAL)
+// Iniciar servidor al final
 app.listen(PORT, () => {
   console.log(`🚀 Servidor en http://localhost:${PORT}`);
 });
-
-
-
-
-
-
-const comercioRoutes = require('./routes/comercio');
-app.use('/api', comercioRoutes);
-
-
-
-const noticiaRoutes = require('./routes/noticia');
-app.use('/api', noticiaRoutes);

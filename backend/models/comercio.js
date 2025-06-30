@@ -1,16 +1,9 @@
 const mongoose = require('mongoose');
 
 const comercioSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  categoria: { type: String, required: true },
-  imagen: {
-    data: Buffer,
-    contentType: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  nombre: String,
+  categoria: String,
+  imagenUrl: String // Ruta de la imagen en disco
+}, { timestamps: true });
 
 module.exports = mongoose.model('Comercio', comercioSchema);

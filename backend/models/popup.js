@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
 
 const popupSchema = new mongoose.Schema({
-  image: {
-    data: Buffer,
-    contentType: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  imagenPath: String
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('PopUp', popupSchema);
+module.exports = mongoose.model('Popup', popupSchema);

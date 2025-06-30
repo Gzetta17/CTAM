@@ -1,46 +1,49 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const PopUp = require('../models/popup');
+const path = require('path');
+const Popup = require('../models/popup');
 
-// Configurar multer para guardar la imagen en memoria
-const storage = multer.memoryStorage();
+// Configuración para subir imágenes
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const name = 'popup-' + Date.now() + ext;
+    cb(null, name);
+  }
+});
+
 const upload = multer({ storage });
 
-router.post('/popup', upload.single('image'), async (req, res) => {
+// POST: Subir imagen de popup (solo una activa)
+router.post('/popup', upload.single('imagen'), async (req, res) => {
   try {
-    const newPopup = new PopUp({
-      image: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      }
+    await Popup.deleteMany({}); // Borra anteriores
+    const popup = new Popup({
+      imagenPath: req.file.filename
     });
 
-    await newPopup.save();
-    res.status(200).json({ message: 'Imagen guardada correctamente' });
+    await popup.save();
+    res.status(200).json({ message: 'Imagen de popup guardada' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error al guardar la imagen' });
+    res.status(500).json({ error: 'Error al guardar popup' });
+  }
+});
+
+// GET: Obtener imagen actual
+router.get('/popup', async (req, res) => {
+  try {
+    const popup = await Popup.findOne().sort({ createdAt: -1 });
+    if (!popup) return res.json(null);
+
+    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
+    res.json({ imagen: baseUrl + popup.imagenPath });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener popup' });
   }
 });
 
 module.exports = router;
 
-// Ruta para obtener la última imagen guardada
-router.get('/popup/last', async (req, res) => {
-  try {
-    const lastPopup = await PopUp.findOne().sort({ createdAt: -1 });
-
-    if (!lastPopup) {
-      return res.status(404).json({ error: 'No hay imágenes guardadas' });
-    }
-
-    res.json({
-      image: lastPopup.image.data.toString('base64'),
-      contentType: lastPopup.image.contentType
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al obtener la imagen' });
-  }
-});

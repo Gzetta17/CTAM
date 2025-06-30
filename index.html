@@ -43,96 +43,100 @@
 
 
          <!-- BOTONES EN HEADER -->
-<!-- Header con botones -->
-<header>
-  <button id="adminButton">Administrador</button>
-  <button id="popupNavButton" style="display: none;">Pop-Up</button>
-  <button id="agregarComercioBtn" class="btn btn-primary" style="display: none;">Agregar Comercio</button>
- 
-  
-</header>
+ <!-- HEADER CON BOTONES -->
+  <header>
+    <button id="adminButton">Administrador</button>
+    <button id="popupNavButton" style="display: none;">Pop-Up</button>
+    <button id="agregarComercioBtn" class="btn btn-primary" style="display: none;">Agregar Comercio</button>
+    <button id="agregarNoticias" class="btn btn-primary" style="display: none;">Agregar Noticias</button>
+  </header>
 
-<!-- PANEL DE LOGIN -->
-<div id="loginPopup" style="display: none;">
-  <div class="loginBox">
-    <span id="closeLoginPopup">&times;</span>
-    <h2>Acceso Administrador</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Usuario" required>
-      <div class="password-wrapper">
-        <input type="password" id="password" placeholder="Contraseña" required>
-        <span id="togglePassword" class="eye">&#128065;</span>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</div>
-
-<!-- PANEL ADMINISTRADOR PARA CARGAR IMAGEN PUBLICITARIA -->
-<div id="adminPanel" style="display: none;">
-  <span class="close" id="closeAdminPanel">&times;</span>
-  <h3>Subir imagen para pop-up</h3>
-  <input type="file" id="popupImgInput" accept="image/*">
-  <button id="savePopupBtn">Guardar imagen</button>
-
-  <div id="imageOptions" style="display: none;">
-    <button class="btn-modificar">Modificar</button>
-    <button class="btn-eliminar">Eliminar</button>
-  </div>
-</div>
-
-<!-- POP-UP PÚBLICO DE PUBLICIDAD PARA VISITANTES -->
-<div id="publicPopup" style="display: none;">
-  <div class="popupContent">
-    <button id="closePublicPopup">&times;</button>
-    <img id="publicImage" src="" alt="Publicidad">
-  </div>
-</div>
-
-<!-- MODAL PARA AGREGAR COMERCIO -->
-<div id="agregarComercioModal" class="modal" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Agregar Comercio</h5>
-        <button type="button" class="close" id="closeAgregarComercioModal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="agregarComercioForm">
-          <div class="form-group">
-            <label for="comercioNombre">Nombre del Comercio</label>
-            <input type="text" class="form-control" id="comercioNombre" required>
-          </div>
-          <div class="form-group">
-            <label for="comercioCategoria">Categoría</label>
-            <input type="text" class="form-control" id="comercioCategoria" required>
-          </div>
-          <div class="form-group">
-            <label for="comercioImagen">Imagen</label>
-            <input type="file" class="form-control-file" id="comercioImagen" required>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
-      </div>
+  <!-- PANEL DE LOGIN -->
+  <div id="loginPopup" style="display: none;">
+    <div class="loginBox">
+      <span id="closeLoginPopup">&times;</span>
+      <h2>Acceso Administrador</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Usuario" required>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Contraseña" required>
+          <span id="togglePassword" class="eye">&#128065;</span>
+        </div>
+        <button type="submit">Login</button>
+      </form>
     </div>
   </div>
-</div>
 
+  <!-- PANEL ADMINISTRADOR PARA CARGAR IMAGEN PUBLICITARIA -->
+  <div id="adminPanel" style="display: none;">
+    <span class="close" id="closeAdminPanel">&times;</span>
+    <h3>Subir imagen para pop-up</h3>
+    <input type="file" id="popupImgInput" accept="image/*">
+    <button id="savePopupBtn">Guardar imagen</button>
+    <div id="imageOptions" style="display: none;">
+      <button id="modifyPopupBtn" class="btn-modificar">Modificar</button>
+      <button id="deletePopupBtn" class="btn-eliminar">Eliminar</button>
+    </div>
+  </div>
 
- <!-- FORMULARIO DE NOTICIA -->
-<div id="noticiaPanel" style="display: none;">
-  <h3>Agregar Noticia</h3>
-  <input type="text" id="noticiaTitulo" placeholder="Título"><br>
-  <textarea id="noticiaDescripcion" placeholder="Descripción"></textarea><br>
-  <input type="file" id="noticiaImagen" accept="image/*"><br>
-  <button id="guardarNoticiaBtn">Guardar Noticia</button>
-</div>
+  <!-- POP-UP PÚBLICO DE PUBLICIDAD PARA VISITANTES -->
+  <div id="publicPopup" style="display: none;">
+    <div class="popupContent">
+      <button id="closePublicPopup">&times;</button>
+      <img id="publicImage" src="" alt="Publicidad">
+    </div>
+  </div>
 
+  <!-- MODAL PARA AGREGAR COMERCIO -->
+  <div id="agregarComercioModal" class="modal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar Comercio</h5>
+          <button type="button" class="close" id="closeAgregarComercioModal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="agregarComercioForm">
+            <div class="form-group">
+              <label for="comercioNombre">Nombre del Comercio</label>
+              <input type="text" class="form-control" id="comercioNombre" required>
+            </div>
+            <div class="form-group">
+              <label for="comercioCategoria">Categoría</label>
+              <input type="text" class="form-control" id="comercioCategoria" required>
+            </div>
+            <div class="form-group">
+              <label for="comercioImagen">Imagen</label>
+              <input type="file" class="form-control-file" id="comercioImagen" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
+        </div>
+      </div>
+    </div>
+     <!-- CONTENEDOR DONDE SE MOSTRARÁN LOS COMERCIOS -->
+  <div id="comerciosContainer"></div>
+  </div>
 
+  <!-- FORMULARIO DE NOTICIA -->
+  <div id="noticiaPanel" style="display: none;">
+    <h3>Agregar Noticia</h3>
+    <input type="text" id="noticiaTitulo" placeholder="Título"><br>
+    <textarea id="noticiaDescripcion" placeholder="Descripción"></textarea><br>
+    <input type="file" id="noticiaImagen" accept="image/*"><br>
+    <button id="guardarNoticiaBtn">Guardar Noticia</button>
+    <!-- CONTENEDOR DONDE SE MOSTRARÁN LAS NOTICIAS -->
+  <div id="noticiasContainer"></div>
+
+  </div>
+
+ 
+
+  
 
     <body>
   

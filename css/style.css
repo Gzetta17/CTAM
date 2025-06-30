@@ -151,6 +151,8 @@ h1, h2, h3 {
 /**********************************************************************/
 /************ LOGIN y POP UP, Agregar comercio ***********************/
 /********************************************************************/
+
+
 /* Panel de login */
 #loginPopup {
     display: none;
@@ -2413,9 +2415,9 @@ h1 {
 }
 
 .popup-img {
-  width: 700px;      /* ancho fijo más pequeño */
+  width: 750px;      /* ancho fijo más pequeño */
   max-width: 100%;   /* para que no sobrepase el ancho del contenedor */
-  height: 400px;     /* altura fija menor */
+  height: 550px;     /* altura fija menor */
   object-fit: cover;
   border-radius: 6px;
   margin: 0 auto 15px auto; /* centrar y margen inferior */

@@ -1,17 +1,11 @@
-// models/noticia.js
 const mongoose = require('mongoose');
 
 const noticiaSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  image: {
-    data: Buffer,
-    contentType: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  titulo: String,
+  descripcion: String,
+  imagenPath: String
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Noticia', noticiaSchema);

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Variables de elementos DOM
+  // Variables DOM
   const adminButton = document.getElementById('adminButton');
   const loginPopup = document.getElementById('loginPopup');
   const closeLoginPopup = document.getElementById('closeLoginPopup');
@@ -22,67 +22,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const comercioCategoriaInput = document.getElementById('comercioCategoria');
   const comercioImagenInput = document.getElementById('comercioImagen');
   const comerciosContainer = document.getElementById('comerciosContainer');
-  let comercioIndexToModify = null;
   const agregarNoticiasBtn = document.getElementById('agregarNoticias');
-const noticiaPanel = document.getElementById('noticiaPanel');
-const guardarNoticiaBtn = document.getElementById('guardarNoticiaBtn');
-const noticiaTituloInput = document.getElementById('noticiaTitulo');
-const noticiaDescripcionInput = document.getElementById('noticiaDescripcion');
-const noticiaImagenInput = document.getElementById('noticiaImagen');
+  const noticiaPanel = document.getElementById('noticiaPanel');
+  const guardarNoticiaBtn = document.getElementById('guardarNoticiaBtn');
+  const noticiaTituloInput = document.getElementById('noticiaTitulo');
+  const noticiaDescripcionInput = document.getElementById('noticiaDescripcion');
+  const noticiaImagenInput = document.getElementById('noticiaImagen');
 
-
-
-guardarNoticiaBtn.addEventListener('click', () => {
-  const titulo = noticiaTituloInput.value.trim();
-  const descripcion = noticiaDescripcionInput.value.trim();
-  const imagen = noticiaImagenInput.files[0];
-
-  if (!titulo || !descripcion || !imagen) {
-    alert('Por favor completa todos los campos');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('title', titulo);
-  formData.append('description', descripcion);
-  formData.append('image', imagen);
-
-  fetch('http://localhost:3000/api/noticias', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Error al guardar noticia');
-      return res.json();
-    })
-    .then(() => {
-      alert('Noticia guardada con éxito');
-      noticiaPanel.style.display = 'none';
-      noticiaTituloInput.value = '';
-      noticiaDescripcionInput.value = '';
-      noticiaImagenInput.value = '';
-      renderNoticias();
-    })
-    .catch(err => {
-      console.error(err);
-      alert('Error al guardar la noticia');
-    });
-});
-
-
-
-
-  // Mostrar login
+  // ====================
+  // Login administrador
+  // ====================
   adminButton.addEventListener('click', () => {
     loginPopup.style.display = 'flex';
   });
 
-  // Cerrar login
   closeLoginPopup.addEventListener('click', () => {
     loginPopup.style.display = 'none';
   });
 
-  // Procesar login
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const username = document.getElementById('username').value;
@@ -93,6 +50,7 @@ guardarNoticiaBtn.addEventListener('click', () => {
       loginPopup.style.display = 'none';
       popupButton.style.display = 'inline-block';
       agregarComercioBtn.style.display = 'inline-block';
+      agregarNoticiasBtn.style.display = 'inline-block';
     } else {
       alert('Credenciales incorrectas');
     }
@@ -101,13 +59,15 @@ guardarNoticiaBtn.addEventListener('click', () => {
   if (sessionStorage.getItem('isLoggedIn') === 'true') {
     popupButton.style.display = 'inline-block';
     agregarComercioBtn.style.display = 'inline-block';
+    agregarNoticiasBtn.style.display = 'inline-block';
   }
 
-  // Abrir y cerrar panel de administrador
+  // ====================
+  // Panel de POP-UP
+  // ====================
   popupButton.addEventListener('click', () => adminPanel.style.display = 'block');
   closeAdminPanel.addEventListener('click', () => adminPanel.style.display = 'none');
 
-  // Guardar imagen del popup
   savePopupBtn.addEventListener('click', () => {
     const file = popupImgInput.files[0];
     if (!file) return alert('Selecciona una imagen');
@@ -131,13 +91,17 @@ guardarNoticiaBtn.addEventListener('click', () => {
       });
   });
 
-  // POPUP público si hay imagen
+  // ====================
+  // POP-UP público
+  // ====================
   closePublicPopup.addEventListener('click', () => publicPopup.style.display = 'none');
+
   modifyPopupBtn.addEventListener('click', () => {
     adminPanel.style.display = 'block';
     publicPopup.style.display = 'none';
     imageOptions.style.display = 'none';
   });
+
   deletePopupBtn.addEventListener('click', () => {
     sessionStorage.removeItem('popupImage');
     publicPopup.style.display = 'none';
@@ -145,17 +109,34 @@ guardarNoticiaBtn.addEventListener('click', () => {
     alert('Imagen eliminada');
   });
 
-  // Modal agregar comercio
+  function fetchAndShowPopup() {
+    fetch('http://localhost:3000/api/popup')
+      .then(res => {
+        if (!res.ok) throw new Error('No hay imagen guardada');
+        return res.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        publicImage.src = url;
+        publicPopup.style.display = 'flex';
+      })
+      .catch(err => {
+        console.log('No se pudo cargar imagen del popup:', err.message);
+      });
+  }
+
+  // ====================
+  // Agregar comercio
+  // ====================
   agregarComercioBtn.addEventListener('click', () => {
     agregarComercioModal.style.display = 'block';
-    comercioIndexToModify = null;
     comercioNombreInput.value = '';
     comercioCategoriaInput.value = '';
     comercioImagenInput.value = '';
   });
+
   closeAgregarComercioModal.addEventListener('click', () => agregarComercioModal.style.display = 'none');
 
-  // Guardar comercio
   document.getElementById('guardarComercioBtn').addEventListener('click', () => {
     const nombre = comercioNombreInput.value.trim();
     const categoria = comercioCategoriaInput.value.trim();
@@ -190,19 +171,17 @@ guardarNoticiaBtn.addEventListener('click', () => {
       });
   });
 
-  // Mostrar comercios desde MongoDB
   function cargarComercios() {
     fetch('http://localhost:3000/api/comercios')
       .then(res => res.json())
       .then(comercios => {
         comerciosContainer.innerHTML = '';
         comercios.forEach(comercio => {
-          const base64Image = `data:${comercio.image.contentType};base64,${arrayBufferToBase64(comercio.image.data.data)}`;
           const comercioHTML = `
             <div class="col-md-4 service-item">
-              <h3>${comercio.name}</h3>
-              <p>${comercio.category}</p>
-              <img src="${base64Image}" alt="${comercio.name}" class="img-fluid">
+              <h3>${comercio.nombre}</h3>
+              <p>${comercio.categoria}</p>
+              <img src="${comercio.imagen}" alt="${comercio.nombre}" class="img-fluid">
             </div>
           `;
           comerciosContainer.insertAdjacentHTML('beforeend', comercioHTML);
@@ -211,33 +190,50 @@ guardarNoticiaBtn.addEventListener('click', () => {
       .catch(err => console.error('Error al cargar comercios:', err));
   }
 
-  function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-  }
+  // ====================
+  // Noticias
+  // ====================
+  agregarNoticiasBtn.addEventListener('click', () => {
+    noticiaPanel.style.display = 'block';
+  });
 
-  // Mostrar popup público si hay imagen
-  function fetchAndShowPopup() {
-    fetch('http://localhost:3000/api/popup')
+  guardarNoticiaBtn.addEventListener('click', () => {
+    const titulo = noticiaTituloInput.value.trim();
+    const descripcion = noticiaDescripcionInput.value.trim();
+    const imagen = noticiaImagenInput.files[0];
+
+    if (!titulo || !descripcion || !imagen) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', titulo);
+    formData.append('description', descripcion);
+    formData.append('image', imagen);
+
+    fetch('http://localhost:3000/api/noticias', {
+      method: 'POST',
+      body: formData
+    })
       .then(res => {
-        if (!res.ok) throw new Error('No hay imagen guardada');
-        return res.blob();
+        if (!res.ok) throw new Error('Error al guardar noticia');
+        return res.json();
       })
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        publicImage.src = url;
-        publicPopup.style.display = 'flex';
+      .then(() => {
+        alert('Noticia guardada con éxito');
+        noticiaPanel.style.display = 'none';
+        noticiaTituloInput.value = '';
+        noticiaDescripcionInput.value = '';
+        noticiaImagenInput.value = '';
+        renderNoticias();
       })
       .catch(err => {
-        console.log('No se pudo cargar imagen del popup:', err.message);
+        console.error(err);
+        alert('Error al guardar la noticia');
       });
-  }
+  });
 
-  // Mostrar noticias desde MongoDB
   function renderNoticias() {
     const contenedor = document.getElementById('noticiasContainer');
     if (!contenedor) return;
@@ -286,22 +282,14 @@ guardarNoticiaBtn.addEventListener('click', () => {
         </div>
       </div>
     `;
-    modal.querySelector('.close').addEventListener('click', () => {
-      modal.remove();
-    });
+    modal.querySelector('.close').addEventListener('click', () => modal.remove());
     document.body.appendChild(modal);
   }
 
-  agregarNoticiasBtn.addEventListener('click', () => {
-  noticiaPanel.style.display = 'block';
-});
-
-
-
-
+  // ====================
   // Ejecutar al cargar
+  // ====================
   fetchAndShowPopup();
   cargarComercios();
   renderNoticias();
 });
-
