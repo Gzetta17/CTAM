@@ -1,49 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
-const Popup = require('../models/popup');
+const fs = require('fs');
+const multer = require('multer');
 
-// Configuración para subir imágenes
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const name = 'popup-' + Date.now() + ext;
-    cb(null, name);
-  }
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => cb(null, `popup${path.extname(file.originalname)}`)
 });
-
 const upload = multer({ storage });
 
-// POST: Subir imagen de popup (solo una activa)
-router.post('/popup', upload.single('imagen'), async (req, res) => {
-  try {
-    await Popup.deleteMany({}); // Borra anteriores
-    const popup = new Popup({
-      imagenPath: req.file.filename
-    });
-
-    await popup.save();
-    res.status(200).json({ message: 'Imagen de popup guardada' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al guardar popup' });
-  }
+// POST /popup  (campo: image)
+router.post('/popup', upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
+  return res.status(201).json({ message: 'Imagen guardada' });
 });
 
-// GET: Obtener imagen actual
-router.get('/popup', async (req, res) => {
-  try {
-    const popup = await Popup.findOne().sort({ createdAt: -1 });
-    if (!popup) return res.json(null);
-
-    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
-    res.json({ imagen: baseUrl + popup.imagenPath });
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener popup' });
-  }
+// GET /popup  → devuelve archivo binario
+router.get('/popup', (req, res) => {
+  const files = fs.readdirSync(uploadDir);
+  // buscamos un archivo que empiece con "popup"
+  const popup = files.find(f => f.startsWith('popup.'));
+  if (!popup) return res.status(404).send('No hay imagen');
+  res.sendFile(path.join(uploadDir, popup));
 });
 
 module.exports = router;
-

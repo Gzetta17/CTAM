@@ -1,31 +1,36 @@
-const express = require('express');
-const router = express.Router();
+const express = require("express");
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const Admin = require('../models/Admin');
 
-// Clave secreta (podés moverla a un archivo .env más adelante)
-const SECRET = 'claveSuperSecreta123';
 
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+const router = express.Router();
 
-  // Buscar usuario
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(400).json({ error: 'Usuario no encontrado' });
+// LOGIN ADMIN
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const admin = await Admin.findOne({ username });
+
+    if (!admin) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+
+    const validPassword = await bcrypt.compare(password, admin.passwordHash);
+    if (!validPassword) {
+      return res.status(400).json({ message: "Contraseña incorrecta" });
+    }
+
+    const token = jwt.sign(
+      { id: admin._id, username: admin.username },
+      process.env.JWT_SECRET || "clave_secreta",
+      { expiresIn: "2h" }
+    );
+
+    res.json({ token });
+  } catch (err) {
+    res.status(500).json({ message: "Error en login", error: err });
   }
-
-  // Comparar contraseñas
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) {
-    return res.status(400).json({ error: 'Contraseña incorrecta' });
-  }
-
-  // Crear token JWT
-  const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: '1h' });
-
-  res.json({ message: 'Login correcto', token });
 });
 
 module.exports = router;

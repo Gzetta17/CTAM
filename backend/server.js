@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -8,33 +9,34 @@ const PORT = 3000;
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Conexión a MongoDB
+// Mongo
 mongoose.connect('mongodb://localhost:27017/ctamDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 .then(() => console.log('✅ Conectado a MongoDB'))
-.catch((err) => console.error('❌ Error al conectar:', err));
+.catch((err) => console.error('❌ Error al conectar a MongoDB:', err));
 
 // Rutas
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth');       // opcional, si lo usás
 const popupRoutes = require('./routes/popup');
-const comercioRoutes = require('./routes/comercio');
-const noticiaRoutes = require('./routes/noticia');
+const comercioRoutes = require('./routes/comercio'); // OJO: singular y coincide con archivo
+const noticiaRoutes = require('./routes/noticia');   // OJO: singular y coincide con archivo
 
-app.use('/api', authRoutes);
+app.use('/api', authRoutes);    // si no lo usás, podés comentarla
 app.use('/api', popupRoutes);
 app.use('/api', comercioRoutes);
 app.use('/api', noticiaRoutes);
-app.use('/uploads', express.static('uploads')); // Para servir imágenes
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-  res.send('Servidor funcionando correctamente');
-});
+// Servir estáticos de /uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Iniciar servidor al final
+// Ping
+app.get('/', (req, res) => res.send('Servidor funcionando correctamente'));
+
+// Start
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });

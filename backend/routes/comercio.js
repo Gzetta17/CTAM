@@ -1,54 +1,100 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const Comercio = require('../models/comercio');
 
-// Configuración de multer para guardar archivos en disco
+// Carpeta de uploads absoluta y segura
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+// Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const name = file.fieldname + '-' + Date.now() + ext;
-    cb(null, name);
+    cb(null, `comercio-${Date.now()}${ext}`);
   }
 });
-
 const upload = multer({ storage });
 
-// Ruta POST para guardar un comercio
+/** POST /comercios - Crear */
 router.post('/comercios', upload.single('imagen'), async (req, res) => {
   try {
-    const nuevoComercio = new Comercio({
+    if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
+
+    const nuevo = await Comercio.create({
       nombre: req.body.nombre,
       categoria: req.body.categoria,
-      imagenPath: req.file.filename // Guardamos solo el nombre de archivo
+      // ⬇️ Guardamos SOLO el nombre de archivo (coincide con tu login.js)
+      imagen: req.file.filename
     });
 
-    await nuevoComercio.save();
-    res.status(200).json({ message: 'Comercio guardado correctamente' });
+    res.status(201).json(nuevo);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al guardar comercio' });
+    console.error('❌ Error al crear comercio:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
   }
 });
 
-// Ruta GET para obtener comercios
+/** GET /comercios - Listar */
 router.get('/comercios', async (req, res) => {
   try {
     const comercios = await Comercio.find().sort({ createdAt: -1 });
-    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
-    const formatted = comercios.map(c => ({
-      id: c._id,
-      nombre: c.nombre,
-      categoria: c.categoria,
-      imagen: baseUrl + c.imagenPath
-    }));
-    res.json(formatted);
+    res.json(comercios);
   } catch (err) {
-    res.status(500).json({ error: 'Error al obtener comercios' });
+    console.error('❌ Error al obtener comercios:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
+/** PUT /comercios/:id - Actualizar (opcionalmente imagen) */
+router.put('/comercios/:id', upload.single('imagen'), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const toUpdate = {
+      nombre: req.body.nombre,
+      categoria: req.body.categoria,
+    };
+
+    if (req.file) {
+      // borrar imagen anterior si existe
+      const anterior = await Comercio.findById(id);
+      if (anterior?.imagen) {
+        const oldPath = path.join(uploadDir, anterior.imagen);
+        fs.unlink(oldPath, () => {});
+      }
+      toUpdate.imagen = req.file.filename;
+    }
+
+    const actualizado = await Comercio.findByIdAndUpdate(id, toUpdate, { new: true });
+    if (!actualizado) return res.status(404).json({ error: 'Comercio no encontrado' });
+
+    res.json(actualizado);
+  } catch (err) {
+    console.error('❌ Error al actualizar comercio:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
+/** DELETE /comercios/:id - Eliminar doc + imagen */
+router.delete('/comercios/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const borrado = await Comercio.findByIdAndDelete(id);
+    if (!borrado) return res.status(404).json({ error: 'Comercio no encontrado' });
+
+    if (borrado.imagen) {
+      const imgPath = path.join(uploadDir, borrado.imagen);
+      fs.unlink(imgPath, () => {});
+    }
+
+    res.json({ message: 'Comercio e imagen eliminados con éxito' });
+  } catch (err) {
+    console.error('❌ Error al eliminar comercio:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
   }
 });
 

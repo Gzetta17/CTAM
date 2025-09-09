@@ -1,53 +1,96 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const Noticia = require('../models/noticia');
 
-// Configuración de multer para guardar en disco
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
+  destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const name = 'noticia-' + Date.now() + ext;
-    cb(null, name);
+    cb(null, `noticia-${Date.now()}${ext}`);
   }
 });
-
 const upload = multer({ storage });
 
-// POST: Crear noticia
+/** POST /noticias - Crear */
 router.post('/noticias', upload.single('imagen'), async (req, res) => {
   try {
-    const noticia = new Noticia({
-      titulo: req.body.titulo,
-      descripcion: req.body.descripcion,
-      imagenPath: req.file.filename
+    if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
+
+    const nuevo = await Noticia.create({
+      nombre: req.body.nombre,
+      categoria: req.body.categoria,
+      imagen: req.file.filename   // ⬅️ sólo filename
     });
 
-    await noticia.save();
-    res.status(200).json({ message: 'Noticia guardada' });
+    res.status(201).json(nuevo);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al guardar noticia' });
+    console.error('❌ Error al crear noticia:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
   }
 });
 
-// GET: Obtener noticias
+/** GET /noticias - Listar */
 router.get('/noticias', async (req, res) => {
   try {
     const noticias = await Noticia.find().sort({ createdAt: -1 });
-    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
-    const formatted = noticias.map(n => ({
-      id: n._id,
-      titulo: n.titulo,
-      descripcion: n.descripcion,
-      imagen: baseUrl + n.imagenPath
-    }));
-
-    res.json(formatted);
+    res.json(noticias);
   } catch (err) {
-    res.status(500).json({ error: 'Error al obtener noticias' });
+    console.error('❌ Error al obtener noticias:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
+/** PUT /noticias/:id - Actualizar (opcionalmente imagen) */
+router.put('/noticias/:id', upload.single('imagen'), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const toUpdate = {
+      nombre: req.body.nombre,
+      categoria: req.body.categoria,
+    };
+
+    if (req.file) {
+      const anterior = await Noticia.findById(id);
+      if (anterior?.imagen) {
+        const oldPath = path.join(uploadDir, anterior.imagen);
+        fs.unlink(oldPath, () => {});
+      }
+      toUpdate.imagen = req.file.filename;
+    }
+
+    const actualizado = await Noticia.findByIdAndUpdate(id, toUpdate, { new: true });
+    if (!actualizado) return res.status(404).json({ error: 'Noticia no encontrada' });
+
+    res.json(actualizado);
+  } catch (err) {
+    console.error('❌ Error al actualizar noticia:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
+/** DELETE /noticias/:id - Eliminar + imagen */
+router.delete('/noticias/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const borrada = await Noticia.findByIdAndDelete(id);
+    if (!borrada) return res.status(404).json({ error: 'Noticia no encontrada' });
+
+    if (borrada.imagen) {
+      const imgPath = path.join(uploadDir, borrada.imagen);
+      fs.unlink(imgPath, () => {});
+    }
+
+    res.json({ message: 'Noticia e imagen eliminadas con éxito' });
+  } catch (err) {
+    console.error('❌ Error al eliminar noticia:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
   }
 });
 
