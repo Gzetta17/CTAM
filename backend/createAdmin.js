@@ -1,15 +1,31 @@
-// createAdmin.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const User = require('./models/User');
+const Admin = require('./models/Admin'); // <-- Se asegura de usar el modelo Admin
 
-mongoose.connect('mongodb://localhost:27017/ctamDB')
-  .then(async () => {
-    const hashedPassword = await bcrypt.hash('admin123', 10);
-    const user = new User({ username: 'admin', password: hashedPassword });
-    await user.save();
-    console.log('✅ Usuario admin creado');
-    mongoose.disconnect();
-  })
-  .catch(err => console.error(err));
-  
+async function createAdminUser() {
+    try {
+        // Conecta a tu base de datos MongoDB
+        await mongoose.connect('mongodb://localhost:27017/ctam_db', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        const username = 'admin';
+        const password = 'admin123';
+        const hashedPassword = await bcrypt.hash(password, 10); // <-- Encripta la contraseña
+
+        // Busca y actualiza el usuario si ya existe, si no, lo crea.
+        const result = await Admin.findOneAndUpdate(
+            { username: username },
+            { password: hashedPassword, role: 'admin' },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        console.log('Usuario administrador creado/actualizado con éxito:', result);
+        mongoose.connection.close();
+    } catch (error) {
+        console.error('Error al crear o actualizar el usuario administrador:', error);
+    }
+}
+
+createAdminUser();

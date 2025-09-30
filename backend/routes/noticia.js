@@ -18,14 +18,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /** POST /noticias - Crear */
-router.post('/noticias', upload.single('imagen'), async (req, res) => {
+router.post('/', upload.single('imagen'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
 
     const nuevo = await Noticia.create({
       nombre: req.body.nombre,
       categoria: req.body.categoria,
-      imagen: req.file.filename   // ⬅️ sólo filename
+      imagen: `/uploads/${req.file.filename}`
     });
 
     res.status(201).json(nuevo);
@@ -36,7 +36,7 @@ router.post('/noticias', upload.single('imagen'), async (req, res) => {
 });
 
 /** GET /noticias - Listar */
-router.get('/noticias', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const noticias = await Noticia.find().sort({ createdAt: -1 });
     res.json(noticias);
@@ -46,8 +46,25 @@ router.get('/noticias', async (req, res) => {
   }
 });
 
+/** GET /noticias/:id - Obtener una noticia por ID */
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const noticia = await Noticia.findById(id);
+    
+    if (!noticia) {
+      return res.status(404).json({ error: 'Noticia no encontrada' });
+    }
+
+    res.json(noticia);
+  } catch (err) {
+    console.error('❌ Error al obtener noticia por ID:', err);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
 /** PUT /noticias/:id - Actualizar (opcionalmente imagen) */
-router.put('/noticias/:id', upload.single('imagen'), async (req, res) => {
+router.put('/:id', upload.single('imagen'), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -59,10 +76,10 @@ router.put('/noticias/:id', upload.single('imagen'), async (req, res) => {
     if (req.file) {
       const anterior = await Noticia.findById(id);
       if (anterior?.imagen) {
-        const oldPath = path.join(uploadDir, anterior.imagen);
+        const oldPath = path.join(uploadDir, anterior.imagen.replace('/uploads/', ''));
         fs.unlink(oldPath, () => {});
       }
-      toUpdate.imagen = req.file.filename;
+      toUpdate.imagen = `/uploads/${req.file.filename}`;
     }
 
     const actualizado = await Noticia.findByIdAndUpdate(id, toUpdate, { new: true });
@@ -76,14 +93,14 @@ router.put('/noticias/:id', upload.single('imagen'), async (req, res) => {
 });
 
 /** DELETE /noticias/:id - Eliminar + imagen */
-router.delete('/noticias/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const borrada = await Noticia.findByIdAndDelete(id);
     if (!borrada) return res.status(404).json({ error: 'Noticia no encontrada' });
 
     if (borrada.imagen) {
-      const imgPath = path.join(uploadDir, borrada.imagen);
+      const imgPath = path.join(uploadDir, borrada.imagen.replace('/uploads/', ''));
       fs.unlink(imgPath, () => {});
     }
 
