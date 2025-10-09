@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
 
-// Define el esquema para una noticia
-const NoticiaSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    categoria: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    imagen: { 
-        type: String,
-        required: true
-    }
-}, {
-    timestamps: true 
+const noticiaSchema = new mongoose.Schema({
+  nombre: { 
+    type: String, 
+    required: true 
+  },
+  categoria: { 
+    type: String, 
+    required: true 
+  },
+
+  contenido: { 
+    type: String, 
+    required: true // O false si es opcional, pero generalmente es requerido.
+  },
+  imagen: { 
+    type: String, 
+    required: true // sólo filename
+  } 
+}, { 
+  timestamps: true 
 });
 
-module.exports = mongoose.model('Noticia', NoticiaSchema);
+module.exports = mongoose.model('Noticia', noticiaSchema);

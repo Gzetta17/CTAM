@@ -1,511 +1,351 @@
-const API_BASE = 'http://localhost:3000';
+// login.js (Versión Final y Completa)
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos del DOM y Variables de Estado ---
-    const adminToggleBtn = document.getElementById('adminToggleBtn');
-    const loginButton = document.querySelector('[data-bs-target="#loginPopup"]');
-    const logoutButton = document.getElementById('logoutButton');
-    const loginForm = document.getElementById('loginForm');
-    const statusMessage = document.getElementById('statusMessage');
+    // --- Constantes y Configuración Global ---
+    const API_BASE = 'http://localhost:3000';
 
-    // Elementos de la funcionalidad de Noticias (asumimos que existen en noticias.html)
+    // --- Selección de Elementos del DOM ---
+    const loginForm = document.getElementById('loginForm');
+    const loginMenuBtn = document.getElementById('loginMenuBtn');
+    const logoutButton = document.getElementById('logoutButton');
+    const statusMessage = document.getElementById('statusMessage');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const adminToggleBtn = document.getElementById('adminToggleBtn'); 
+    const adminDropMenu = document.getElementById('adminDropMenu'); 
+
+    const noticiasContainer = document.getElementById('noticiasContainer');
     const agregarNoticiaBtn = document.getElementById('agregarNoticiaBtn');
-    const noticiasContainer = document.getElementById('noticiasContainer'); // Contenedor de la lista de noticias
-    const agregarNoticiaForm = document.getElementById('agregarNoticiaForm');
+    const agregarNoticiaForm = document.getElementById('agregarNoticiaForm'); 
     const editarNoticiaForm = document.getElementById('editarNoticiaForm');
 
-    // Inicialización de Modales de Bootstrap
-    const loginPopup = document.getElementById('loginPopup')
-        ? new bootstrap.Modal(document.getElementById('loginPopup'))
-        : null;
-    const editarNoticiaModal = document.getElementById('editarNoticiaModal')
-        ? new bootstrap.Modal(document.getElementById('editarNoticiaModal'))
-        : null;
-    const agregarNoticiaModal = document.getElementById('agregarNoticiaModal')
-        ? new bootstrap.Modal(document.getElementById('agregarNoticiaModal'))
-        : null;
-
+    // --- Inicialización de Modales de Bootstrap ---
+    const loginPopup = document.getElementById('loginPopup') ? new bootstrap.Modal(document.getElementById('loginPopup')) : null;
+    const agregarNoticiaModal = document.getElementById('agregarNoticiaModal') ? new bootstrap.Modal(document.getElementById('agregarNoticiaModal')) : null;
+    const editarNoticiaModal = document.getElementById('editarNoticiaModal') ? new bootstrap.Modal(document.getElementById('editarNoticiaModal')) : null;
+    const confirmModal = document.getElementById('confirmModal') ? new bootstrap.Modal(document.getElementById('confirmModal')) : null;
+    
+    // --- Estado de la Aplicación ---
     let token = localStorage.getItem('token');
     let isAuthenticated = !!token;
 
     // --- Funciones de Utilidad ---
 
-    /** Muestra un mensaje de estado temporal en la UI */
     function showStatusMessage(message, isError = false) {
-        if (statusMessage) {
-            statusMessage.textContent = message;
-            statusMessage.className = `alert mt-3 ${isError ? 'alert-danger' : 'alert-success'}`;
-            statusMessage.style.display = 'block';
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 3000);
-        }
+        if (!statusMessage) return;
+        statusMessage.textContent = message;
+        statusMessage.className = `alert mt-3 ${isError ? 'alert-danger' : 'alert-success'}`;
+        statusMessage.style.display = 'block';
+        setTimeout(() => { statusMessage.style.display = 'none'; }, 3000);
     }
 
-    /** Construye la URL completa de la imagen */
     function buildImageUrl(imagePath) {
-        if (!imagePath) {
-            return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
-        }
-        // Asumiendo que las imágenes se sirven desde la API_BASE
-        const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-        return `${API_BASE}${cleanPath}`;
+        if (!imagePath) return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
+        const cleanedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`; 
+        return `${API_BASE}${cleanedPath}`;
     }
 
-    /** Actualiza la visibilidad de los botones de administración (Noticias) */
-    function updateAdminButtons() {
-        // En el menú principal
-        const loginMenuBtn = document.getElementById('loginMenuBtn');
+    function showConfirmation(message) {
+        return new Promise((resolve) => {
+            if (!confirmModal) {
+                console.error("El modal de confirmación no existe en el HTML.");
+                return resolve(false);
+            }
+
+            document.getElementById('confirmMessage').textContent = message;
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            const onConfirm = () => { confirmModal.hide(); resolve(true); };
+            const onCancel = () => { confirmModal.hide(); resolve(false); };
+
+            confirmBtn.removeEventListener('click', onConfirm);
+            cancelBtn.removeEventListener('click', onCancel);
+
+            confirmBtn.addEventListener('click', onConfirm, { once: true });
+            cancelBtn.addEventListener('click', onCancel, { once: true });
+            
+            confirmModal.show();
+        });
+    }
+
+    // --- Lógica de Autenticación (Login/Logout) ---
+
+    function updateUI() {
         if (isAuthenticated) {
             if (loginMenuBtn) loginMenuBtn.style.display = 'none';
             if (logoutButton) logoutButton.style.display = 'block';
+            if (agregarNoticiaBtn) agregarNoticiaBtn.style.display = 'block';
         } else {
             if (loginMenuBtn) loginMenuBtn.style.display = 'block';
             if (logoutButton) logoutButton.style.display = 'none';
+            if (agregarNoticiaBtn) agregarNoticiaBtn.style.display = 'none';
         }
-        // En la página de noticias (noticias.html)
-        if (agregarNoticiaBtn) {
-            agregarNoticiaBtn.style.display = isAuthenticated ? 'block' : 'none';
+        if (noticiasContainer) loadNoticias();
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = passwordInput.value;
+        const submitButton = e.submitter;
+        if (!submitButton) return;
+        submitButton.disabled = true;
+
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Credenciales incorrectas');
+
+            localStorage.setItem('token', data.token);
+            token = data.token;
+            isAuthenticated = true;
+
+            if (loginPopup) loginPopup.hide();
+            showStatusMessage('¡Login exitoso! Recargando...');
+            setTimeout(() => window.location.reload(), 500);
+
+        } catch (error) {
+            showStatusMessage(error.message, true);
+        } finally {
+            submitButton.disabled = false;
+        }
+    }
+    
+    function handleLogout() {
+        localStorage.removeItem('token');
+        isAuthenticated = false;
+        token = null;
+        showStatusMessage('Sesión cerrada. Recargando...');
+        if (adminDropMenu) adminDropMenu.classList.remove('visible');
+        setTimeout(() => window.location.reload(), 500);
+    }
+    
+
+    // --- Lógica de Gestión de Noticias (CRUD) ---
+
+    async function submitNoticiaForm(url, method, formData, submitBtn) {
+        submitBtn.disabled = true;
+        
+        const headers = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
         }
 
-        // Si hay un contenedor de noticias, se debe recargar para mostrar/ocultar botones CRUD
-        if (noticiasContainer) {
+        try {
+            const fetchOptions = {
+                method,
+                headers: headers,
+                body: formData,
+            };
+
+            const res = await fetch(url, fetchOptions);
+            
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || data.message || 'Error al procesar la solicitud.');
+            
+            showStatusMessage(`Noticia ${method === 'POST' ? 'agregada' : 'editada'} correctamente.`);
+            return true;
+        } catch (error) {
+            showStatusMessage(error.message, true);
+            return false;
+        } finally {
+            submitBtn.disabled = false;
+        }
+    }
+
+    async function handleCreateNoticia(e) {
+        e.preventDefault();
+        
+        if (!agregarNoticiaForm) {
+            return showStatusMessage('Error: El formulario de agregar noticia no se encontró.', true);
+        }
+        
+        const formData = new FormData(agregarNoticiaForm);
+        
+        if (!formData.get('nombre') || !formData.get('categoria') || !formData.get('contenido') || !formData.get('imagen') || formData.get('imagen').size === 0) {
+            return showStatusMessage('Todos los campos, incluida la imagen, son obligatorios.', true);
+        }
+
+        const success = await submitNoticiaForm(`${API_BASE}/api/noticias`, 'POST', formData, e.submitter);
+        
+        if (success) {
+            agregarNoticiaForm.reset();
+            if (agregarNoticiaModal) {
+                agregarNoticiaModal.hide();
+            }
             loadNoticias();
         }
     }
 
-    function openLoginModal() {
-        if (loginPopup) loginPopup.show();
-    }
-
-    function openAgregarNoticiaModal() {
-        if (agregarNoticiaModal) agregarNoticiaModal.show();
-    }
-
-    function openEditarNoticiaModal(noticiaId) {
-        const noticiaIdField = document.getElementById('editarNoticiaId');
-        if (noticiaIdField) noticiaIdField.value = noticiaId;
-        if (editarNoticiaModal) editarNoticiaModal.show();
-    }
-
-    // Función de confirmación customizada para evitar alert/confirm nativos
-    function showConfirmation(message, callback) {
-        const confirmModalElement = document.getElementById('confirmModal');
-        if (!confirmModalElement) {
-             console.error("El modal de confirmación 'confirmModal' no está en el HTML.");
-             callback(false); // Fallback a no confirmar
-             return;
+    async function handleUpdateNoticia(e) {
+        e.preventDefault();
+        
+        const noticiaId = document.getElementById('editarNoticiaId').value;
+        const formData = new FormData(editarNoticiaForm);
+        
+        if (document.getElementById('editarNoticiaImagen').files.length === 0) {
+            formData.delete('imagen');
         }
 
-        const confirmModal = new bootstrap.Modal(confirmModalElement);
-        const confirmMessage = document.getElementById('confirmMessage');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-
-        if (confirmMessage) confirmMessage.textContent = message;
-
-        // Limpiar listeners anteriores
-        confirmBtn.onclick = null;
-        cancelBtn.onclick = null;
-
-        confirmBtn.onclick = () => {
-            confirmModal.hide();
-            if (typeof callback === 'function') callback(true);
-        };
-        cancelBtn.onclick = () => {
-            confirmModal.hide();
-            if (typeof callback === 'function') callback(false);
-        };
-
-        confirmModal.show();
+        const success = await submitNoticiaForm(`${API_BASE}/api/noticias/${noticiaId}`, 'PUT', formData, e.submitter);
+        if (success) {
+            if (editarNoticiaModal) {
+                editarNoticiaModal.hide();
+            }
+            loadNoticias();
+        }
     }
 
+    async function deleteNoticia(id) {
+        const confirmed = await showConfirmation('¿Estás seguro de que deseas eliminar esta noticia?');
+        if (!confirmed) return;
 
-    // --- Lógica de Autenticación (Login/Logout) ---
-
-    if (adminToggleBtn) {
-        adminToggleBtn.addEventListener('click', () => {
-            const adminDropMenu = document.getElementById('adminDropMenu');
-            if (adminDropMenu) adminDropMenu.classList.toggle('visible');
-        });
-    }
-
-    const loginMenuBtn = document.getElementById('loginMenuBtn');
-    if (loginMenuBtn) {
-        loginMenuBtn.addEventListener('click', openLoginModal);
-    } else if (loginButton) {
-        loginButton.addEventListener('click', openLoginModal);
-    }
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('token');
-            isAuthenticated = false;
-            updateAdminButtons();
-            showStatusMessage('Sesión cerrada correctamente. Recargando página...');
-            setTimeout(() => window.location.reload(), 500);
-        });
-    }
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const submitButton = e.submitter;
-
-            try {
-                submitButton.disabled = true;
-                const res = await fetch(`${API_BASE}/api/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem('token', data.token);
-                    isAuthenticated = true;
-                    token = data.token;
-                    if (loginPopup) loginPopup.hide();
-                    updateAdminButtons();
-                    showStatusMessage('¡Login exitoso! Recargando página...');
-                    setTimeout(() => window.location.reload(), 500);
-                } else {
-                    const errorData = await res.json();
-                    showStatusMessage(errorData.message || 'Credenciales incorrectas', true);
+        try {
+            const response = await fetch(`${API_BASE}/api/noticias/${id}`, {
+                method: 'DELETE',
+                headers: { 
+                    'Authorization': `Bearer ${token}` 
                 }
-            } catch (error) {
-                console.error('Error de login:', error);
-                showStatusMessage('Error de conexión con el servidor.', true);
-            } finally {
-                submitButton.disabled = false;
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Error al eliminar. ¿Falta autenticación?');
             }
-        });
+            showStatusMessage('Noticia eliminada correctamente.');
+            loadNoticias();
+        } catch (error) {
+            showStatusMessage(error.message, true);
+        }
     }
+    
+    // --- Lógica de Renderizado de Tarjetas ---
 
-    // Ojo de mostrar/ocultar contraseña
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    if (togglePassword && passwordInput) {
-        togglePassword.addEventListener('click', function (e) {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁' : '🔒'; // Cambia el icono
-        });
-    }
-
-    // --- Lógica de Gestión de Noticias (CRUD) ---
-
-    const deleteNoticia = async (id) => {
-        if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-        showConfirmation('¿Estás seguro de que deseas eliminar esta noticia?', async (isConfirmed) => {
-            if (!isConfirmed) return;
-
-            try {
-                const response = await fetch(`${API_BASE}/api/noticias/${id}`, { // Endpoint de Noticias
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (response.ok) {
-                    showStatusMessage('Noticia eliminada correctamente.');
-                    loadNoticias();
-                } else {
-                    const error = await response.json();
-                    throw new Error(error.message || 'Error al eliminar la noticia.');
-                }
-            } catch (error) {
-                console.error('Error al eliminar la noticia:', error);
-                showStatusMessage('Ocurrió un error al intentar eliminar la noticia.', true);
-            }
-        });
-    };
-
-    if (agregarNoticiaBtn) {
-        agregarNoticiaBtn.addEventListener('click', openAgregarNoticiaModal);
-    }
-
-    // HANDLER DE CREACIÓN: Se asegura de incluir el campo 'contenido'
-    if (agregarNoticiaForm) {
-        agregarNoticiaForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-            const formData = new FormData(agregarNoticiaForm);
-            
-            // Verificación del campo de contenido
-            if (!formData.get('contenido')) {
-                 return showStatusMessage('El campo Contenido es obligatorio.', true);
-            }
-
-            const submitBtn = e.submitter;
-            submitBtn.disabled = true;
-
-            try {
-                const res = await fetch(`${API_BASE}/api/noticias`, { // Endpoint de Noticias
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData, // Envía FormData que incluye imagen y campos de texto (nombre, categoria, contenido)
-                });
-
-                if (res.ok) {
-                    showStatusMessage('Noticia agregada exitosamente');
-                    if (agregarNoticiaModal) agregarNoticiaModal.hide();
-                    agregarNoticiaForm.reset();
-                    loadNoticias();
-                } else {
-                    const errorData = await res.json();
-                    showStatusMessage(`Error: ${errorData.message || 'Verifica los datos.'}`, true);
-                }
-            } catch (error) {
-                console.error('Error al enviar el formulario:', error);
-                showStatusMessage('Error de conexión con la API.', true);
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
-    }
-
-    // HANDLER DE EDICIÓN: Se asegura de incluir el campo 'contenido'
-    if (editarNoticiaForm) {
-        editarNoticiaForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-            const noticiaId = document.getElementById('editarNoticiaId').value;
-            if (!noticiaId) return showStatusMessage('ID de noticia no encontrado.', true);
-
-            const formData = new FormData(editarNoticiaForm);
-
-            const imagenInput = document.getElementById('editarNoticiaImagen');
-
-            // Si no hay archivo de imagen seleccionado, elimino el campo 'imagen' del FormData
-            if (!imagenInput || imagenInput.files.length === 0) {
-                 // Si el input está vacío, Multer en el backend lo ignora si se envía vacío, pero es buena práctica eliminarlo si no lleva nada.
-                 formData.delete('imagen');
-            }
-            
-            // Verificación del campo de contenido
-            if (!formData.get('contenido')) {
-                 return showStatusMessage('El campo Contenido es obligatorio para editar.', true);
-            }
-
-            const submitBtn = e.submitter;
-            submitBtn.disabled = true;
-
-            try {
-                const res = await fetch(`${API_BASE}/api/noticias/${noticiaId}`, { // Endpoint de Noticias
-                    method: 'PUT',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData, // Envía FormData directamente
-                });
-
-                if (res.ok) {
-                    showStatusMessage('Noticia editada exitosamente');
-                    if (editarNoticiaModal) editarNoticiaModal.hide();
-                    loadNoticias();
-                } else {
-                    const errorData = await res.json();
-                    showStatusMessage(`Error: ${errorData.message || 'Verifica los datos.'}`, true);
-                }
-            } catch (error) {
-                console.error('Error al enviar el formulario de edición:', error);
-                showStatusMessage('Error de conexión con la API.', true);
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
-    }
-
-    // --- Lógica de Renderizado y Carga (READ) ---
-
-    /** Renderiza las tarjetas de noticias en el contenedor */
-    const renderNoticias = (container, items) => {
-        if (!container) return;
-        container.innerHTML = '';
-        const noContent = document.getElementById('no-content');
+    function renderNoticias(items) {
+        if (!noticiasContainer) return;
+        noticiasContainer.innerHTML = '';
 
         if (items.length === 0) {
-            if (noContent) noContent.style.display = 'block';
+            noticiasContainer.innerHTML = '<p class="col-12 text-center text-white">No hay noticias para mostrar.</p>';
             return;
         }
-        if (noContent) noContent.style.display = 'none';
 
         items.forEach(item => {
             const imageUrl = buildImageUrl(item.imagen);
-            const cardWrapper = document.createElement('div');
-            // Estructura de grid: 3 tarjetas por fila en desktop, 2 en tablet/mobile grande
-            cardWrapper.className = 'col-sm-6 col-md-6 col-lg-4 mb-4';
             
-            // Función para generar un resumen corto del contenido
-            const getShortSummary = (text, maxLength = 100) => {
-                if (!text) return 'Sin resumen disponible.';
-                if (text.length <= maxLength) return text;
-                return text.substring(0, maxLength).trim() + '...';
-            };
-
-
-            const card = document.createElement('div');
-            card.className = 'noticiaCard shadow-lg h-100 rounded-lg overflow-hidden w-100 d-flex flex-column transition duration-300 hover:shadow-xl';
-
-            // Usamos ratio-16x9 para imágenes de noticias
-            card.innerHTML = `
-                <a href="noticia_detalle.html?id=${item._id}" class="card-image-link d-block ratio ratio-16x9 bg-gray-100">
-                    <img src="${imageUrl}" class="card-img-top w-100 h-100 object-cover" alt="${item.nombre}" onerror="this.src='https://placehold.co/800x450/374151/ffffff?text=Noticia'">
-                </a>
-                <div class="card-body d-flex flex-column justify-content-between flex-grow-1 p-3">
-                    <h5 class="card-title fw-bold text-lg mb-1">${item.nombre}</h5> <!-- Título de la noticia (nombre) -->
-                    <p class="card-text text-muted mb-2 small">Categoría: <span class="badge bg-primary">${item.categoria || 'General'}</span></p>
-                    <p class="card-text text-sm text-gray-700 line-clamp-3">${getShortSummary(item.contenido, 150)}</p> <!-- CAMBIO: Usamos item.contenido -->
+            // CORRECCIÓN CRÍTICA DE LA RUTA: Usa ./ para enlaces de archivos estáticos en Live Server.
+            const detailUrl = `./noticia_detalle.html?id=${item._id}`; 
+            
+            const adminButtons = isAuthenticated ? `
+                <div class="buttons">
+                    <button class="btn-modificar" data-id="${item._id}">Editar</button>
+                    <button class="btn-eliminar" data-id="${item._id}">Eliminar</button>
                 </div>
-                ${isAuthenticated ? `
-                    <div class="card-footer d-flex justify-content-between p-2 bg-gray-50 border-t">
-                        <button class="btn btn-warning btn-sm editar-btn w-50 me-1 shadow-sm" data-id="${item._id}">Editar</button>
-                        <button class="btn btn-danger btn-sm eliminar-btn w-50 ms-1 shadow-sm" data-id="${item._id}">Eliminar</button>
-                    </div>
-                ` : ''}
+            ` : '';
+
+            // Renderizado: solo imagen y título. Toda la tarjeta es un enlace.
+            const cardHTML = `
+                <div class="noticiaCard">
+                    <a href="${detailUrl}" class="card-link-wrapper">
+                        <img src="${imageUrl}" alt="${item.nombre}">
+                        <h3>${item.nombre}</h3>
+                    </a>
+                    ${adminButtons}
+                </div>
             `;
-
-            cardWrapper.appendChild(card);
-            container.appendChild(cardWrapper);
+            noticiasContainer.insertAdjacentHTML('beforeend', cardHTML);
         });
-
-        if (isAuthenticated) {
-            container.querySelectorAll('.editar-btn').forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    const id = e.target.dataset.id;
-                    await loadNoticiaDataForEdit(id);
-                    openEditarNoticiaModal(id);
-                });
-            });
-
-            container.querySelectorAll('.eliminar-btn').forEach(button => {
-                button.addEventListener('click', (e) => deleteNoticia(e.target.dataset.id));
-            });
+    }
+    
+    async function loadNoticias() {
+        if (!noticiasContainer) return;
+        noticiasContainer.innerHTML = '<p class="col-12 text-center text-white">Cargando noticias...</p>'; 
+        try {
+            const res = await fetch(`${API_BASE}/api/noticias`); 
+            if (!res.ok) throw new Error('No se pudieron cargar las noticias.');
+            const noticias = await res.json();
+            renderNoticias(noticias);
+        } catch (error) {
+            noticiasContainer.innerHTML = `<p class="col-12 text-center text-danger">${error.message}. Asegúrese de que el backend esté corriendo en ${API_BASE}</p>`;
         }
-    };
-
-    /** Carga los datos de una noticia específica y los rellena en el formulario de edición */
-    const loadNoticiaDataForEdit = async (id) => {
+    }
+    
+    async function fillEditForm(id) {
         try {
             const res = await fetch(`${API_BASE}/api/noticias/${id}`);
             if (!res.ok) throw new Error('No se pudo cargar la noticia.');
-
             const item = await res.json();
 
-            // Rellenar campos del modal de edición
-            document.getElementById('editarNoticiaId').value = id;
-            document.getElementById('editarNoticiaNombre').value = item.nombre || ''; // Título
+            document.getElementById('editarNoticiaId').value = item._id;
+            document.getElementById('editarNoticiaNombre').value = item.nombre || '';
             document.getElementById('editarNoticiaCategoria').value = item.categoria || '';
+            document.getElementById('editarNoticiaContenido').value = item.contenido || '';
             
-            // CAMBIO: Usamos el campo 'contenido'
-            const contentInput = document.getElementById('editarNoticiaContenido'); 
-            if (contentInput) contentInput.value = item.contenido || '';
-            
-            // El input de la imagen debe ser vaciado por seguridad, no se rellena.
-            const imagenInput = document.getElementById('editarNoticiaImagen');
-            if (imagenInput) imagenInput.value = '';
+            document.getElementById('editarNoticiaImagen').value = ''; 
 
+            if (editarNoticiaModal) editarNoticiaModal.show();
         } catch (error) {
-            console.error('Error al cargar datos para edición:', error);
-            showStatusMessage('No se pudieron cargar los datos de la noticia.', true);
-        }
-    };
-
-    /** Carga la lista completa de noticias (usada en noticias.html) */
-    const loadNoticias = async () => {
-        if (!noticiasContainer) return;
-        try {
-            noticiasContainer.innerHTML = '<div class="col-12 text-center text-primary-dark mt-5"><i class="fas fa-spinner fa-spin me-2"></i> Cargando noticias...</div>';
-
-            const res = await fetch(`${API_BASE}/api/noticias`);
-            const noticias = await res.json();
-            renderNoticias(noticiasContainer, noticias);
-        } catch (error) {
-            console.error('Error al cargar las noticias:', error);
-            noticiasContainer.innerHTML = '<p class="text-danger w-100 text-center mt-5 p-4 rounded-lg bg-red-100 border border-red-300">Error al cargar las noticias. Revisa la conexión con el servidor de la API.</p>';
-        }
-    };
-
-    /** Función: Carga los detalles de una sola noticia en la página de detalle (usada en noticia_detalle.html) */
-    async function loadDetails() {
-        // Elementos de estado y contenido (deben existir en noticia_detalle.html)
-        const mainContent = document.getElementById('main-content');
-        const loadingMessage = document.getElementById('loadingMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const titleElement = document.getElementById('itemTitle');
-        const categoryElement = document.getElementById('itemCategory');
-        const imageElement = document.getElementById('itemImage');
-        const contentElement = document.getElementById('itemContent'); // CAMBIO: Usaremos 'itemContent' para el cuerpo completo
-
-        if (!titleElement || !categoryElement || !imageElement || !contentElement || !mainContent || !loadingMessage || !errorMessage) {
-             console.log("No estamos en la página de detalle o faltan elementos DOM clave.");
-             return;
-        }
-
-        // Mostrar carga
-        loadingMessage.style.display = 'block';
-        mainContent.style.display = 'none';
-        errorMessage.style.display = 'none';
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const itemId = urlParams.get('id');
-
-        if (!itemId) {
-            loadingMessage.style.display = 'none';
-            errorMessage.textContent = 'Error: ID de noticia no especificado en la URL.';
-            errorMessage.style.display = 'block';
-            return;
-        }
-
-        try {
-            const res = await fetch(`${API_BASE}/api/noticias/${itemId}`);
-            if (!res.ok) throw new Error('Noticia no encontrada.');
-
-            const item = await res.json();
-
-            // Rellenar los datos
-            titleElement.textContent = item.nombre || 'Noticia sin título';
-            categoryElement.textContent = item.categoria || 'General';
-
-            // CAMBIO: Rellenamos el elemento de contenido principal con el campo 'contenido'
-            contentElement.innerHTML = item.contenido ? item.contenido.replace(/\n/g, '<br>') : 'Contenido de la noticia no disponible.';
-            
-            imageElement.src = buildImageUrl(item.imagen);
-            imageElement.alt = item.nombre;
-            imageElement.onerror = () => {
-                imageElement.src = 'https://placehold.co/900x500/374151/ffffff?text=Noticia+Sin+Imagen';
-            };
-
-            // Éxito: Ocultar la carga y mostrar el contenido
-            loadingMessage.style.display = 'none';
-            mainContent.style.display = 'block';
-
-        } catch (error) {
-            console.error('Error al obtener los detalles de la noticia:', error);
-
-            // Error: Ocultar la carga y mostrar el mensaje de error
-            loadingMessage.style.display = 'none';
-            errorMessage.textContent = `Error al cargar los detalles de la noticia: ${error.message}. Verifica el servidor de la API.`;
-            errorMessage.style.display = 'block';
+            showStatusMessage(error.message, true);
         }
     }
+    
+    // --- Asignación de Event Listeners ---
+    
+    if (adminToggleBtn) {
+        adminToggleBtn.addEventListener('click', () => {
+            if (adminDropMenu) {
+                adminDropMenu.classList.toggle('visible');
+            }
+        });
+    }
 
-    // --- Inicialización General ---
+    if (loginMenuBtn) loginMenuBtn.addEventListener('click', () => {
+        if(loginPopup) loginPopup.show();
+    });
+    if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+    
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+    }
 
-    // Inicializa la visibilidad de los botones de admin/logout
-    updateAdminButtons();
+    if (agregarNoticiaBtn) agregarNoticiaBtn.addEventListener('click', () => {
+        if(agregarNoticiaModal) agregarNoticiaModal.show();
+        if (adminDropMenu) adminDropMenu.classList.remove('visible');
+    });
 
-    // Determina qué función de carga ejecutar según la página
-    const path = window.location.pathname;
+    if (agregarNoticiaForm) agregarNoticiaForm.addEventListener('submit', handleCreateNoticia);
+    if (editarNoticiaForm) editarNoticiaForm.addEventListener('submit', handleUpdateNoticia);
+    
+    if (noticiasContainer) {
+        noticiasContainer.addEventListener('click', (e) => {
+            const editButton = e.target.closest('.btn-modificar');
+            const deleteButton = e.target.closest('.btn-eliminar');
 
-    if (path.includes('noticia_detalle.html')) {
-        // Ejecuta la función de detalle para llenar noticia_detalle.html
-        loadDetails();
-    } else if (path.includes('noticias.html')) {
-        // Ejecuta la función de carga de listado para noticias.html
-        loadNoticias();
+            if (editButton) {
+                const id = editButton.dataset.id;
+                fillEditForm(id);
+            }
+            if (deleteButton) {
+                const id = deleteButton.dataset.id;
+                deleteNoticia(id);
+            }
+        });
+    }
+
+    // --- Inicialización al Cargar la Página ---
+    initializePage();
+    
+    function initializePage() {
+        updateUI();
     }
 });

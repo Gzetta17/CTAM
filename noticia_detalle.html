@@ -22,73 +22,77 @@
     
     <link href="css/style1.css" rel="stylesheet">
 </head>
-    <style>
-
-        body {
-            background-color: #101318 ;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
-        .container {
-            margin-top: 200px;
-            margin-bottom: 50px;
-        }
-        .noticia-card {
-            background-color: #101318;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out;
-        }
-        .noticia-card:hover {
-            transform: translateY(-5px);
-        }
-        .noticia-imagen {
-        width: 100%;
-        /* --- CORRECCIÓN APLICADA AQUÍ --- */
-        height: auto; /* Permite que la altura se adapte automáticamente */
-        max-height: 400px; /* Limita la altura máxima para evitar que sea muy grande */
-        object-fit: contain; /* Ajusta la imagen completa dentro del contenedor sin recortarla */
-        
+<style>
+    /* Estilos de la página de detalle */
+    body {
+        background-color: #101318 ;
+        font-family: 'Arial', sans-serif;
+        color: #333;
     }
-        .noticia-body {
-            padding: 40px;
-        }
-        .noticia-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #eee;
-            margin-bottom: 10px;
-        }
-        .noticia-categoria {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #eee;
-            text-transform: uppercase;
-        }
-        .loading-text, .error-text {
-            text-align: center;
-            padding: 50px;
-        }
-    </style>
+    .container {
+        margin-top: 200px;
+        margin-bottom: 50px;
+    }
+    .noticia-card {
+        background-color: #101318;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+    .noticia-imagen {
+        width: 100%;
+        height: auto; 
+        max-height: 400px;
+        object-fit: contain; 
+    }
+    .noticia-body {
+        padding: 40px;
+    }
+    .noticia-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #eee;
+        margin-bottom: 10px;
+    }
+    .noticia-categoria {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #eee;
+        text-transform: uppercase;
+    }
+    .loading-text, .error-text {
+        text-align: center;
+        padding: 50px;
+        color: #fff;
+    }
+    /* Estilo para el contenido largo */
+    #noticiaContenido {
+        color: #ccc; 
+        font-size: 1.1rem; 
+        line-height: 1.6;
+    }
+</style>
     
 
 <body>
     <div class="navbar navbar-expand-lg bg-dark navbar-dark">
-    <div class="container-fluid">
-        <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse"> <div class="navbar-nav ms-auto"> <a href="index.html" class="nav-item nav-link active">INICIO</a>
-                <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
-                <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
-                <a href="noticias.html" class="nav-item nav-link">NOTICIAS</a>
-                <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
+        <div class="container-fluid">
+            <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse"> 
+                <div class="navbar-nav ms-auto"> 
+                    <a href="index.html" class="nav-item nav-link active">INICIO</a>
+                    <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
+                    <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
+                    <a href="noticias.html" class="nav-item nav-link">NOTICIAS</a>
+                    <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
     <div class="container">
         <a href="noticias.html" class="btn btn-secondary mb-4">&larr; Volver a Noticias</a>
         <div class="noticia-card">
@@ -102,27 +106,14 @@
                 <div class="noticia-body">
                     <p id="noticiaCategoria" class="noticia-categoria"></p>
                     <h1 id="noticiaNombre" class="noticia-title"></h1>
+                    
+                    <div id="noticiaContenido" class="mt-4">
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-    <!-- Incluir JS de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -135,6 +126,7 @@
             const noticiaNombre = document.getElementById('noticiaNombre');
             const noticiaCategoria = document.getElementById('noticiaCategoria');
             const noticiaImagen = document.getElementById('noticiaImagen');
+            const noticiaContenido = document.getElementById('noticiaContenido'); // Obtener el elemento de contenido
 
             // Ocultar mensajes de estado iniciales
             loadingMessage.style.display = 'block';
@@ -147,8 +139,8 @@
 
             if (!noticiaId) {
                 loadingMessage.style.display = 'none';
+                errorMessage.textContent = 'Error: No se encontró el identificador de la noticia.';
                 errorMessage.style.display = 'block';
-                console.error('No se encontró un ID de noticia en la URL.');
                 return;
             }
 
@@ -159,13 +151,17 @@
                 }
                 const noticia = await res.json();
 
-                // Rellenar los elementos del DOM con la información de la noticia
+                // Rellenar los elementos del DOM
                 noticiaNombre.textContent = noticia.nombre;
                 noticiaCategoria.textContent = noticia.categoria;
                 
-                const imagenURL = `${API_BASE}${noticia.imagen}`;
+                // INSERTAR CONTENIDO: Se usa .replace para mantener saltos de línea y se inserta como HTML.
+                const contenido = noticia.contenido || 'Contenido no disponible.';
+                noticiaContenido.innerHTML = contenido.replace(/\n/g, '<br>');
+
+                // Construir URL de la imagen correctamente
+                const imagenURL = `${API_BASE}${noticia.imagen.startsWith('/') ? noticia.imagen : '/' + noticia.imagen}`;
                 noticiaImagen.src = imagenURL;
-                console.log(`Intentando cargar la imagen desde: ${imagenURL}`);
 
                 // Ocultar mensaje de carga y mostrar el contenido
                 loadingMessage.style.display = 'none';
@@ -174,16 +170,10 @@
             } catch (error) {
                 console.error('Error al obtener los detalles de la noticia:', error);
                 loadingMessage.style.display = 'none';
+                errorMessage.textContent = 'Error: No se pudo cargar la noticia. Verifique que el backend esté corriendo.';
                 errorMessage.style.display = 'block';
             }
         });
     </script>
-
-
-
-
-
-
-
 </body>
 </html>

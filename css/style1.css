@@ -118,7 +118,7 @@ h1, h2, h3 {
 /************ LOGIN y POP UP, Agregar comercio, agregar noticias ***********************/
 /**************************************************************************************/
 
-/* Contenedor de la gota flotante y su menú - POSICIÓN ORIGINAL Y CORRECTA */
+/* Contenedor de la gota flotante y su menú - SIN MODIFICAR */
 .admin-drop-container {
     position: fixed;
     bottom: 30px; 
@@ -126,7 +126,6 @@ h1, h2, h3 {
     z-index: 1000;
 }
 
-/* Botón flotante - Restaurado a sus propiedades más simples para evitar conflictos */
 .admin-drop-btn {
     background-color: #5c1e6f;
     color: white;
@@ -135,9 +134,8 @@ h1, h2, h3 {
     height: 60px;
     font-size: 24px;
     text-align: center;
-    line-height: 60px; /* Centrado vertical original */
+    line-height: 60px; 
     cursor: pointer;
-    
     transition: transform 0.3s ease;
 }
 
@@ -157,7 +155,6 @@ h1, h2, h3 {
     position: absolute;
     bottom: 60px; 
     right: 0; 
-    
     background-color: white; 
     padding: 10px; 
     border-radius: 8px; 
@@ -190,148 +187,94 @@ h1, h2, h3 {
     background-color: #4b1a5a;
 }
 
-
 /* ------------------------------------------------------------------------------------ */
-/* --- ESTILOS DE LOGIN MEJORADOS --- */
+/* --- ESTILOS DE MODALES (LOGIN, AGREGAR/EDITAR) --- */
 /* ------------------------------------------------------------------------------------ */
 
 /* Estilos para los modales, respetando las clases de Bootstrap */
-.modal-dialog {
-    max-width: 450px; 
-    margin: 1.75rem auto;
-}
-
 .modal-content {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.modal-content.loginBox {
-    /* Estilos del contenedor del formulario LOGIN */
-    background-color: #ffffff;
     border: none;
-    text-align: center;
     overflow: hidden; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    padding: 0; 
-    position: relative; /* Esencial para el posicionamiento absoluto de la X */
 }
 
-
-
+/* Ocultar el header de Bootstrap */
 .modal-header {
-   
-    border-bottom: none !important; /* Quitar cualquier borde inferior */
-    padding: 0 !important; /* Eliminar cualquier padding */
-    height: 0 !important; /* Asegurar que no ocupe espacio vertical */
-    visibility: hidden; /* Ocultar el contenido si lo tiene */
-    position: absolute; /* Para que no afecte el flujo del h2 */
-    width: 100%; /* Ocupar todo el ancho si es necesario */
-    top: 0; /* Asegurar que no quede desplazado */
-    left: 0; /* Asegurar que no quede desplazado */
+    display: none !important;
 }
-
-/* Ajuste directo para el botón de cierre (la X) */
-.modal-content .btn-close {
-    position: absolute;
-    top: 15px;      /* Distancia del borde superior del modal */
-    right: 15px;    /* Distancia del borde derecho del modal */
-    z-index: 100;   /* ¡Muy alto para que siempre esté encima de la barra oscura del título! */
-    
-    background: none; /* SIN FONDO */
-    color: white; /* Color blanco puro para la X */
-    opacity: 1; 
-    
-    filter: brightness(2); /* Asegura que la X sea totalmente blanca */
-    transition: opacity 0.3s;
-    /* Asegúrate de que el HTML de tu botón de cierre no tenga texto "X" si usas un ícono */
-}
-.modal-content .btn-close:hover {
-    opacity: 0.8;
-}
-
 
 .modal-body {
-    padding-top: 0;
+    padding: 0; 
 }
 
-.close {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-    text-shadow: 0 1px 0 #fff;
+/* Posicionar la X de cierre */
+.modal-content .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    filter: invert(1) grayscale(100%) brightness(200%); /* Fuerza el color blanco en la X de Bootstrap */
 }
 
-/* Título de Login: Fondo oscuro, letra blanca y centrado */
+/* 3. Crear nuestro propio título y formulario de login */
+#loginPopup .loginBox {
+    padding: 0; 
+    text-align: center;
+    position: relative;
+}
+
 #loginPopup .loginBox h2 {
-    background-color: #1a1e24; /* Fondo oscuro elegante */
-    color: white; /* ¡Texto blanco! */
-    font-size: 26px;
-    margin-bottom: 0px; 
+    background-color: #1a1e24; 
+    color: white; 
+    margin: 0; 
     padding: 25px 30px; 
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-size: 22px;
+    font-weight: bold;
     text-transform: uppercase;
-    position: relative; 
+    letter-spacing: 1px;
 }
 
-/* Contenedor del formulario para dar padding */
-#loginForm { 
-    padding: 30px 30px 40px 30px; 
+/* Damos padding al formulario para separar los campos del título */
+#loginForm {
+    padding: 30px;
 }
 
-/* Inputs de Login: Modernos, redondeados y con hover */
+/* 4. Inputs y botón con estilo moderno */
 #loginPopup .loginBox input[type="text"],
 #loginPopup .loginBox input[type="password"] {
     width: 100%;
-    padding: 15px 20px; 
+    padding: 15px; 
     margin-bottom: 20px;
     border-radius: 8px; 
-    border: 1px solid #e0e0e0; 
+    border: 1px solid #ddd; 
     font-size: 16px;
-    color: #333333;
-    background-color: #f9f9f9; 
     box-sizing: border-box;
-    transition: all 0.3s ease;
 }
 
-#loginForm input:focus {
-    border-color: #5c1e6f; 
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(92, 30, 111, 0.15);
-    background-color: white;
-}
-
-/* Botón de Login */
 #loginPopup .loginBox button {
     width: 100%;
-    padding: 16px; 
+    padding: 15px;
     background-color: #5c1e6f; 
     color: white;
     border: none;
     border-radius: 8px; 
     font-size: 18px;
-    font-weight: 600;
+    font-weight: bold;
     cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    letter-spacing: 0.8px;
+    transition: background-color 0.3s ease;
 }
 
 #loginPopup .loginBox button:hover {
-    background-color: #4b1a5a;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background-color: #4b1a5a; 
 }
 
-/* Icono del Ojo de Contraseña */
 .password-wrapper {
     position: relative;
 }
 
 .password-wrapper input {
-    padding-right: 50px !important;
-    margin-bottom: 0px !important; 
+    padding-right: 45px !important; 
 }
 
 .eye {
@@ -339,16 +282,10 @@ h1, h2, h3 {
     right: 15px;
     top: 50%;
     transform: translateY(-50%); 
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
-    color: #888888;
-    transition: color 0.3s ease;
+    color: #888;
 }
-
-.eye:hover {
-    color: #5c1e6f;
-}
-
 
 /* Estilos para el Pop-up público */
 #publicPopup .popupContent {
@@ -367,7 +304,6 @@ h1, h2, h3 {
     margin-bottom: 0px;
 }
 
-/* Botones y formularios en los modales */
 .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -396,18 +332,21 @@ h1, h2, h3 {
     background-color: #4b1a5a;
 }
 
+/* ------------------------------------------------------------------------------------ */
+/* --- ESTILOS DE CONTENEDORES Y TARJETAS (CRÍTICO PARA LA SOLUCIÓN) --- */
+/* ------------------------------------------------------------------------------------ */
 
-/* Contenedores de datos */
+/* Contenedores de datos - CORREGIDO */
 #comerciosContainer,
 #noticiasContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; <-- Eliminado para evitar conflictos de ancho */
     gap: 20px;
     padding: 20px;
 }
 
-/* Tarjetas de Comercio y Noticias */
+/* Tarjetas de Comercio y Noticias - CORREGIDO EL ANCHO */
 .comercioCard,
 .noticiaCard {
     background-color: #5c1e6f;
@@ -415,9 +354,12 @@ h1, h2, h3 {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    width: calc(33.333% - 20px);
+    /* Ancho corregido a un tercio, restando menos para que el gap funcione correctamente */
+    width: calc(33.333% - 15px); 
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex; /* Asegura que el contenido interno fluya correctamente */
+    flex-direction: column;
 }
 
 .comercioCard:hover,
@@ -431,6 +373,7 @@ h1, h2, h3 {
     width: 100%;
     height: auto;
     border-radius: 8px;
+    object-fit: cover; /* Asegura que la imagen se vea bien sin distorsionarse */
 }
 
 .comercioCard h3,
@@ -444,11 +387,12 @@ h1, h2, h3 {
 .noticiaCard p {
     font-size: 14px;
     color: #D5B981;
+    flex-grow: 1; /* Esto asegura que el contenido de texto ocupe todo el espacio disponible */
 }
 
 .comercioCard .buttons,
 .noticiaCard .buttons {
-    margin-top: 10px;
+    margin-top: auto; /* Empuja los botones al final de la tarjeta */
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -465,61 +409,62 @@ h1, h2, h3 {
     transition: background-color 0.3s;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-grow: 1; /* Asegura que los botones se estiren para llenar el espacio */
 }
 
 .comercioCard .buttons .btn-modificar,
 .noticiaCard .buttons .btn-modificar {
-    background-color: #4CAF50;
+    background-color: #FFC107; /* Amarillo */
+    color: #1a1e24;
 }
 
 .comercioCard .buttons .btn-modificar:hover,
 .noticiaCard .buttons .btn-modificar:hover {
-    background-color: #45a049;
+    background-color: #e0a800;
 }
 
 .comercioCard .buttons .btn-eliminar,
 .noticiaCard .buttons .btn-eliminar,
 .comercioCard .buttons .delete,
 .noticiaCard .buttons .delete {
-    background-color: #f44336;
+    background-color: #dc3545; /* Rojo */
 }
 
 .comercioCard .buttons .btn-eliminar:hover,
 .noticiaCard .buttons .btn-eliminar:hover,
 .comercioCard .buttons .delete:hover,
 .noticiaCard .buttons .delete:hover {
-    background-color: #da190b;
+    background-color: #c82333;
 }
 
 
-/* Responsividad */
+/* ------------------------------------------------------------------------------------ */
+/* --- RESPONSIVIDAD (MODIFICADA PARA TARJETAS) --- */
+/* ------------------------------------------------------------------------------------ */
+
+@media (max-width: 992px) {
+    /* Ajuste para tablets: 2 columnas */
+    .comercioCard,
+    .noticiaCard {
+        width: calc(50% - 10px); 
+    }
+}
+
 @media (max-width: 768px) {
-    .modal-dialog {
+    #loginPopup .loginBox {
         max-width: 90%;
     }
-    .modal-content.loginBox h2 {
-        font-size: 24px;
-        padding: 20px 20px;
+    #loginPopup .loginBox h2 {
+        font-size: 20px;
     }
-    #loginForm {
-        padding: 25px 20px 30px 20px;
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
+        padding: 12px;
+        font-size: 14px;
     }
-    #loginForm input[type="text"],
-    #loginForm input[type="password"] {
-        padding: 12px 15px;
-        font-size: 15px;
-        margin-bottom: 18px;
-    }
-    .password-wrapper input {
-        padding-right: 45px !important;
-    }
-    .eye {
-        font-size: 18px;
-        right: 12px;
-    }
-    #loginForm button[type="submit"] {
-        padding: 14px;
-        font-size: 16px;
+    #loginPopup .loginBox button {
+        padding: 12px;
+        font-size: 14px;
     }
     #adminPanel {
         width: 90%;
@@ -546,39 +491,28 @@ h1, h2, h3 {
         max-width: 100%;
         border-radius: 15px;
     }
+    /* En esta resolución, mantenemos 2 columnas si es posible, pero aseguramos la tarjeta */
     .comercioCard,
     .noticiaCard {
-        width: calc(50% - 20px);
+        width: calc(50% - 10px); 
     }
 }
 
 @media (max-width: 480px) {
-    .modal-dialog {
-        margin: 1rem auto;
+    #loginPopup .loginBox {
+        max-width: 85%;
     }
-    .modal-content.loginBox h2 {
-        font-size: 20px;
-        padding: 18px 15px;
+    #loginPopup .loginBox h2 {
+        font-size: 18px;
     }
-    #loginForm {
-        padding: 20px 15px 25px 15px;
-    }
-    #loginForm input[type="text"],
-    #loginForm input[type="password"] {
+    #loginPopup .loginBox input[type="text"],
+    #loginPopup .loginBox input[type="password"] {
         font-size: 14px;
-        padding: 10px 12px;
-        margin-bottom: 15px;
+        padding: 10px;
     }
-    .password-wrapper input {
-        padding-right: 40px !important;
-    }
-    .eye {
-        font-size: 16px;
-        right: 10px;
-    }
-    #loginForm button[type="submit"] {
-        padding: 12px;
-        font-size: 15px;
+    #loginPopup .loginBox button {
+        padding: 10px;
+        font-size: 14px;
     }
     #adminPanel {
         width: 90%;
@@ -601,6 +535,7 @@ h1, h2, h3 {
     #publicPopup img {
         width: 100%;
     }
+    /* Para móviles pequeños: 1 columna y ancho completo */
     .comercioCard,
     .noticiaCard {
         width: 100%;
