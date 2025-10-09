@@ -1,3 +1,4 @@
+// La URL base de la API. En un entorno de producción, esto debería ser una variable de entorno.
 const API_BASE = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,24 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.getElementById('logoutButton');
     const loginForm = document.getElementById('loginForm');
     const statusMessage = document.getElementById('statusMessage');
-
-    // Elementos de la funcionalidad de Noticias (asumimos que existen en noticias.html)
-    const agregarNoticiaBtn = document.getElementById('agregarNoticiaBtn');
-    const noticiasContainer = document.getElementById('noticiasContainer'); // Contenedor de la lista de noticias
-    const agregarNoticiaForm = document.getElementById('agregarNoticiaForm');
-    const editarNoticiaForm = document.getElementById('editarNoticiaForm');
+    
+    // Elementos de la funcionalidad de Comercios (solo existen en single.html)
+    const agregarComercioBtn = document.getElementById('agregarComercioBtn');
+    const comerciosContainer = document.getElementById('comerciosContainer');
+    const agregarComercioForm = document.getElementById('agregarComercioForm');
+    const editarComercioForm = document.getElementById('editarComercioForm');
 
     // Inicialización de Modales de Bootstrap
-    const loginPopup = document.getElementById('loginPopup')
-        ? new bootstrap.Modal(document.getElementById('loginPopup'))
+    // Usamos ternarios para evitar errores si el modal no existe en la página actual (ej: comercio_detalle.html)
+    const loginPopup = document.getElementById('loginPopup') 
+        ? new bootstrap.Modal(document.getElementById('loginPopup')) 
         : null;
-    const editarNoticiaModal = document.getElementById('editarNoticiaModal')
-        ? new bootstrap.Modal(document.getElementById('editarNoticiaModal'))
+    const editarComercioModal = document.getElementById('editarComercioModal') 
+        ? new bootstrap.Modal(document.getElementById('editarComercioModal')) 
         : null;
-    const agregarNoticiaModal = document.getElementById('agregarNoticiaModal')
-        ? new bootstrap.Modal(document.getElementById('agregarNoticiaModal'))
+    const agregarComercioModal = document.getElementById('agregarComercioModal') 
+        ? new bootstrap.Modal(document.getElementById('agregarComercioModal')) 
         : null;
-
+    
     let token = localStorage.getItem('token');
     let isAuthenticated = !!token;
 
@@ -47,12 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!imagePath) {
             return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
         }
-        // Asumiendo que las imágenes se sirven desde la API_BASE
         const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
         return `${API_BASE}${cleanPath}`;
     }
 
-    /** Actualiza la visibilidad de los botones de administración (Noticias) */
+    /** Actualiza la visibilidad de los botones de administración */
     function updateAdminButtons() {
         // En el menú principal
         const loginMenuBtn = document.getElementById('loginMenuBtn');
@@ -63,33 +64,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loginMenuBtn) loginMenuBtn.style.display = 'block';
             if (logoutButton) logoutButton.style.display = 'none';
         }
-        // En la página de noticias (noticias.html)
+        // En la página de comercios (single.html)
+        const agregarNoticiaBtn = document.getElementById('agregarNoticiaBtn');
+        if (agregarComercioBtn) {
+            agregarComercioBtn.style.display = isAuthenticated ? 'block' : 'none';
+        }
         if (agregarNoticiaBtn) {
             agregarNoticiaBtn.style.display = isAuthenticated ? 'block' : 'none';
         }
 
-        // Si hay un contenedor de noticias, se debe recargar para mostrar/ocultar botones CRUD
-        if (noticiasContainer) {
-            loadNoticias();
+        // Si hay un contenedor de comercios, se debe recargar para mostrar/ocultar botones CRUD
+        if (comerciosContainer) {
+            loadComercios();
         }
     }
 
     function openLoginModal() {
         if (loginPopup) loginPopup.show();
     }
-
-    function openAgregarNoticiaModal() {
-        if (agregarNoticiaModal) agregarNoticiaModal.show();
+    
+    function openAgregarComercioModal() {
+        if (agregarComercioModal) agregarComercioModal.show();
     }
 
-    function openEditarNoticiaModal(noticiaId) {
-        const noticiaIdField = document.getElementById('editarNoticiaId');
-        if (noticiaIdField) noticiaIdField.value = noticiaId;
-        if (editarNoticiaModal) editarNoticiaModal.show();
+    function openEditarComercioModal(comercioId) {
+        const comercioIdField = document.getElementById('editarComercioId');
+        if (comercioIdField) comercioIdField.value = comercioId;
+        if (editarComercioModal) editarComercioModal.show();
     }
 
     // Función de confirmación customizada para evitar alert/confirm nativos
+    let currentConfirmationAction = null;
     function showConfirmation(message, callback) {
+        // Asegúrate de que el modal de confirmación existe en tu HTML (no incluido aquí)
         const confirmModalElement = document.getElementById('confirmModal');
         if (!confirmModalElement) {
              console.error("El modal de confirmación 'confirmModal' no está en el HTML.");
@@ -119,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         confirmModal.show();
     }
-
+    
 
     // --- Lógica de Autenticación (Login/Logout) ---
 
@@ -130,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Aquí se corrige el listener de loginButton para usar el ID 'loginMenuBtn' si existe.
     const loginMenuBtn = document.getElementById('loginMenuBtn');
     if (loginMenuBtn) {
         loginMenuBtn.addEventListener('click', openLoginModal);
@@ -143,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isAuthenticated = false;
             updateAdminButtons();
             showStatusMessage('Sesión cerrada correctamente. Recargando página...');
-            setTimeout(() => window.location.reload(), 500);
+            setTimeout(() => window.location.reload(), 500); 
         });
     }
 
@@ -166,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await res.json();
                     localStorage.setItem('token', data.token);
                     isAuthenticated = true;
-                    token = data.token;
+                    token = data.token; 
                     if (loginPopup) loginPopup.hide();
                     updateAdminButtons();
                     showStatusMessage('¡Login exitoso! Recargando página...');
@@ -194,67 +202,61 @@ document.addEventListener('DOMContentLoaded', () => {
             this.textContent = type === 'password' ? '👁' : '🔒'; // Cambia el icono
         });
     }
+    
+    // --- Lógica de Gestión de Comercios (CRUD) ---
 
-    // --- Lógica de Gestión de Noticias (CRUD) ---
-
-    const deleteNoticia = async (id) => {
+    const deleteItem = async (id) => {
         if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-        showConfirmation('¿Estás seguro de que deseas eliminar esta noticia?', async (isConfirmed) => {
-            if (!isConfirmed) return;
+        
+        showConfirmation('¿Estás seguro de que deseas eliminar este comercio?', async (isConfirmed) => {
+            if (!isConfirmed) return; 
 
             try {
-                const response = await fetch(`${API_BASE}/api/noticias/${id}`, { // Endpoint de Noticias
+                const response = await fetch(`${API_BASE}/api/comercios/${id}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (response.ok) {
-                    showStatusMessage('Noticia eliminada correctamente.');
-                    loadNoticias();
+                    showStatusMessage('Comercio eliminado correctamente.');
+                    loadComercios();
                 } else {
                     const error = await response.json();
-                    throw new Error(error.message || 'Error al eliminar la noticia.');
+                    throw new Error(error.message || 'Error al eliminar el comercio.');
                 }
             } catch (error) {
-                console.error('Error al eliminar la noticia:', error);
-                showStatusMessage('Ocurrió un error al intentar eliminar la noticia.', true);
+                console.error('Error al eliminar el comercio:', error);
+                showStatusMessage('Ocurrió un error al intentar eliminar el comercio.', true);
             }
         });
     };
-
-    if (agregarNoticiaBtn) {
-        agregarNoticiaBtn.addEventListener('click', openAgregarNoticiaModal);
+    
+    if (agregarComercioBtn) {
+        agregarComercioBtn.addEventListener('click', openAgregarComercioModal);
     }
-
-    // HANDLER DE CREACIÓN: Se asegura de incluir el campo 'contenido'
-    if (agregarNoticiaForm) {
-        agregarNoticiaForm.addEventListener('submit', async (e) => {
+    
+    if (agregarComercioForm) {
+        agregarComercioForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-            const formData = new FormData(agregarNoticiaForm);
             
-            // Verificación del campo de contenido
-            if (!formData.get('contenido')) {
-                 return showStatusMessage('El campo Contenido es obligatorio.', true);
-            }
-
+            const formData = new FormData(agregarComercioForm); 
+            
             const submitBtn = e.submitter;
             submitBtn.disabled = true;
 
             try {
-                const res = await fetch(`${API_BASE}/api/noticias`, { // Endpoint de Noticias
+                const res = await fetch(`${API_BASE}/api/comercios`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData, // Envía FormData que incluye imagen y campos de texto (nombre, categoria, contenido)
+                    body: formData,
                 });
 
                 if (res.ok) {
-                    showStatusMessage('Noticia agregada exitosamente');
-                    if (agregarNoticiaModal) agregarNoticiaModal.hide();
-                    agregarNoticiaForm.reset();
-                    loadNoticias();
+                    showStatusMessage('Comercio agregado exitosamente');
+                    if (agregarComercioModal) agregarComercioModal.hide();
+                    agregarComercioForm.reset();
+                    loadComercios();
                 } else {
                     const errorData = await res.json();
                     showStatusMessage(`Error: ${errorData.message || 'Verifica los datos.'}`, true);
@@ -267,45 +269,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // HANDLER DE EDICIÓN: Se asegura de incluir el campo 'contenido'
-    if (editarNoticiaForm) {
-        editarNoticiaForm.addEventListener('submit', async (e) => {
+    
+    if (editarComercioForm) {
+        editarComercioForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-
-            const noticiaId = document.getElementById('editarNoticiaId').value;
-            if (!noticiaId) return showStatusMessage('ID de noticia no encontrado.', true);
-
-            const formData = new FormData(editarNoticiaForm);
-
-            const imagenInput = document.getElementById('editarNoticiaImagen');
-
+            
+            const comercioId = document.getElementById('editarComercioId').value;
+            if (!comercioId) return showStatusMessage('ID de comercio no encontrado.', true);
+            
+            const formData = new FormData(editarComercioForm); 
+            
+            const imagenInput = document.getElementById('editarComercioImagen');
+            
             // Si no hay archivo de imagen seleccionado, elimino el campo 'imagen' del FormData
             if (!imagenInput || imagenInput.files.length === 0) {
-                 // Si el input está vacío, Multer en el backend lo ignora si se envía vacío, pero es buena práctica eliminarlo si no lleva nada.
                  formData.delete('imagen');
             }
             
-            // Verificación del campo de contenido
-            if (!formData.get('contenido')) {
-                 return showStatusMessage('El campo Contenido es obligatorio para editar.', true);
-            }
-
             const submitBtn = e.submitter;
             submitBtn.disabled = true;
 
             try {
-                const res = await fetch(`${API_BASE}/api/noticias/${noticiaId}`, { // Endpoint de Noticias
+                const res = await fetch(`${API_BASE}/api/comercios/${comercioId}`, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData, // Envía FormData directamente
                 });
 
                 if (res.ok) {
-                    showStatusMessage('Noticia editada exitosamente');
-                    if (editarNoticiaModal) editarNoticiaModal.hide();
-                    loadNoticias();
+                    showStatusMessage('Comercio editado exitosamente');
+                    if (editarComercioModal) editarComercioModal.hide();
+                    loadComercios();
                 } else {
                     const errorData = await res.json();
                     showStatusMessage(`Error: ${errorData.message || 'Verifica los datos.'}`, true);
@@ -321,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de Renderizado y Carga (READ) ---
 
-    /** Renderiza las tarjetas de noticias en el contenedor */
-    const renderNoticias = (container, items) => {
+    /** Renderiza las tarjetas de comercios en el contenedor */
+    const renderComercios = (container, items) => {
         if (!container) return;
         container.innerHTML = '';
         const noContent = document.getElementById('no-content');
@@ -333,41 +328,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (noContent) noContent.style.display = 'none';
 
+
         items.forEach(item => {
             const imageUrl = buildImageUrl(item.imagen);
             const cardWrapper = document.createElement('div');
-            // Estructura de grid: 3 tarjetas por fila en desktop, 2 en tablet/mobile grande
-            cardWrapper.className = 'col-sm-6 col-md-6 col-lg-4 mb-4';
+            // Mantiene 3 tarjetas por fila en desktop (col-lg-4) y 2 en tablet (col-md-6)
+            cardWrapper.className = 'col-sm-6 col-md-6 col-lg-4 mb-4'; 
             
-            // Función para generar un resumen corto del contenido
-            const getShortSummary = (text, maxLength = 100) => {
-                if (!text) return 'Sin resumen disponible.';
-                if (text.length <= maxLength) return text;
-                return text.substring(0, maxLength).trim() + '...';
-            };
-
-
             const card = document.createElement('div');
-            card.className = 'noticiaCard shadow-lg h-100 rounded-lg overflow-hidden w-100 d-flex flex-column transition duration-300 hover:shadow-xl';
+            card.className = 'comercioCard shadow-sm h-100 rounded-lg overflow-hidden w-100'; 
 
-            // Usamos ratio-16x9 para imágenes de noticias
+            // MODIFICACIÓN CLAVE: Se usa Bootstrap Aspect Ratio (ratio ratio-4x3) para forzar un marco más vertical (4 alto por 3 ancho)
+            // Esto asegura que la imagen siempre se renderice en una proporción alta sin estirarse.
             card.innerHTML = `
-                <a href="noticia_detalle.html?id=${item._id}" class="card-image-link d-block ratio ratio-16x9 bg-gray-100">
-                    <img src="${imageUrl}" class="card-img-top w-100 h-100 object-cover" alt="${item.nombre}" onerror="this.src='https://placehold.co/800x450/374151/ffffff?text=Noticia'">
+                <a href="comercio_detalle.html?id=${item._id}" class="card-image-link d-block ratio ratio-4x3">
+                    <img src="${imageUrl}" class="card-img-top w-100 h-100 object-cover" alt="${item.nombre}" onerror="this.src='https://placehold.co/600x800?text=Imagen+no+disponible'">
                 </a>
-                <div class="card-body d-flex flex-column justify-content-between flex-grow-1 p-3">
-                    <h5 class="card-title fw-bold text-lg mb-1">${item.nombre}</h5> <!-- Título de la noticia (nombre) -->
-                    <p class="card-text text-muted mb-2 small">Categoría: <span class="badge bg-primary">${item.categoria || 'General'}</span></p>
-                    <p class="card-text text-sm text-gray-700 line-clamp-3">${getShortSummary(item.contenido, 150)}</p> <!-- CAMBIO: Usamos item.contenido -->
+                <div class="card-body">
+                    <h3 class="card-title">${item.nombre}</h3>
                 </div>
                 ${isAuthenticated ? `
-                    <div class="card-footer d-flex justify-content-between p-2 bg-gray-50 border-t">
-                        <button class="btn btn-warning btn-sm editar-btn w-50 me-1 shadow-sm" data-id="${item._id}">Editar</button>
-                        <button class="btn btn-danger btn-sm eliminar-btn w-50 ms-1 shadow-sm" data-id="${item._id}">Eliminar</button>
+                    <div class="card-footer d-flex justify-content-between p-2">
+                        <button class="btn btn-warning btn-sm editar-btn w-50 me-1" data-id="${item._id}">Editar</button>
+                        <button class="btn btn-danger btn-sm eliminar-btn w-50 ms-1" data-id="${item._id}">Eliminar</button>
                     </div>
                 ` : ''}
             `;
-
+            
             cardWrapper.appendChild(card);
             container.appendChild(cardWrapper);
         });
@@ -376,74 +363,78 @@ document.addEventListener('DOMContentLoaded', () => {
             container.querySelectorAll('.editar-btn').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
-                    await loadNoticiaDataForEdit(id);
-                    openEditarNoticiaModal(id);
+                    await loadComercioDataForEdit(id);
+                    openEditarComercioModal(id);
                 });
             });
 
             container.querySelectorAll('.eliminar-btn').forEach(button => {
-                button.addEventListener('click', (e) => deleteNoticia(e.target.dataset.id));
+                button.addEventListener('click', (e) => deleteItem(e.target.dataset.id));
             });
         }
     };
 
-    /** Carga los datos de una noticia específica y los rellena en el formulario de edición */
-    const loadNoticiaDataForEdit = async (id) => {
+    /** Carga los datos de un comercio específico y los rellena en el formulario de edición */
+    const loadComercioDataForEdit = async (id) => {
         try {
-            const res = await fetch(`${API_BASE}/api/noticias/${id}`);
-            if (!res.ok) throw new Error('No se pudo cargar la noticia.');
-
+            const res = await fetch(`${API_BASE}/api/comercios/${id}`);
+            if (!res.ok) throw new Error('No se pudo cargar el comercio.');
+            
             const item = await res.json();
+            
+            console.log("Objeto completo para edición:", item); 
 
             // Rellenar campos del modal de edición
-            document.getElementById('editarNoticiaId').value = id;
-            document.getElementById('editarNoticiaNombre').value = item.nombre || ''; // Título
-            document.getElementById('editarNoticiaCategoria').value = item.categoria || '';
+            document.getElementById('editarComercioId').value = id;
+            document.getElementById('editarComercioNombre').value = item.nombre || '';
+            document.getElementById('editarComercioCategoria').value = item.categoria || ''; 
             
-            // CAMBIO: Usamos el campo 'contenido'
-            const contentInput = document.getElementById('editarNoticiaContenido'); 
-            if (contentInput) contentInput.value = item.contenido || '';
-            
-            // El input de la imagen debe ser vaciado por seguridad, no se rellena.
-            const imagenInput = document.getElementById('editarNoticiaImagen');
-            if (imagenInput) imagenInput.value = '';
+            // USO CLAVE DE LA DESCRIPCIÓN para rellenar el formulario de edición
+            document.getElementById('editarComercioDescripcion').value = item.descripcion || item.detalle || item.info || '';
 
+            // El input de la imagen debe ser vaciado por seguridad, no se rellena.
+            const imagenInput = document.getElementById('editarComercioImagen');
+            if (imagenInput) imagenInput.value = '';
+            
         } catch (error) {
             console.error('Error al cargar datos para edición:', error);
-            showStatusMessage('No se pudieron cargar los datos de la noticia.', true);
+            showStatusMessage('No se pudieron cargar los datos del comercio.', true);
         }
     };
 
-    /** Carga la lista completa de noticias (usada en noticias.html) */
-    const loadNoticias = async () => {
-        if (!noticiasContainer) return;
+    /** Carga la lista completa de comercios (usada en single.html) */
+    const loadComercios = async () => {
+        if (!comerciosContainer) return;
         try {
-            noticiasContainer.innerHTML = '<div class="col-12 text-center text-primary-dark mt-5"><i class="fas fa-spinner fa-spin me-2"></i> Cargando noticias...</div>';
-
-            const res = await fetch(`${API_BASE}/api/noticias`);
-            const noticias = await res.json();
-            renderNoticias(noticiasContainer, noticias);
+            const res = await fetch(`${API_BASE}/api/comercios`);
+            const comercios = await res.json();
+            renderComercios(comerciosContainer, comercios);
         } catch (error) {
-            console.error('Error al cargar las noticias:', error);
-            noticiasContainer.innerHTML = '<p class="text-danger w-100 text-center mt-5 p-4 rounded-lg bg-red-100 border border-red-300">Error al cargar las noticias. Revisa la conexión con el servidor de la API.</p>';
+            console.error('Error al cargar los comercios:', error);
+            comerciosContainer.innerHTML = '<p class="text-danger w-100 text-center mt-5">Error al cargar los comercios. Revisa la conexión con el servidor.</p>';
         }
     };
 
-    /** Función: Carga los detalles de una sola noticia en la página de detalle (usada en noticia_detalle.html) */
+    /** Función: Carga los detalles de un solo comercio en la página de detalle (usada en comercio_detalle.html) */
     async function loadDetails() {
-        // Elementos de estado y contenido (deben existir en noticia_detalle.html)
+        // Elementos de estado
         const mainContent = document.getElementById('main-content');
         const loadingMessage = document.getElementById('loadingMessage');
         const errorMessage = document.getElementById('errorMessage');
+        
+        // Elementos de contenido (deben existir en comercio_detalle.html)
         const titleElement = document.getElementById('itemTitle');
         const categoryElement = document.getElementById('itemCategory');
         const imageElement = document.getElementById('itemImage');
-        const contentElement = document.getElementById('itemContent'); // CAMBIO: Usaremos 'itemContent' para el cuerpo completo
-
-        if (!titleElement || !categoryElement || !imageElement || !contentElement || !mainContent || !loadingMessage || !errorMessage) {
+        const descriptionElement = document.getElementById('itemDescription'); 
+        
+        // Asegurarse de que estamos en la página correcta y tenemos los elementos base
+        if (!titleElement || !categoryElement || !imageElement || !descriptionElement) {
              console.log("No estamos en la página de detalle o faltan elementos DOM clave.");
              return;
         }
+        if (!mainContent || !loadingMessage || !errorMessage) return;
+
 
         // Mostrar carga
         loadingMessage.style.display = 'block';
@@ -455,40 +446,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!itemId) {
             loadingMessage.style.display = 'none';
-            errorMessage.textContent = 'Error: ID de noticia no especificado en la URL.';
+            errorMessage.textContent = 'Error: ID de comercio no especificado en la URL.';
             errorMessage.style.display = 'block';
             return;
         }
 
         try {
-            const res = await fetch(`${API_BASE}/api/noticias/${itemId}`);
-            if (!res.ok) throw new Error('Noticia no encontrada.');
+            const res = await fetch(`${API_BASE}/api/comercios/${itemId}`);
+            if (!res.ok) throw new Error('Comercio no encontrado.');
 
             const item = await res.json();
+            
+            // El log de diagnóstico es crucial para el usuario final
+            console.log("Datos del Comercio recibidos para el detalle:", item);
 
             // Rellenar los datos
-            titleElement.textContent = item.nombre || 'Noticia sin título';
-            categoryElement.textContent = item.categoria || 'General';
-
-            // CAMBIO: Rellenamos el elemento de contenido principal con el campo 'contenido'
-            contentElement.innerHTML = item.contenido ? item.contenido.replace(/\n/g, '<br>') : 'Contenido de la noticia no disponible.';
+            titleElement.textContent = item.nombre || '';
+            categoryElement.textContent = item.categoria || '';
+            
+            // MODIFICACIÓN CLAVE: PRIORIZA 'descripcion', que es el nombre del campo en el modal de 'single.html'
+            descriptionElement.textContent = item.descripcion || item.detalle || item.info || 'Sin descripción disponible.'; 
             
             imageElement.src = buildImageUrl(item.imagen);
             imageElement.alt = item.nombre;
-            imageElement.onerror = () => {
-                imageElement.src = 'https://placehold.co/900x500/374151/ffffff?text=Noticia+Sin+Imagen';
+            imageElement.onerror = () => { 
+                imageElement.src = 'https://placehold.co/600x400?text=Imagen+No+Disponible';
             };
-
+            
             // Éxito: Ocultar la carga y mostrar el contenido
             loadingMessage.style.display = 'none';
             mainContent.style.display = 'block';
-
+            
         } catch (error) {
-            console.error('Error al obtener los detalles de la noticia:', error);
-
+            console.error('Error al obtener los detalles:', error);
+            
             // Error: Ocultar la carga y mostrar el mensaje de error
             loadingMessage.style.display = 'none';
-            errorMessage.textContent = `Error al cargar los detalles de la noticia: ${error.message}. Verifica el servidor de la API.`;
+            errorMessage.textContent = `Error al cargar los detalles: ${error.message}. Verifica el servidor de la API.`;
             errorMessage.style.display = 'block';
         }
     }
@@ -497,15 +491,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializa la visibilidad de los botones de admin/logout
     updateAdminButtons();
-
+    
     // Determina qué función de carga ejecutar según la página
     const path = window.location.pathname;
-
-    if (path.includes('noticia_detalle.html')) {
-        // Ejecuta la función de detalle para llenar noticia_detalle.html
+    
+    if (path.includes('comercio_detalle.html')) {
+        // Ejecuta la función de detalle para llenar comercio_detalle.html
         loadDetails();
-    } else if (path.includes('noticias.html')) {
-        // Ejecuta la función de carga de listado para noticias.html
-        loadNoticias();
+    } else if (path.includes('single.html')) {
+        // Ejecuta la función de carga de listado para single.html
+        loadComercios();
     }
 });

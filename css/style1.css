@@ -114,193 +114,243 @@ h1, h2, h3 {
 
 
 
-/**********************************************************************/
-/************ LOGIN y POP UP, Agregar comercio ***********************/
-/********************************************************************/
-/* Panel de login */
-#loginPopup {
-    display: none;
+/****************************************************************************************/
+/************ LOGIN y POP UP, Agregar comercio, agregar noticias ***********************/
+/**************************************************************************************/
+
+/* Contenedor de la gota flotante y su menú - POSICIÓN ORIGINAL Y CORRECTA */
+.admin-drop-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    bottom: 30px; 
+    right: 30px; 
+    z-index: 1000;
 }
 
-#loginPopup .loginBox {
-    background-color: #fff;
-    padding: 25px 30px;
+/* Botón flotante - Restaurado a sus propiedades más simples para evitar conflictos */
+.admin-drop-btn {
+    background-color: #5c1e6f;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 60px; /* Centrado vertical original */
+    cursor: pointer;
+    
+    transition: transform 0.3s ease;
+}
+
+.admin-drop-btn:hover {
+    transform: scale(1.1);
+}
+
+.admin-drop-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: visibility 0s, opacity 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    bottom: 60px; 
+    right: 0; 
+    
+    background-color: white; 
+    padding: 10px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); 
+    pointer-events: none;
+}
+
+.admin-drop-menu.visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.admin-drop-menu .admin-btn {
+    margin-top: 10px;
+    min-width: 150px;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #5c1e6f;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.admin-drop-menu .admin-btn:hover {
+    background-color: #4b1a5a;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+/* --- ESTILOS DE LOGIN MEJORADOS --- */
+/* ------------------------------------------------------------------------------------ */
+
+/* Estilos para los modales, respetando las clases de Bootstrap */
+.modal-dialog {
+    max-width: 450px; 
+    margin: 1.75rem auto;
+}
+
+.modal-content {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 90%;
+}
+
+.modal-content.loginBox {
+    /* Estilos del contenedor del formulario LOGIN */
+    background-color: #ffffff;
+    border: none;
     text-align: center;
-    position: relative;
+    overflow: hidden; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 0; 
+    position: relative; /* Esencial para el posicionamiento absoluto de la X */
 }
 
-#closeLoginPopup {
+
+
+.modal-header {
+   
+    border-bottom: none !important; /* Quitar cualquier borde inferior */
+    padding: 0 !important; /* Eliminar cualquier padding */
+    height: 0 !important; /* Asegurar que no ocupe espacio vertical */
+    visibility: hidden; /* Ocultar el contenido si lo tiene */
+    position: absolute; /* Para que no afecte el flujo del h2 */
+    width: 100%; /* Ocupar todo el ancho si es necesario */
+    top: 0; /* Asegurar que no quede desplazado */
+    left: 0; /* Asegurar que no quede desplazado */
+}
+
+/* Ajuste directo para el botón de cierre (la X) */
+.modal-content .btn-close {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 22px;
-    color: red;
-    cursor: pointer;
+    top: 15px;      /* Distancia del borde superior del modal */
+    right: 15px;    /* Distancia del borde derecho del modal */
+    z-index: 100;   /* ¡Muy alto para que siempre esté encima de la barra oscura del título! */
+    
+    background: none; /* SIN FONDO */
+    color: white; /* Color blanco puro para la X */
+    opacity: 1; 
+    
+    filter: brightness(2); /* Asegura que la X sea totalmente blanca */
+    transition: opacity 0.3s;
+    /* Asegúrate de que el HTML de tu botón de cierre no tenga texto "X" si usas un ícono */
+}
+.modal-content .btn-close:hover {
+    opacity: 0.8;
 }
 
+
+.modal-body {
+    padding-top: 0;
+}
+
+.close {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 1px 0 #fff;
+}
+
+/* Título de Login: Fondo oscuro, letra blanca y centrado */
 #loginPopup .loginBox h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #333;
+    background-color: #1a1e24; /* Fondo oscuro elegante */
+    color: white; /* ¡Texto blanco! */
+    font-size: 26px;
+    margin-bottom: 0px; 
+    padding: 25px 30px; 
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative; 
 }
 
+/* Contenedor del formulario para dar padding */
+#loginForm { 
+    padding: 30px 30px 40px 30px; 
+}
+
+/* Inputs de Login: Modernos, redondeados y con hover */
 #loginPopup .loginBox input[type="text"],
 #loginPopup .loginBox input[type="password"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 15px 20px; 
+    margin-bottom: 20px;
+    border-radius: 8px; 
+    border: 1px solid #e0e0e0; 
     font-size: 16px;
+    color: #333333;
+    background-color: #f9f9f9; 
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
+#loginForm input:focus {
+    border-color: #5c1e6f; 
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(92, 30, 111, 0.15);
+    background-color: white;
+}
+
+/* Botón de Login */
 #loginPopup .loginBox button {
     width: 100%;
-    padding: 10px;
-    background-color: #101318;
+    padding: 16px; 
+    background-color: #5c1e6f; 
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px; 
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    letter-spacing: 0.8px;
 }
 
 #loginPopup .loginBox button:hover {
-    background-color: #5c1e6f;
+    background-color: #4b1a5a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.input-group {
-    margin-bottom: 15px;
-}
-
-
+/* Icono del Ojo de Contraseña */
 .password-wrapper {
     position: relative;
-  }
-  
-  .password-wrapper input {
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* Espacio a la derecha para el ícono */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .eye {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-75%); /* Centra verticalmente el ícono */
-    font-size: 18px;
-    cursor: pointer;
-    color: #6f2486; /* Color del ícono */
-  }
-  
-
-/* PANEL DE ADMIN PARA CARGAR POP-UP */
-#adminPanel {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
 }
 
-#adminPanel .close {
+.password-wrapper input {
+    padding-right: 50px !important;
+    margin-bottom: 0px !important; 
+}
+
+.eye {
     position: absolute;
-    top: 10px;
     right: 15px;
-    font-size: 22px;
-    color: red;
-    cursor: pointer;
-}
-
-#adminPanel h3 {
+    top: 50%;
+    transform: translateY(-50%); 
     font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-#popupImgInput {
-    width: 100%;
-    margin-top: 10px;
-}
-
-#savePopupBtn {
-    margin-top: 20px;
-    background-color: #6f2486;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
-    width: 100%;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #888888;
+    transition: color 0.3s ease;
 }
 
-#savePopupBtn:hover {
-    background-color: #5c1e6f;
+.eye:hover {
+    color: #5c1e6f;
 }
 
-/* Botones para editar/eliminar imagen */
-#imageOptions {
-    margin-top: 20px;
-    display: none;
-    text-align: center;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
 
-#imageOptions button {
-    padding: 8px 16px;
-    margin: 5px;
-    background-color: #6f2486;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-#imageOptions button:hover {
-    background-color: #5c1e6f;
-}
-
-/* POP-UP PÚBLICO PARA LOS VISITANTES */
-#publicPopup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
+/* Estilos para el Pop-up público */
 #publicPopup .popupContent {
     background-color: white;
     padding: 10px;
@@ -317,249 +367,7 @@ h1, h2, h3 {
     margin-bottom: 0px;
 }
 
-#closePublicPopup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 12px;
-    color: red;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-#publicPopup button {
-    padding: 1px 5px;
-    background-color: #6f2486;
-    color: white;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-#publicPopup button:hover {
-    background-color: #5c1e6f;
-}
-
-/* ESTILOS PARA BOTONES EN HEADER */
-#adminButton, #popupNavButton {
-    background-color: #101318;
-    color: white;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 0px;
-    cursor: pointer;
-    font-size: 12px;
-    margin-left: 0px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-#adminButton:hover, #popupNavButton:hover {
-    background-color: #5c1e6f;
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-    #loginPopup .loginBox {
-        max-width: 90%;
-        padding: 15px;
-    }
-
-    #loginPopup .loginBox h2 {
-        font-size: 20px;
-    }
-
-    #loginPopup .loginBox input[type="text"],
-    #loginPopup .loginBox input[type="password"] {
-        padding: 8px;
-        font-size: 14px;
-    }
-
-    #loginPopup .loginBox button {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    #adminPanel {
-        width: 90%;
-        padding: 15px;
-    }
-
-    #adminPanel h3 {
-        font-size: 18px;
-    }
-
-    #popupImgInput {
-        margin-top: 5px;
-    }
-
-    #savePopupBtn {
-        padding: 12px 20px;
-        font-size: 14px;
-    }
-
-    #imageOptions button {
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-
-    #publicPopup .popupContent {
-        width: 90%;
-    }
-
-    #publicPopup img {
-        max-width: 100%;
-        border-radius: 15px;
-    }
-
-    #adminButton, #popupNavButton {
-        font-size: 14px;
-        padding: 5px 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    #loginPopup .loginBox {
-        max-width: 85%;
-        padding: 10px;
-    }
-
-    #loginPopup .loginBox h2 {
-        font-size: 18px;
-    }
-
-    #loginPopup .loginBox input[type="text"],
-    #loginPopup .loginBox input[type="password"] {
-        font-size: 14px;
-        padding: 6px;
-    }
-
-    #loginPopup .loginBox button {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    #adminPanel {
-        width: 90%;
-        padding: 10px;
-    }
-
-    #adminPanel h3 {
-        font-size: 16px;
-    }
-
-    #savePopupBtn {
-        padding: 10px 15px;
-        font-size: 14px;
-    }
-
-    #imageOptions button {
-        font-size: 12px;
-        padding: 6px 10px;
-    }
-
-    #publicPopup .popupContent {
-        width: 90%;
-    }
-
-    #publicPopup img {
-        width: 100%;
-    }
-
-    #adminButton, #popupNavButton {
-        font-size: 12px;
-        padding: 5px 8px;
-    }
-}
-
-
-/* ----------------------------
-   Botón "Agregar Comercio"
----------------------------- */
-#agregarComercioBtn {
-    background-color: #101318;
-    color: white;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 0px;
-    cursor: pointer;
-    font-size: 12px;
-    margin-left: 0px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-#agregarComercioBtn:hover {
-    background-color: #5c1e6f;
-}
-
-/* ----------------------------
-   Modal - Fondo y Contenido
----------------------------- */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-dialog {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-}
-
-.modal-content {
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-title {
-    margin: 0;
-}
-
-.close {
-    font-size: 30px;
-    cursor: pointer;
-    color: #aaa;
-    background: none;
-    border: none;
-}
-
-.close:hover {
-    color: #000;
-}
-
-.modal-body .form-group {
-    margin-bottom: 15px;
-}
-
-.modal-body label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.modal-body input[type="text"],
-.modal-body input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
+/* Botones y formularios en los modales */
 .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -571,7 +379,6 @@ h1, h2, h3 {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 14px;
 }
 
@@ -580,84 +387,67 @@ h1, h2, h3 {
     color: white;
 }
 
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
 .btn-primary {
     background-color: #5c1e6f;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #5c1e6f;
+    background-color: #4b1a5a;
 }
 
-/* ----------------------------
-   Contenedor de Comercios
----------------------------- */
-#comerciosContainer {
+
+/* Contenedores de datos */
+#comerciosContainer,
+#noticiasContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
     padding: 20px;
 }
-/* ----------------------------
-   Botones "Modificar" y "Eliminar"
----------------------------- */
-.comercioCard .buttons .btn-modificar {
-    background-color: #5c1e6f; /* Cambia el color a azul */
-}
 
-.comercioCard .buttons .btn-modificar:hover {
-    background-color: #D5B981; /* Color cuando se pasa el mouse */
-}
-
-.comercioCard .buttons .btn-eliminar {
-    background-color: #D5B981; /* Color de eliminación, un tono naranja */
-}
-
-.comercioCard .buttons .btn-eliminar:hover {
-    background-color: #5c1e6f; /* Color al pasar el mouse */
-}
-
-/* ----------------------------
-   Tarjeta Individual de Comercio
----------------------------- */
-.comercioCard {
-    background-color: #5c1e6f; /* Fondo gris claro */
+/* Tarjetas de Comercio y Noticias */
+.comercioCard,
+.noticiaCard {
+    background-color: #5c1e6f;
+    color: white;
     padding: 20px;
-    border-radius: 12px; /* Bordes más redondeados */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     width: calc(33.333% - 20px);
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.comercioCard:hover {
+.comercioCard:hover,
+.noticiaCard:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Efecto de sombra al pasar el mouse */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.comercioCard img {
+.comercioCard img,
+.noticiaCard img {
     width: 100%;
     height: auto;
     border-radius: 8px;
 }
 
-.comercioCard h3 {
+.comercioCard h3,
+.noticiaCard h3 {
     font-size: 18px;
     margin: 10px 0;
-    color: #333;
+    color: white;
 }
 
-.comercioCard p {
+.comercioCard p,
+.noticiaCard p {
     font-size: 14px;
-    color: #555;
+    color: #D5B981;
 }
 
-.comercioCard .buttons {
+.comercioCard .buttons,
+.noticiaCard .buttons {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
@@ -665,7 +455,8 @@ h1, h2, h3 {
     gap: 10px;
 }
 
-.comercioCard .buttons button {
+.comercioCard .buttons button,
+.noticiaCard .buttons button {
     border: none;
     padding: 8px 16px;
     font-size: 14px;
@@ -676,50 +467,165 @@ h1, h2, h3 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.comercioCard .buttons .btn-modificar {
+.comercioCard .buttons .btn-modificar,
+.noticiaCard .buttons .btn-modificar {
     background-color: #4CAF50;
 }
 
-.comercioCard .buttons .btn-modificar:hover {
+.comercioCard .buttons .btn-modificar:hover,
+.noticiaCard .buttons .btn-modificar:hover {
     background-color: #45a049;
 }
 
 .comercioCard .buttons .btn-eliminar,
-.comercioCard .buttons .delete {
+.noticiaCard .buttons .btn-eliminar,
+.comercioCard .buttons .delete,
+.noticiaCard .buttons .delete {
     background-color: #f44336;
 }
 
 .comercioCard .buttons .btn-eliminar:hover,
-.comercioCard .buttons .delete:hover {
+.noticiaCard .buttons .btn-eliminar:hover,
+.comercioCard .buttons .delete:hover,
+.noticiaCard .buttons .delete:hover {
     background-color: #da190b;
 }
 
-/* ----------------------------
-   Diseño Responsivo
----------------------------- */
+
+/* Responsividad */
 @media (max-width: 768px) {
-    .comercioCard {
+    .modal-dialog {
+        max-width: 90%;
+    }
+    .modal-content.loginBox h2 {
+        font-size: 24px;
+        padding: 20px 20px;
+    }
+    #loginForm {
+        padding: 25px 20px 30px 20px;
+    }
+    #loginForm input[type="text"],
+    #loginForm input[type="password"] {
+        padding: 12px 15px;
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+    .password-wrapper input {
+        padding-right: 45px !important;
+    }
+    .eye {
+        font-size: 18px;
+        right: 12px;
+    }
+    #loginForm button[type="submit"] {
+        padding: 14px;
+        font-size: 16px;
+    }
+    #adminPanel {
+        width: 90%;
+        padding: 15px;
+    }
+    #adminPanel h3 {
+        font-size: 18px;
+    }
+    #popupImgInput {
+        margin-top: 5px;
+    }
+    #savePopupBtn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    #imageOptions button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+    #publicPopup img {
+        max-width: 100%;
+        border-radius: 15px;
+    }
+    .comercioCard,
+    .noticiaCard {
         width: calc(50% - 20px);
     }
 }
 
 @media (max-width: 480px) {
-    .comercioCard {
+    .modal-dialog {
+        margin: 1rem auto;
+    }
+    .modal-content.loginBox h2 {
+        font-size: 20px;
+        padding: 18px 15px;
+    }
+    #loginForm {
+        padding: 20px 15px 25px 15px;
+    }
+    #loginForm input[type="text"],
+    #loginForm input[type="password"] {
+        font-size: 14px;
+        padding: 10px 12px;
+        margin-bottom: 15px;
+    }
+    .password-wrapper input {
+        padding-right: 40px !important;
+    }
+    .eye {
+        font-size: 16px;
+        right: 10px;
+    }
+    #loginForm button[type="submit"] {
+        padding: 12px;
+        font-size: 15px;
+    }
+    #adminPanel {
+        width: 90%;
+        padding: 10px;
+    }
+    #adminPanel h3 {
+        font-size: 16px;
+    }
+    #savePopupBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    #imageOptions button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    #publicPopup .popupContent {
+        width: 90%;
+    }
+    #publicPopup img {
         width: 100%;
     }
-
+    .comercioCard,
+    .noticiaCard {
+        width: 100%;
+    }
     .modal-dialog {
         width: 90%;
         padding: 15px;
     }
-
-    .comercioCard .buttons {
+    .comercioCard .buttons,
+    .noticiaCard .buttons {
         flex-direction: column;
         align-items: stretch;
     }
-
-    .comercioCard .buttons button {
+    .comercioCard .buttons button,
+    .noticiaCard .buttons button {
         width: 100%;
+    }
+    .admin-drop-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .admin-drop-container {
+        bottom: 20px;
+        right: 20px;
     }
 }
 
@@ -727,9 +633,12 @@ h1, h2, h3 {
 
 
 
-/**************************************************************/
-/************ FIN LOGIN, POP UP, Agregar comercio ************/
-/************************************************************/
+
+
+
+
+
+
 
 
 
@@ -903,7 +812,6 @@ a:focus {
     }
 }
 
-
 /**********************************/
 /*********** Nav Bar CSS **********/
 /**********************************/
@@ -958,13 +866,19 @@ a:focus {
     background: #f8f9fa;
 }
 
+/* Regla para separar el contenido del navbar, aplicada globalmente */
+.page-header {
+    padding-top: 100px;
+    /* Los demás estilos de .page-header pueden ir aquí */
+}
+
 @media (min-width: 992px) {
     .navbar {
         position: absolute;
         width: 100%;
         top: 60px;
         padding: 20px 60px;
-        background: rgba(0, 0, 0, .1) !important;
+        background: #101318 !important;
         z-index: 9;
     }
     
@@ -981,7 +895,7 @@ a:focus {
     }
 }
 
-@media (max-width: 991.98px) {   
+@media (max-width: 991.98px) {   
     .navbar {
         padding: 15px;
         background: #101318 !important;

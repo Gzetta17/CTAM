@@ -17,7 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS Libraries -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Se usa Bootstrap 5 para compatibilidad con los modales -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -28,137 +29,7 @@
 </head>
 
 <body>
-
-<!-- BOTONES EN HEADER -->
-<header>
-  <button id="adminButton">Administrador</button>
-  <button id="popupNavButton" style="display: none;">Pop-Up</button>
-  <button id="agregarComercioBtn" class="btn btn-primary" style="display: none;">Agregar Comercio</button>
-  <button id="agregarNoticias" class="btn btn-primary" style="display: none;">Agregar Noticias</button>
-</header>
-
-<!-- PANEL DE LOGIN -->
-<div id="loginPopup" style="display: none;">
-  <div class="loginBox">
-    <span id="closeLoginPopup">&times;</span>
-    <h2>Acceso Administrador</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Usuario" required>
-      <div class="password-wrapper">
-        <input type="password" id="password" placeholder="Contraseña" required>
-        <span id="togglePassword" class="eye">&#128065;</span>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</div>
-
-<!-- PANEL ADMINISTRADOR PARA CARGAR IMAGEN PUBLICITARIA -->
-<div id="adminPanel" style="display: none;">
-  <span class="close" id="closeAdminPanel">&times;</span>
-  <h3>Subir imagen para pop-up</h3>
-  <input type="file" id="popupImgInput" accept="image/*">
-  <button id="savePopupBtn">Guardar imagen</button>
-  <div id="imageOptions" style="display: none;">
-    <button id="modifyPopupBtn" class="btn-modificar">Modificar</button>
-    <button id="deletePopupBtn" class="btn-eliminar">Eliminar</button>
-  </div>
-</div>
-
-<!-- POP-UP PÚBLICO DE PUBLICIDAD PARA VISITANTES -->
-<div id="publicPopup" style="display: none;">
-  <div class="popupContent">
-    <button id="closePublicPopup">&times;</button>
-    <img id="publicImage" src="" alt="Publicidad">
-  </div>
-</div>
-
-<!-- MODAL PARA AGREGAR COMERCIO -->
-<div id="agregarComercioModal" class="modal" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Agregar Comercio</h5>
-        <button type="button" class="close" id="closeAgregarComercioModal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="agregarComercioForm">
-          <div class="form-group">
-            <label for="comercioNombre">Nombre del Comercio</label>
-            <input type="text" class="form-control" id="comercioNombre" required>
-          </div>
-          <div class="form-group">
-            <label for="comercioCategoria">Categoría</label>
-            <input type="text" class="form-control" id="comercioCategoria" required>
-          </div>
-          <div class="form-group">
-            <label for="comercioImagen">Imagen</label>
-            <input type="file" class="form-control-file" id="comercioImagen" required>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Editar Comercio -->
-<div id="editarComercioModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Editar Comercio</h5>
-        <button type="button" class="close" id="closeEditarComercioModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="editarComercioId">
-        <div class="form-group">
-          <label for="editarComercioNombre">Nombre</label>
-          <input type="text" class="form-control" id="editarComercioNombre">
-        </div>
-        <div class="form-group">
-          <label for="editarComercioCategoria">Categoría</label>
-          <input type="text" class="form-control" id="editarComercioCategoria">
-        </div>
-        <div class="form-group">
-          <label for="editarComercioImagen">Imagen nueva (opcional)</label>
-          <input type="file" class="form-control-file" id="editarComercioImagen">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" id="guardarCambiosComercioBtn">Guardar Cambios</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- CONTENEDOR DONDE SE MOSTRARÁN LOS COMERCIOS -->
-<div id="comerciosContainer" class="row mt-4" style="display: none;"></div>
-
-<!-- FORMULARIO DE NOTICIA -->
-<div id="noticiaPanel" style="display: none;">
-  <h3>Agregar Noticia</h3>
-  <input type="text" id="noticiaTitulo" placeholder="Título"><br> 
-  <textarea id="noticiaDescripcion" placeholder="Descripción"></textarea><br>
-  <input type="file" id="noticiaImagen" accept="image/*"><br>
-  <button id="guardarNoticiaBtn">Guardar Noticia</button>
-
-  <!-- CONTENEDOR DONDE SE MOSTRARÁN LAS NOTICIAS -->
-  <div id="noticiasContainer" class="row mt-4"></div>
-</div>
-
-
- 
-
-
- 
+ 
 
 <!-- Nav Bar Start -->
 <div class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -168,7 +39,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-            <div class="navbar-nav ml-auto">
+            <!-- CORRECCIÓN: Usar ms-auto para alinear a la derecha en Bootstrap 5 -->
+            <div class="navbar-nav ms-auto">
                 <a href="index.html" class="nav-item nav-link active">INICIO</a>
                 <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
                 <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
@@ -180,37 +52,241 @@
 </div>
 <!-- Nav Bar End -->
 
-<!-- Page Header Start -->
-<div class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2>COMERCIOS</h2>
+
+
+
+    <!-- Menú Flotante de Administración -->
+    <div class="admin-drop-container">
+        <!-- Botón Toggle (Engranaje) -->
+        <button id="adminToggleBtn" class="admin-drop-btn">
+            <i class="fas fa-tools"></i>
+        </button>
+        
+        <!-- Menú Desplegable (Inicialmente invisible vía CSS) -->
+        <div id="adminDropMenu" class="admin-drop-menu">
+            <button type="button" class="admin-btn" data-bs-toggle="modal" data-bs-target="#loginPopup" id="loginMenuBtn">Login</button>
+            <button id="logoutButton" class="admin-btn" style="display: none;">Cerrar sesión</button>
+            <button id="agregarComercioBtn" class="admin-btn" style="display: none;" data-bs-toggle="modal" data-bs-target="#agregarComercioModal">Agregar Comercio</button>
+            <button id="agregarNoticiaBtn" class="admin-btn" style="display: none;" data-bs-toggle="modal" data-bs-target="#agregarnoticiaModal">Agregar Noticia</button>
+            <button id="popupNavButton" class="admin-btn" style="display: none;" data-bs-toggle="modal" data-bs-target="#publicPopup">Pop-Up</button>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>COMERCIOS</h2>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Page Header End -->
 
-<div class="search-container" style="margin: 50px 0 10px; text-align: center;">
-    <input type="text" id="searchInput" placeholder="Buscar comercio..." style="width: 80%; max-width: 800px; padding: 8px;">
-</div>
+    <!-- Sección de Comercios -->
+    <div class="franja-seccion"></div>
+    <section id="comerciosSection">
+        <div class="container">
+            <div id="comerciosContainer" class="row g-4">
+                <!-- Los comercios se cargarán aquí -->
+            </div>
+            <div id="no-content" class="text-center text-secondary mt-5" style="display:none;">
+                <h3>No se encontraron comercios.</h3>
+            </div>
+        </div>
+    </section>
+    <div class="franja-seccion"></div>
 
-<!-- Página principal con comercios -->
-<div class="single d-flex">
-    <div class="filter pr-3">
-        <button class="filter-btn active btn btn-outline-primary btn-block mb-2" data-category="todos">Todos</button>
-        <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria1">Categoría 1</button>
-        <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria2">Categoría 2</button>
-        <button class="filter-btn btn btn-outline-primary btn-block mb-2" data-category="categoria3">Categoría 3</button>
+
+    <!-- Modales de Bootstrap -->
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginPopup" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content loginBox">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h2>Acceso Administrador</h2>
+                <form id="loginForm">
+                    <input type="text" id="username" placeholder="Usuario" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <span id="togglePassword" class="eye">👁</span>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div class="content flex-grow-1">
-        <div class="row" id="comerciosContainer">
-            <!-- Los comercios serán cargados dinámicamente aquí -->
+    <!-- Modal de Publicidad (Pop-Up) -->
+    <div class="modal fade" id="publicPopup" tabindex="-1" aria-labelledby="publicPopupLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content popupContent">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img id="publicImage" src="" alt="Publicidad" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para AGREGAR Comercio -->
+    <div class="modal fade" id="agregarComercioModal" tabindex="-1" aria-labelledby="agregarComercioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="agregarComercioForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Comercio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="comercioNombre">Nombre del Comercio</label>
+                        <input type="text" class="form-control" id="comercioNombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comercioCategoria">Categoría</label>
+                        <input type="text" class="form-control" id="comercioCategoria" name="categoria" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comercioDescripcion">Descripción</label>
+                        <textarea class="form-control" id="comercioDescripcion" name="descripcion" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comercioImagen">Imagen</label>
+                        <input type="file" class="form-control-file" id="comercioImagen" name="imagen" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+    <!-- Modal para EDITAR Comercio -->
+    <div class="modal fade" id="editarComercioModal" tabindex="-1" aria-labelledby="editarComercioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editarComercioForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Comercio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Campo oculto para guardar el ID del comercio a editar -->
+                    <input type="hidden" id="editarComercioId" name="id">
+                    <div class="form-group">
+                        <label for="editarComercioNombre">Nombre</label>
+                        <input type="text" class="form-control" id="editarComercioNombre" name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="editarComercioCategoria">Categoría</label>
+                        <input type="text" class="form-control" id="editarComercioCategoria" name="categoria">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editarComercioDescripcion">Descripción</label>
+                        <textarea class="form-control" id="editarComercioDescripcion" name="descripcion" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editarComercioImagen">Imagen nueva (opcional)</label>
+                        <input type="file" class="form-control-file" id="editarComercioImagen" name="imagen">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" id="guardarCambiosComercioBtn">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal de Confirmación para eliminar -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmMessage">¿Estás seguro de que quieres realizar esta acción?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmBtn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para AGREGAR Noticia -->
+    <div class="modal fade" id="agregarnoticiaModal" tabindex="-1" aria-labelledby="agregarNoticiaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="agregarnoticiaForm" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Noticia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="noticiaNombre">Título de la Noticia</label>
+                            <input type="text" class="form-control" id="noticiaNombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="noticiaCategoria">Categoría</label>
+                            <input type="text" class="form-control" id="noticiaCategoria" name="categoria" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="noticiaImagen">Imagen</label>
+                            <input type="file" class="form-control-file" id="noticiaImagen" name="imagen" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="guardarnoticiaBtn">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para EDITAR Noticia -->
+    <div class="modal fade" id="editarnoticiaModal" tabindex="-1" aria-labelledby="editarNoticiaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editarnoticiaForm" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Noticia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editarnoticiaId" name="id">
+                        <div class="form-group">
+                            <label for="editarnoticiaNombre">Título</label>
+                            <input type="text" class="form-control" id="editarnoticiaNombre" name="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="editarnoticiaCategoria">Categoría</label>
+                            <input type="text" class="form-control" id="editarnoticiaCategoria" name="categoria">
+                        </div>
+                        <div class="form-group">
+                            <label for="editarnoticiaImagen">Imagen nueva (opcional)</label>
+                            <input type="file" class="form-control-file" id="editarnoticiaImagen" name="imagen">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" id="guardarCambiosnoticiaBtn">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
 <!-- Footer Start -->
 <div class="footer">
@@ -278,13 +354,14 @@
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Se usa Bootstrap 5 para el funcionamiento correcto de los modales -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="lib/easing/easing.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 <script src="lib/isotope/isotope.pkgd.min.js"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
 
 <!-- Script principal -->
-<script src="js/login.js"></script>
+<script src="js/login2.js"></script>
 </body>
 </html>

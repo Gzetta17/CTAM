@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>CTAM - VA CON VOS SIEMPRE</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free Website Template" name="keywords">
+    <meta content="Free Website Template" name="description">
+
+    <link href="img/logo.png" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    
+    <link href="css/style1.css" rel="stylesheet">
+</head>
+    <style>
+
+        body {
+            background-color: #101318 ;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        .container {
+            margin-top: 200px;
+            margin-bottom: 50px;
+        }
+        .noticia-card {
+            background-color: #101318;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+        .noticia-card:hover {
+            transform: translateY(-5px);
+        }
+        .noticia-imagen {
+        width: 100%;
+        /* --- CORRECCIÓN APLICADA AQUÍ --- */
+        height: auto; /* Permite que la altura se adapte automáticamente */
+        max-height: 400px; /* Limita la altura máxima para evitar que sea muy grande */
+        object-fit: contain; /* Ajusta la imagen completa dentro del contenedor sin recortarla */
+        
+    }
+        .noticia-body {
+            padding: 40px;
+        }
+        .noticia-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #eee;
+            margin-bottom: 10px;
+        }
+        .noticia-categoria {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #eee;
+            text-transform: uppercase;
+        }
+        .loading-text, .error-text {
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+    
+
+<body>
+    <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse"> <div class="navbar-nav ms-auto"> <a href="index.html" class="nav-item nav-link active">INICIO</a>
+                <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
+                <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
+                <a href="noticias.html" class="nav-item nav-link">NOTICIAS</a>
+                <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <a href="noticias.html" class="btn btn-secondary mb-4">&larr; Volver a Noticias</a>
+        <div class="noticia-card">
+            <div id="loadingMessage" class="loading-text">Cargando detalles...</div>
+            <div id="errorMessage" class="error-text text-danger" style="display: none;">
+                Error al cargar los detalles. Por favor, intente de nuevo.
+            </div>
+            
+            <div id="content-container" style="display: none;">
+                <img id="noticiaImagen" class="noticia-imagen" src="" alt="Imagen de la noticia">
+                <div class="noticia-body">
+                    <p id="noticiaCategoria" class="noticia-categoria"></p>
+                    <h1 id="noticiaNombre" class="noticia-title"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <!-- Incluir JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const contentContainer = document.getElementById('content-container');
+            const noticiaNombre = document.getElementById('noticiaNombre');
+            const noticiaCategoria = document.getElementById('noticiaCategoria');
+            const noticiaImagen = document.getElementById('noticiaImagen');
+
+            // Ocultar mensajes de estado iniciales
+            loadingMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            contentContainer.style.display = 'none';
+
+            // Obtener el ID de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const noticiaId = urlParams.get('id');
+
+            if (!noticiaId) {
+                loadingMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+                console.error('No se encontró un ID de noticia en la URL.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/noticias/${noticiaId}`);
+                if (!res.ok) {
+                    throw new Error('Error al cargar la noticia');
+                }
+                const noticia = await res.json();
+
+                // Rellenar los elementos del DOM con la información de la noticia
+                noticiaNombre.textContent = noticia.nombre;
+                noticiaCategoria.textContent = noticia.categoria;
+                
+                const imagenURL = `${API_BASE}${noticia.imagen}`;
+                noticiaImagen.src = imagenURL;
+                console.log(`Intentando cargar la imagen desde: ${imagenURL}`);
+
+                // Ocultar mensaje de carga y mostrar el contenido
+                loadingMessage.style.display = 'none';
+                contentContainer.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error al obtener los detalles de la noticia:', error);
+                loadingMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+</body>
+</html>

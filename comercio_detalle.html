@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>CTAM - Detalle del Comercio</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <link href="img/logo.png" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    
+    <link href="css/style1.css" rel="stylesheet">
+</head>
+<div style="height: 120px;"></div>
+<style>
+    body {
+        background-color: #101318;
+        font-family: 'Arial', sans-serif;
+        color: #eee;
+    }
+    .container {
+        /* Ajustado el margen superior para evitar que se solape con el navbar fijo */
+        margin-top: 100px; 
+        margin-bottom: 50px;
+    }
+    .comercio-card {
+        background-color: #101318;
+        border-radius: 12px;
+        /* Se quita la sombra para mantener el diseño oscuro simple */
+        /* box-shadow: 0 10px 20px rgba(0,0,0,0.05); */ 
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+    .comercio-card:hover {
+        /* Se quita el hover effect en la página de detalle */
+        /* transform: translateY(-5px); */
+    }
+    .comercio-imagen {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain; /* Asegura que la imagen se vea completa */
+    }
+    .comercio-body {
+        padding: 40px;
+    }
+    .comercio-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #eee;
+        margin-bottom: 10px;
+    }
+    .comercio-categoria {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #ddd; /* Color ligeramente más claro */
+        text-transform: uppercase;
+    }
+    /* Estilo para la descripción */
+    .comercio-descripcion {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #ddd;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        white-space: pre-wrap; /* Mantiene los saltos de línea y espacios del texto */
+    }
+    .loading-text, .error-text {
+        text-align: center;
+        padding: 50px;
+    }
+    /* Estilo para el botón Volver */
+    .btn-secondary {
+        background-color: #333;
+        border-color: #333;
+        color: #fff;
+    }
+    .btn-secondary:hover {
+        background-color: #555;
+        border-color: #555;
+    }
+</style>
+<body>
+    <div class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a href="index.html" class="navbar-brand"><span>CTAM</span></a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+                <div class="navbar-nav ms-auto">
+                    <a href="index.html" class="nav-item nav-link">INICIO</a>
+                    <a href="about.html" class="nav-item nav-link">NOSOTROS</a>
+                    <a href="service.html" class="nav-item nav-link">SERVICIOS</a>
+                    <a href="noticias.html" class="nav-item nav-link">NOTICIAS</a>
+                    <a href="contact.html" class="nav-item nav-link">CONTACTOS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <a id="goBackButton" href="single.html" class="btn btn-secondary mb-4">&larr; Volver a Comercios</a>
+        
+        <div class="comercio-card shadow-lg"> <!-- Añadida clase shadow-lg -->
+            
+            <div id="loadingMessage" class="loading-text">Cargando detalles...</div>
+            
+            <div id="errorMessage" class="error-text text-danger" style="display: none;">
+                Error al cargar los detalles. Por favor, intente de nuevo.
+            </div>
+            
+            <div id="main-content" style="display: none;">
+                <img id="itemImage" class="comercio-imagen" src="" alt="Imagen del comercio">
+                
+                <div class="comercio-body">
+                    
+                    <p id="itemCategory" class="comercio-categoria"></p>
+                    
+                    <h1 id="itemTitle" class="comercio-title"></h1>
+                    
+                    <div id="itemDescription" class="comercio-descripcion">
+                        <!-- La descripción se inyecta aquí. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/login2.js"></script> 
+</body>
+</html>

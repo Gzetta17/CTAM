@@ -34,6 +34,7 @@ router.post('/', upload.single('imagen'), async (req, res) => {
         const nuevo = await Comercio.create({
             nombre: req.body.nombre,
             categoria: req.body.categoria,
+            descripcion: req.body.descripcion, // ✅ CORRECCIÓN AÑADIDA
             // CLAVE DE IMAGEN CORREGIDA: Incluye /uploads/ para que el frontend funcione
             imagen: `/uploads/${req.file.filename}` 
         });
@@ -76,9 +77,13 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
     try {
         const { id } = req.params;
 
+        // ✅ CORRECCIÓN: Ahora desestructuramos todos los campos que pueden ser actualizados
+        const { nombre, categoria, descripcion } = req.body; 
+
         const toUpdate = {
-            nombre: req.body.nombre,
-            categoria: req.body.categoria,
+            nombre,
+            categoria,
+            descripcion, // ✅ CORRECCIÓN AÑADIDA
         };
 
         if (req.file) {
