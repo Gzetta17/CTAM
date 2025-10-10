@@ -22,7 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Conexión a MongoDB
-mongoose.connect('mongodb://localhost:27017/ctam_db', {
+// ✅ CORRECCIÓN FINAL: Cambiamos 'localhost' a '127.0.0.1' para solucionar 
+// problemas de resolución de nombre que causan el "timed out"
+mongoose.connect('mongodb://127.0.0.1:27017/ctam_db', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -45,7 +47,7 @@ const promocionRoutes = require('./routes/promociones');
 app.use('/api/auth', authRoutes);
 app.use('/api', popupRoutes);
 app.use('/api/comercios', comercioRoutes); 
-app.use('/api/noticias', noticiaRoutes);   
+app.use('/api/noticias', noticiaRoutes);   
 app.use('/api/promociones', promocionRoutes); 
 
 // Ping o Ruta de inicio que redirige al index.html de la carpeta public
