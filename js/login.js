@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Constantes y Configuración Global ---
-    const API_BASE = 'http://localhost:3000';
+    const API_BASE = 'https://pausefully-insectival-emmy.ngrok-free.dev';
 
     // --- Selección de Elementos del DOM ---
     const loginForm = document.getElementById('loginForm');

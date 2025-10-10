@@ -1,5 +1,5 @@
 // La URL base de la API. En un entorno de producción, esto debería ser una variable de entorno.
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://pausefully-insectival-emmy.ngrok-free.dev';
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elementos del DOM y Variables de Estado ---
