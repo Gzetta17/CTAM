@@ -113,7 +113,6 @@ h1, h2, h3 {
 
 
 
-
 /****************************************************************************************/
 /************ LOGIN y POP UP, Agregar comercio, agregar noticias ***********************/
 /**************************************************************************************/
@@ -438,6 +437,77 @@ h1, h2, h3 {
 }
 
 
+/* --- ESTILOS ESPECÍFICOS PARA BLOG/PROMOCIONES (El Recuadro que solicitaste) --- */
+.blog-item {
+    position: relative;
+    display: flex; 
+    flex-direction: column; 
+    background: #ffffff; /* Fondo blanco para el recuadro */
+    border-radius: 10px; /* Bordes ligeramente redondeados */
+    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Sombra para el efecto de recuadro */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    height: 100%; 
+}
+
+.blog-item:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
+}
+
+.blog-img {
+    flex-shrink: 0; 
+    width: 100%;
+    /* Altura fija para la imagen, para consistencia */
+    height: 200px; 
+    overflow: hidden;
+    position: relative; 
+}
+
+.blog-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsionar */
+    transition: transform 0.3s ease; 
+}
+
+.blog-item:hover .blog-img img {
+    transform: scale(1.05); 
+}
+
+.blog-text {
+    padding: 20px; /* Relleno interno para el texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    flex-grow: 1; 
+}
+
+.blog-text h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #1a1e24; 
+    font-weight: 700;
+}
+
+.blog-text p {
+    font-size: 15px;
+    color: #6c757d; 
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Permite que el párrafo use el espacio */
+}
+
+.blog-btn {
+    display: flex;
+    gap: 10px; 
+    margin-top: auto; 
+    padding-top: 10px;
+    border-top: 1px solid #eee; /* Separador sutil para los botones */
+}
+/* --- FIN ESTILOS BLOG/PROMOCIONES --- */
+
+
 /* ------------------------------------------------------------------------------------ */
 /* --- RESPONSIVIDAD (MODIFICADA PARA TARJETAS) --- */
 /* ------------------------------------------------------------------------------------ */
@@ -445,7 +515,9 @@ h1, h2, h3 {
 @media (max-width: 992px) {
     /* Ajuste para tablets: 2 columnas */
     .comercioCard,
-    .noticiaCard {
+    .noticiaCard,
+    /* Aplicar a las tarjetas de promociones que usan col-lg-4/col-md-6 */
+    #promocionesContainer .col-lg-4.col-md-6 { 
         width: calc(50% - 10px); 
     }
 }
@@ -493,7 +565,9 @@ h1, h2, h3 {
     }
     /* En esta resolución, mantenemos 2 columnas si es posible, pero aseguramos la tarjeta */
     .comercioCard,
-    .noticiaCard {
+    .noticiaCard,
+    /* Aplicar a las tarjetas de promociones */
+    #promocionesContainer .col-lg-4.col-md-6 {
         width: calc(50% - 10px); 
     }
 }
@@ -537,7 +611,9 @@ h1, h2, h3 {
     }
     /* Para móviles pequeños: 1 columna y ancho completo */
     .comercioCard,
-    .noticiaCard {
+    .noticiaCard,
+    /* Aplicar a las tarjetas de promociones */
+    #promocionesContainer .col-lg-4.col-md-6 {
         width: 100%;
     }
     .modal-dialog {
@@ -563,6 +639,7 @@ h1, h2, h3 {
         right: 20px;
     }
 }
+
 
 
 

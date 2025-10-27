@@ -4,124 +4,153 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 
-// ✅ CRÍTICO: ¡CORREGIDO! Ahora busca el archivo en PLURAL: 'promociones'
+ 
+// la importación debe ser:
 const Promocion = require('../models/promociones'); 
+// -----------------------------
 
-// Configuración de la carpeta de subidas (siguiendo el patrón de comercio/noticia)
-// La ruta es relativa a routes/, por eso usamos '../uploads' para llegar a backend/uploads
+// Si el modelo se llama 'promocion.js' (en singular), usa: 
+// const Promocion = require('../models/promocion'); 
+
+
+// Directorio de subidas (se crea si no existe)
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-// Configuración de Multer para la subida de archivos
+// Configuración de Multer para guardar la imagen con un nombre único
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, uploadDir),
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
-        // Nombre de archivo con prefijo promocion
-        cb(null, `promocion-${Date.now()}${ext}`);
+        cb(null, `promocion-${Date.now()}${ext}`); // Nombre específico para promociones
     }
 });
 const upload = multer({ storage });
 
+// =======================================================================
+// RUTAS CRUD DE GESTIÓN (POST, PUT, DELETE) - Asumimos que son protegidas por auth
+// =======================================================================
 
-/** POST / - Crear una nueva promoción */
-// CRÍTICO: Utiliza 'promocion_imagen_file' como nombre de campo de subida (siguiendo el patrón)
-// y usa 'nombre' y 'categoria'
-router.post('/', upload.single('promocion_imagen_file'), async (req, res) => {
+/** POST /promociones - Crear una nueva promoción */
+router.post('/', upload.single('imagen'), async (req, res) => {
     try {
-        if (!req.file) return res.status(400).json({ error: 'No se recibió ninguna imagen.' });
+        // Validación de campos del formulario
+        if (!req.file) return res.status(400).json({ error: 'No se recibió la imagen de la promoción' });
+        
+        if (!req.body.nombre || !req.body.descripcion) {
+            // Eliminar el archivo si falla la validación del cuerpo
+            fs.unlink(req.file.path, () => {}); 
+            return res.status(400).json({ error: 'Faltan campos obligatorios (nombre o descripcion).' });
+        }
 
-        // Crear el documento con los nuevos campos del modelo
-        const nuevo = await Promocion.create({
+        const nuevaPromocion = await Promocion.create({
             nombre: req.body.nombre,
-            categoria: req.body.categoria,
-            // La imagen se guarda con la ruta relativa para el frontend
-            imagen: `/uploads/${req.file.filename}` 
+            descripcion: req.body.descripcion, 
+            imagen: `/uploads/${req.file.filename}` // Guardamos la ruta pública
         });
 
-        res.status(201).json(nuevo);
+        res.status(201).json(nuevaPromocion);
     } catch (err) {
         console.error('❌ Error al crear promoción:', err);
-        res.status(500).json({ error: 'Error interno del servidor.' });
+        // Si hay un error de DB después de subir el archivo, también lo eliminamos
+        if (req.file) {
+            fs.unlink(req.file.path, () => {});
+        }
+        res.status(500).json({ error: 'Error en el servidor al crear promoción' });
     }
 });
 
-/** GET / - Obtener todas las promociones */
-router.get('/', async (req, res) => {
-    try {
-        // Ordena por fecha de creación descendente (la más reciente primero)
-        const promociones = await Promocion.find().sort({ createdAt: -1 });
-        res.json(promociones);
-    } catch (err) {
-        console.error('❌ Error al obtener promociones:', err);
-        res.status(500).json({ error: 'Error interno del servidor.' });
-    }
-});
-
-/** GET /:id - Obtener una promoción por ID */
-router.get('/:id', async (req, res) => {
-    try {
-        const promocion = await Promocion.findById(req.params.id);
-        if (!promocion) return res.status(404).json({ error: 'Promoción no encontrada.' });
-        res.json(promocion);
-    } catch (err) {
-        console.error('❌ Error al obtener promoción por ID:', err);
-        res.status(500).json({ error: 'Error interno del servidor.' });
-    }
-});
-
-/** PUT /:id - Actualizar una promoción (opcionalmente la imagen) */
-// CRÍTICO: Utiliza 'promocion_imagen_file'
-router.put('/:id', upload.single('promocion_imagen_file'), async (req, res) => {
+/** PUT /promociones/:id - Actualizar (opcionalmente la imagen) */
+router.put('/:id', upload.single('imagen'), async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Objeto con los datos que pueden ser actualizados
         const toUpdate = {
             nombre: req.body.nombre,
-            categoria: req.body.categoria,
+            descripcion: req.body.descripcion,
         };
 
-        // Si se subió un nuevo archivo, se elimina el antiguo y se actualiza la ruta
         if (req.file) {
+            // Si se sube una nueva imagen:
             const anterior = await Promocion.findById(id);
             if (anterior?.imagen) {
-                // Se construye la ruta absoluta para eliminar el archivo del servidor
-                const filename = anterior.imagen.replace('/uploads/', ''); 
-                const oldPath = path.join(uploadDir, filename);
-                fs.unlink(oldPath, () => {}); // Elimina el archivo (silenciosamente si falla)
+                // 1. Eliminar la imagen anterior del disco
+                const oldPath = path.join(uploadDir, anterior.imagen.replace('/uploads/', ''));
+                fs.unlink(oldPath, () => {});
             }
-            toUpdate.imagen = `/uploads/${req.file.filename}`; // Guarda la nueva ruta
+            // 2. Actualizar la ruta de la imagen
+            toUpdate.imagen = `/uploads/${req.file.filename}`;
         }
 
-        const actualizado = await Promocion.findByIdAndUpdate(id, toUpdate, { new: true });
-        if (!actualizado) return res.status(404).json({ error: 'Promoción no encontrada.' });
+        const actualizado = await Promocion.findByIdAndUpdate(id, toUpdate, { new: true, runValidators: true });
+        
+        if (!actualizado) {
+             // Si se subió un nuevo archivo pero no se encontró la promoción, eliminar el nuevo archivo
+            if (req.file) fs.unlink(req.file.path, () => {});
+            return res.status(404).json({ error: 'Promoción no encontrada para actualizar' });
+        }
 
         res.json(actualizado);
     } catch (err) {
         console.error('❌ Error al actualizar promoción:', err);
-        res.status(500).json({ error: 'Error interno del servidor.' });
+        // Manejo de errores de Multer o DB
+        if (req.file) fs.unlink(req.file.path, () => {});
+        res.status(500).json({ error: 'Error en el servidor al actualizar promoción' });
     }
 });
 
-/** DELETE /:id - Eliminar una promoción y su imagen */
+/** DELETE /promociones/:id - Eliminar promoción + imagen */
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const borrado = await Promocion.findByIdAndDelete(id);
-        if (!borrado) return res.status(404).json({ error: 'Promoción no encontrada.' });
+        const borrada = await Promocion.findByIdAndDelete(id);
+        if (!borrada) return res.status(404).json({ error: 'Promoción no encontrada para eliminar' });
 
-        // Eliminar el archivo de imagen asociado del servidor
-        if (borrado.imagen) {
-            const filename = borrado.imagen.replace('/uploads/', ''); 
-            const imgPath = path.join(uploadDir, filename);
+        // Eliminar el archivo de imagen asociado
+        if (borrada.imagen) {
+            const imgPath = path.join(uploadDir, borrada.imagen.replace('/uploads/', ''));
+            // Usamos una función de callback vacía para que no lance un error si el archivo ya no existe
             fs.unlink(imgPath, () => {}); 
         }
 
-        res.json({ message: 'Promoción e imagen eliminadas con éxito.' });
+        res.json({ message: 'Promoción e imagen eliminadas con éxito' });
     } catch (err) {
         console.error('❌ Error al eliminar promoción:', err);
-        res.status(500).json({ error: 'Error interno del servidor.' });
+        res.status(500).json({ error: 'Error en el servidor al eliminar promoción' });
+    }
+});
+
+
+// =======================================================================
+// RUTAS GET (PÚBLICAS - LECTURA)
+// NOTA: Se eliminó la duplicidad de router.get('/')
+// =======================================================================
+
+/** GET /promociones - Listar todas las promociones */
+router.get('/', async (req, res) => {
+    try {
+        const promociones = await Promocion.find().sort({ createdAt: -1 });
+        res.json(promociones);
+    } catch (err) {
+        console.error('❌ Error al obtener promociones:', err);
+        res.status(500).json({ error: 'Error en el servidor al obtener promociones' });
+    }
+});
+
+/** GET /promociones/:id - Obtener una promoción por ID */
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const promocion = await Promocion.findById(id);
+        
+        if (!promocion) {
+            return res.status(404).json({ error: 'Promoción no encontrada' });
+        }
+
+        res.json(promocion);
+    } catch (err) {
+        console.error('❌ Error al obtener promoción por ID:', err);
+        res.status(500).json({ error: 'Error en el servidor al obtener promoción por ID' });
     }
 });
 

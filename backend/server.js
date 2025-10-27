@@ -45,7 +45,8 @@ const promocionRoutes = require('./routes/promociones');
 
 // Mapeo de rutas para APIs
 app.use('/api/auth', authRoutes);
-app.use('/api', popupRoutes);
+// ✅ CORRECCIÓN: Usar '/api/popup' como prefijo para las rutas definidas en popup.js
+app.use('/api/popup', popupRoutes); 
 app.use('/api/comercios', comercioRoutes); 
 app.use('/api/noticias', noticiaRoutes);   
 app.use('/api/promociones', promocionRoutes); 

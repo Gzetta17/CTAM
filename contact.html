@@ -27,84 +27,7 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
 
-         <!-- BOTONES EN HEADER -->
-<!-- Header con botones -->
-<header>
-   <button id="adminButton">Administrador</button>
-   <button id="popupNavButton" style="display: none;">Pop-Up</button>
-   <button id="agregarComercioBtn" class="btn btn-primary" style="display:none;">Agregar Comercio</button>
-</header>
 
-<!-- Panel de login -->
-<div id="loginPopup">
-   <div class="loginBox">
-     <span id="closeLoginPopup">&times;</span>
-     <h2>Acceso Administrador</h2>
-     <form id="loginForm">
-       <input type="text" id="username" placeholder="Usuario" required>
-       <div class="password-wrapper">
-         <input type="password" id="password" placeholder="Contraseña" required>
-         <span id="togglePassword" class="eye">&#128065;</span>
-       </div>
-       <button type="submit">Login</button>
-     </form>
-   </div>
- </div>
- 
- <!-- PANEL DE ADMINISTRADOR PARA CARGAR IMAGEN -->
-<div id="adminPanel">
-   <span class="close" id="closeAdminPanel">&times;</span>
-   <h3>Subir imagen para pop-up</h3>
-   <input type="file" id="popupImgInput" accept="image/*">
-   <button id="savePopupBtn">Guardar imagen</button>
- 
-   <div id="imageOptions" style="display: none;">
-    <button class="btn-modificar">Modificar</button>
-    <button class="btn-eliminar">Eliminar</button>
-   </div>
-</div>
- 
-<!-- POP-UP PÚBLICO PARA VISITANTES -->
-<div id="publicPopup">
-   <div class="popupContent">
-     <button id="closePublicPopup">&times;</button>
-     <img id="publicImage" src="" alt="Publicidad">
-   </div>
-</div>
-
-<!-- Modal Agregar Comercio -->
-<div id="agregarComercioModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Agregar Comercio</h5>
-                <button type="button" class="close" id="closeAgregarComercioModal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="agregarComercioForm">
-                    <div class="form-group">
-                        <label for="comercioNombre">Nombre del Comercio</label>
-                        <input type="text" class="form-control" id="comercioNombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="comercioCategoria">Categoría</label>
-                        <input type="text" class="form-control" id="comercioCategoria" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="comercioImagen">Imagen</label>
-                        <input type="file" class="form-control-file" id="comercioImagen" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                
-                <button type="submit" class="btn btn-primary" id="guardarComercioBtn">Guardar</button>
-            </div>
-        </div>
-    </div>
- </div>
  
     
     <body>
@@ -251,9 +174,10 @@ Tu voz nos ayuda a mejorar y seguir creciendo junto a vos. ¡Gracias por confiar
 <!-- QRs -->
   <h1 class="titulo">ESCANEA Y CONTACTANOS</h1>
   <div class="contenedor-imagenes">
-        <img src="img/QR TIC.jpeg" alt="Imagen 1">
-        <img src="img/QR PAGOS.jpeg" alt="Imagen 2">
-        <img src="img/QR tarjetas.jpeg" alt="Imagen 3">
+        <img src="img/QR TIC.jpg" alt="Imagen 1">
+        <img src="img/QR PAGOS.jpg" alt="Imagen 2">
+        <img src="img/QR tarjetas.jpg" alt="Imagen 3">
+        <img src="img/QR Guardia.jpg" alt="Imagen 4">
     </div>
 <!-- FIN QRs -->
 

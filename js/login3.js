@@ -1,434 +1,400 @@
-// La URL base de la API. En un entorno de producción, esto debería ser una variable de entorno.
-const API_BASE = 'http://localhost:3000';
+// login3.js (Lógica para la página de Promociones - blog.html)
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos del DOM y Variables de Estado ---
-    const adminToggleBtn = document.getElementById('adminToggleBtn');
-    const adminDropMenu = document.getElementById('adminDropMenu'); // Se mantiene por si se usa en el HTML
-    const loginButton = document.querySelector('[data-bs-target="#loginPopup"]');
-    const logoutButton = document.getElementById('logoutButton');
-    const loginForm = document.getElementById('loginForm');
-    const statusMessage = document.getElementById('statusMessage');
-    
-    // Elementos de la nueva funcionalidad de Promociones
-    const agregarPromocionBtn = document.getElementById('agregarPromocionBtn');
-    const promocionesContainer = document.getElementById('promocionesContainer');
-    const agregarPromocionForm = document.getElementById('agregarPromocionForm'); // Asume que tienes este formulario
-    const editarPromocionForm = document.getElementById('editarPromocionForm'); // Asume que tienes este formulario
+    // --- Constantes y Configuración Global ---
+    const API_BASE = 'http://localhost:3000'; // Ajusta esto si usas Ngrok
 
-    // Inicialización de Modales de Bootstrap (Asegúrate de tener estos IDs en tu HTML)
-    const loginPopup = document.getElementById('loginPopup') 
-        ? new bootstrap.Modal(document.getElementById('loginPopup')) 
-        : null;
-    const editarPromocionModal = document.getElementById('editarPromocionModal') 
-        ? new bootstrap.Modal(document.getElementById('editarPromocionModal')) 
-        : null;
-    const agregarPromocionModal = document.getElementById('agregarPromocionModal') 
-        ? new bootstrap.Modal(document.getElementById('agregarPromocionModal')) 
-        : null;
+    // --- Selección de Elementos del DOM ---
+    const loginForm = document.getElementById('loginForm');
+    const loginMenuBtn = document.getElementById('loginMenuBtn');
+    const logoutButton = document.getElementById('logoutButton');
+    const statusMessage = document.getElementById('statusMessage');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const adminToggleBtn = document.getElementById('adminToggleBtn'); 
+    const adminDropMenu = document.getElementById('adminDropMenu'); 
+
+    // *** ELEMENTOS PARA PROMOCIONES ***
+    const promocionesContainer = document.getElementById('promocionesContainer');
+    const agregarPromocionBtn = document.getElementById('agregarPromocionBtn');
+    const agregarPromocionForm = document.getElementById('agregarPromocionForm'); 
+    const editarPromocionForm = document.getElementById('editarPromocionForm');
+
+    // Elementos del modal de edición
+    const editarPromocionIdInput = document.getElementById('editarPromocionId');
+    const editarPromocionNombreInput = document.getElementById('editarPromocionNombre');
+    const editarPromocionDescripcionInput = document.getElementById('editarPromocionDescripcion'); 
+    const editarPromocionImagenInput = document.getElementById('editarPromocionImagen');
+    const currentImagePreview = document.getElementById('currentImagePreview'); 
+
+    // --- Inicialización de Modales de Bootstrap ---
+    const loginPopup = document.getElementById('loginPopup') ? new bootstrap.Modal(document.getElementById('loginPopup')) : null;
+    const agregarPromocionModal = document.getElementById('agregarPromocionModal') ? new bootstrap.Modal(document.getElementById('agregarPromocionModal')) : null;
+    const editarPromocionModal = document.getElementById('editarPromocionModal') ? new bootstrap.Modal(document.getElementById('editarPromocionModal')) : null;
+    const confirmModal = document.getElementById('confirmModal') ? new bootstrap.Modal(document.getElementById('confirmModal')) : null;
     
+    // --- Estado de la Aplicación ---
     let token = localStorage.getItem('token');
     let isAuthenticated = !!token;
+    let currentEditingPromocion = null; 
 
     // --- Funciones de Utilidad ---
 
-    /** Muestra un mensaje de estado temporal en la UI */
     function showStatusMessage(message, isError = false) {
-        if (statusMessage) {
-            statusMessage.textContent = message;
-            statusMessage.className = `alert mt-3 ${isError ? 'alert-danger' : 'alert-success'}`;
-            statusMessage.style.display = 'block';
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 3000);
-        }
+        if (!statusMessage) return;
+        statusMessage.textContent = message;
+        statusMessage.className = `alert mt-3 ${isError ? 'alert-danger' : 'alert-success'}`;
+        statusMessage.style.display = 'block';
+        setTimeout(() => { statusMessage.style.display = 'none'; }, 3000);
     }
 
-    /** * Construye la URL completa de la imagen. 
-     * @param {string} imagePath - La ruta relativa de la imagen devuelta por la API (ej: 'uploads/file.jpg')
-     * @returns {string} La URL completa (ej: 'http://localhost:3000/uploads/file.jpg')
-     */
     function buildImageUrl(imagePath) {
-        if (!imagePath) {
-            // Retorna un placeholder genérico si no hay ruta
-            return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
+        if (!imagePath) return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
+        // Asegurarse de que la ruta comience con /uploads/
+        let cleanedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+        if (!cleanedPath.startsWith('/uploads/')) {
+            cleanedPath = `/uploads${cleanedPath}`;
         }
-        
-        // 1. Asegura que la ruta de la imagen inicie con /
-        const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-        
-        // 2. Construye la URL completa.
-        return `${API_BASE}${cleanPath}`;
+        return `${API_BASE}${cleanedPath}`;
     }
 
+    function showConfirmation(message) {
+        return new Promise((resolve) => {
+            if (!confirmModal) {
+                console.error("El modal de confirmación no existe en el HTML.");
+                return resolve(false);
+            }
+            document.getElementById('confirmMessage').textContent = message;
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
 
-    /** Actualiza la visibilidad de los botones de administración según el estado de autenticación */
-    function updateAdminButtons() {
-        if (isAuthenticated) {
-            if (loginButton) loginButton.style.display = 'none';
-            if (logoutButton) logoutButton.style.display = 'block';
-            if (agregarPromocionBtn) agregarPromocionBtn.style.display = 'block';
-        } else {
-            if (loginButton) loginButton.style.display = 'block';
-            if (logoutButton) logoutButton.style.display = 'none';
-            if (agregarPromocionBtn) agregarPromocionBtn.style.display = 'none';
-        }
-    }
+            const onConfirm = () => { confirmModal.hide(); resolve(true); };
+            const onCancel = () => { confirmModal.hide(); resolve(false); };
 
-    function openLoginModal() {
-        if (loginPopup) loginPopup.show();
-    }
-    
-    /** Abre el modal para agregar una nueva promoción */
-    function openAgregarPromocionModal() {
-        if (agregarPromocionModal) agregarPromocionModal.show();
-    }
+            confirmBtn.onclick = onConfirm; // Reasignar por si acaso
+            cancelBtn.onclick = onCancel;
+            
+            // Eliminar listeners previos para evitar duplicados
+            // Esto es importante si el modal se usa varias veces sin recargar
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            const newCancelBtn = cancelBtn.cloneNode(true);
+            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
 
-    /** * Abre el modal de edición de promoción y prepara el campo ID.
-     */
-    function openEditarPromocionModal(promocionId) {
-        // NOTA: Debes tener un campo oculto en el formulario de edición con ID 'editarPromocionId'
-        const promocionIdField = document.getElementById('editarPromocionId');
-        if (promocionIdField) promocionIdField.value = promocionId;
-        
-        if (editarPromocionModal) editarPromocionModal.show();
+            newConfirmBtn.onclick = onConfirm;
+            newCancelBtn.onclick = onCancel;
+            
+            confirmModal.show();
+        });
     }
 
     // --- Lógica de Autenticación (Login/Logout) ---
 
-    // Toggle para el menú de administrador (si existe)
-    if (adminToggleBtn) {
-        adminToggleBtn.addEventListener('click', () => {
-            if (adminDropMenu) adminDropMenu.classList.toggle('visible');
-        });
+    function updateUI() {
+        if (isAuthenticated) {
+            if (loginMenuBtn) loginMenuBtn.style.display = 'none';
+            if (logoutButton) logoutButton.style.display = 'block';
+            if (agregarPromocionBtn) agregarPromocionBtn.style.display = 'block';
+        } else {
+            if (loginMenuBtn) loginMenuBtn.style.display = 'block';
+            if (logoutButton) logoutButton.style.display = 'none';
+            if (agregarPromocionBtn) agregarPromocionBtn.style.display = 'none';
+        }
+        if (promocionesContainer) loadPromociones();
     }
 
-    // Botón para abrir el modal de login
-    if (loginButton) {
-        loginButton.addEventListener('click', openLoginModal);
-    }
-
-    // Botón de CERRAR SESIÓN
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('token');
-            isAuthenticated = false;
-            updateAdminButtons();
-            showStatusMessage('Sesión cerrada correctamente. Recargando página...');
-            setTimeout(() => window.location.reload(), 500); 
-        });
-    }
-
-    // Manejo del formulario de INICIO DE SESIÓN
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const submitButton = e.submitter;
-
-            try {
-                submitButton.disabled = true;
-
-                const res = await fetch(`${API_BASE}/api/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem('token', data.token);
-                    isAuthenticated = true;
-                    token = data.token; 
-                    if (loginPopup) loginPopup.hide();
-                    updateAdminButtons();
-                    showStatusMessage('¡Login exitoso! Recargando página...');
-                    setTimeout(() => window.location.reload(), 500);
-                } else {
-                    const errorData = await res.json();
-                    const errorMessage = errorData.message || 'Credenciales incorrectas';
-                    showStatusMessage(errorMessage, true);
-                }
-            } catch (error) {
-                console.error('Error de login:', error);
-                showStatusMessage('Error de conexión con el servidor. Por favor, inténtalo de nuevo más tarde.', true);
-            } finally {
-                submitButton.disabled = false;
-            }
-        });
-    }
-
-    // --- Lógica de Gestión de Promociones (CRUD) ---
-
-    /** Elimina una promoción por ID */
-    const deletePromocion = async (id) => {
-        if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-        
-        // Se asume que la UI tiene un modal de confirmación, aquí solo se ejecuta la lógica de eliminación.
-        console.log(`Intentando eliminar promoción con ID: ${id}`); 
+    async function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = passwordInput ? passwordInput.value : '';
+        const submitButton = e.submitter;
+        if (!submitButton) return;
+        submitButton.disabled = true;
 
         try {
-            // Endpoint cambiado a /api/promociones
+            const res = await fetch(`${API_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Credenciales incorrectas');
+
+            localStorage.setItem('token', data.token);
+            token = data.token;
+            isAuthenticated = true;
+
+            if (loginPopup) loginPopup.hide();
+            showStatusMessage('¡Login exitoso! Recargando...');
+            setTimeout(() => window.location.reload(), 500);
+
+        } catch (error) {
+            showStatusMessage(error.message, true);
+        } finally {
+            submitButton.disabled = false;
+        }
+    }
+    
+    function handleLogout() {
+        localStorage.removeItem('token');
+        isAuthenticated = false;
+        token = null;
+        showStatusMessage('Sesión cerrada. Recargando...');
+        if (adminDropMenu) adminDropMenu.classList.remove('visible'); 
+        setTimeout(() => window.location.reload(), 500);
+    }
+    
+    // --- Lógica de Gestión de Promociones (CRUD) ---
+
+    async function submitPromocionForm(url, method, formData, submitBtn) {
+        submitBtn.disabled = true;
+        const headers = {};
+        if (token && method !== 'POST') { // No enviar 'Authorization' con FormData en POST si no es necesario para el backend
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        let fetchOptions = {
+            method: method,
+            body: formData // FormData se envía directamente, los headers Content-Type son automáticos
+        };
+
+        if (method !== 'POST') { // Para PUT/DELETE, puede que necesites Content-Type si no es FormData
+             fetchOptions.headers = headers;
+        } else {
+             // Para POST con FormData, no especifiques Content-Type, el navegador lo hará
+             // Si tu backend lo espera, asegúrate de que el middleware de multer esté bien configurado
+             if (token) { // Si necesitas el token para POST también
+                 fetchOptions.headers = { 'Authorization': `Bearer ${token}` };
+             }
+        }
+
+        try {
+            const res = await fetch(url, fetchOptions);
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || data.message || 'Error al procesar la solicitud.');
+            
+            showStatusMessage(`Promoción ${method === 'POST' ? 'agregada' : 'editada'} correctamente.`);
+            return true;
+        } catch (error) {
+            showStatusMessage(error.message, true);
+            return false;
+        } finally {
+            submitBtn.disabled = false;
+        }
+    }
+
+    async function handleCreatePromocion(e) {
+        e.preventDefault();
+        if (!agregarPromocionForm) return;
+        
+        const formData = new FormData(agregarPromocionForm);
+        
+        // Asumiendo que los campos son nombre, descripcion, imagen
+        if (!formData.get('nombre') || !formData.get('descripcion') || !formData.get('imagen') || formData.get('imagen').size === 0) {
+            return showStatusMessage('El título, la descripción y la imagen son obligatorios.', true);
+        }
+
+        const success = await submitPromocionForm(`${API_BASE}/api/promociones`, 'POST', formData, e.submitter);
+        
+        if (success) {
+            agregarPromocionForm.reset();
+            if (agregarPromocionModal) agregarPromocionModal.hide();
+            loadPromociones();
+        }
+    }
+
+    async function handleUpdatePromocion(e) {
+        e.preventDefault();
+        if (!editarPromocionForm || !currentEditingPromocion) return;
+
+        const submitBtn = e.submitter;
+        const promocionId = currentEditingPromocion._id; 
+        
+        const formData = new FormData();
+        formData.append('nombre', editarPromocionNombreInput.value);
+        formData.append('descripcion', editarPromocionDescripcionInput.value); 
+
+        const nuevaImagen = editarPromocionImagenInput.files[0];
+        if (nuevaImagen) {
+            formData.append('imagen', nuevaImagen);
+        }
+        
+        const success = await submitPromocionForm(`${API_BASE}/api/promociones/${promocionId}`, 'PUT', formData, submitBtn);
+        if (success) {
+            if (editarPromocionModal) editarPromocionModal.hide();
+            loadPromociones();
+        }
+    }
+
+    async function deletePromocion(id) {
+        const confirmed = await showConfirmation('¿Estás seguro de que deseas eliminar esta promoción?');
+        if (!confirmed) return;
+
+        try {
             const response = await fetch(`${API_BASE}/api/promociones/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-
-            if (response.ok) {
-                showStatusMessage('Promoción eliminada correctamente.');
-                loadPromociones(); // Recargar la lista
-            } else {
-                throw new Error('Error al eliminar la promoción.');
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Error al eliminar.');
             }
+            showStatusMessage('Promoción eliminada correctamente.');
+            loadPromociones();
         } catch (error) {
-            console.error('Error al eliminar la promoción:', error);
-            showStatusMessage('Ocurrió un error al intentar eliminar la promoción.', true);
+            showStatusMessage(error.message, true);
         }
-    };
-    
-    // Manejador del botón para AGREGAR promoción
-    if (agregarPromocionBtn) {
-        agregarPromocionBtn.addEventListener('click', openAgregarPromocionModal);
     }
     
-    /** Manejador del formulario para AGREGAR promoción */
-    if (agregarPromocionForm) {
-        agregarPromocionForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-            
-            const formData = new FormData();
-            // Nombres de campos adaptados a la entidad Promoción
-            formData.append('titulo', document.getElementById('promocionTitulo').value);
-            formData.append('descripcion', document.getElementById('promocionDescripcion').value);
-            
-            // Asegúrate de que el input de archivo tenga el ID 'promocionImagen'
-            const imagenInput = document.getElementById('promocionImagen');
-            if (imagenInput && imagenInput.files.length > 0) {
-                formData.append('imagen', imagenInput.files[0]);
-            }
+    // --- Lógica de Renderizado de Tarjetas de Promociones ---
 
-            try {
-                // Endpoint cambiado a /api/promociones
-                const res = await fetch(`${API_BASE}/api/promociones`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData,
-                });
-
-                if (res.ok) {
-                    showStatusMessage('Promoción agregada exitosamente');
-                    if (agregarPromocionModal) agregarPromocionModal.hide();
-                    agregarPromocionForm.reset();
-                    loadPromociones(); // Recargar la lista
-                } else {
-                    const errorData = await res.json();
-                    showStatusMessage(`Error al agregar la promoción: ${errorData.message || 'Verifica los datos.'}`, true);
-                }
-            } catch (error) {
-                console.error('Error al enviar el formulario:', error);
-                showStatusMessage('Error de conexión con la API.', true);
-            }
-        });
-    }
-    
-    /** Manejador del formulario para EDITAR promoción */
-    if (editarPromocionForm) {
-        editarPromocionForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return showStatusMessage('No estás autenticado.', true);
-            
-            // ID del campo oculto cambiado
-            const promocionId = document.getElementById('editarPromocionId').value;
-            if (!promocionId) return showStatusMessage('ID de promoción no encontrado para edición.', true);
-            
-            const formData = new FormData();
-            // Nombres de campos adaptados a la entidad Promoción
-            formData.append('titulo', document.getElementById('editarPromocionTitulo').value);
-            formData.append('descripcion', document.getElementById('editarPromocionDescripcion').value);
-            
-            const imagenInput = document.getElementById('editarPromocionImagen');
-            if (imagenInput && imagenInput.files.length > 0) {
-                formData.append('imagen', imagenInput.files[0]);
-            }
-            
-            try {
-                // Endpoint cambiado a /api/promociones
-                const res = await fetch(`${API_BASE}/api/promociones/${promocionId}`, {
-                    method: 'PUT', // o 'PATCH', dependiendo de tu API
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData,
-                });
-
-                if (res.ok) {
-                    showStatusMessage('Promoción editada exitosamente');
-                    if (editarPromocionModal) editarPromocionModal.hide();
-                    loadPromociones();
-                } else {
-                    const errorData = await res.json();
-                    showStatusMessage(`Error al editar la promoción: ${errorData.message || 'Verifica los datos.'}`, true);
-                }
-            } catch (error) {
-                console.error('Error al enviar el formulario de edición:', error);
-                showStatusMessage('Error de conexión con la API.', true);
-            }
-        });
-    }
-
-    // --- Lógica de Renderizado y Carga (READ) ---
-
-    /** Renderiza las tarjetas de promociones en el contenedor */
-    const renderPromociones = (container, items) => {
-        if (!container) return;
-        container.innerHTML = '';
+    function renderPromociones(items) {
+        if (!promocionesContainer) return;
+        promocionesContainer.innerHTML = '';
+        const noContent = document.getElementById('no-content');
+        
         if (items.length === 0) {
-            container.innerHTML = '<p class="text-center w-full">No hay promociones disponibles en esta sección.</p>';
+            if(noContent) noContent.style.display = 'block';
             return;
         }
+        if(noContent) noContent.style.display = 'none';
+
 
         items.forEach(item => {
             const imageUrl = buildImageUrl(item.imagen);
+            
+            const adminButtons = isAuthenticated ? `
+                <div class="blog-btn">
+                    <button class="btn btn-warning btn-sm btn-modificar" data-id="${item._id}">Editar</button>
+                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="${item._id}">Eliminar</button>
+                </div>
+            ` : '';
 
-            const card = document.createElement('div');
-            card.className = 'promocionCard'; // Cambiado a promocionCard
-
-            card.innerHTML = `
-                <a href="promocion_detalle.html?id=${item._id}">
-                    <img src="${imageUrl}" class="card-img-top" alt="${item.titulo}" onerror="this.src='https://placehold.co/600x400?text=Imagen+no+disponible'">
-                    <h3>${item.titulo}</h3>
-                    <p>${item.descripcion}</p>
-                </a>
-                ${isAuthenticated ? `
-                    <div class="buttons">
-                        <button class="btn btn-warning btn-sm editar-btn" data-id="${item._id}">Editar</button>
-                        <button class="btn btn-danger btn-sm eliminar-btn" data-id="${item._id}">Eliminar</button>
+            // 🎯 MODIFICACIÓN CLAVE AQUÍ: Usamos una estructura de tarjeta de noticia/comercio
+            // con clases de Bootstrap y un div adicional para el contenido.
+            const cardHTML = `
+                <div class="col-lg-4 col-md-6 mb-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="blog-item">
+                        <div class="blog-img">
+                            <img src="${imageUrl}" alt="${item.nombre}" onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Imagen+No+Disponible';" class="img-fluid">
+                        </div>
+                        <div class="blog-text">
+                            <h3>${item.nombre}</h3>
+                            <p>${item.descripcion || ''}</p>
+                            ${adminButtons}
+                        </div>
                     </div>
-                ` : ''}
+                </div>
             `;
-            container.appendChild(card);
+            promocionesContainer.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }
+    
+    async function loadPromociones() {
+        if (!promocionesContainer) return;
+        promocionesContainer.innerHTML = '<p class="col-12 text-center text-white">Cargando promociones...</p>'; 
+        try {
+            const res = await fetch(`${API_BASE}/api/promociones`); 
+            if (!res.ok) throw new Error('No se pudieron cargar las promociones.');
+            const promociones = await res.json();
+            renderPromociones(promociones);
+        } catch (error) {
+            promocionesContainer.innerHTML = `<p class="col-12 text-center text-danger">${error.message}.</p>`;
+        }
+    }
+    
+    async function fillEditForm(id) {
+        try {
+            const res = await fetch(`${API_BASE}/api/promociones/${id}`);
+            if (!res.ok) throw new Error('No se pudo cargar la promoción.');
+            const item = await res.json();
+            
+            currentEditingPromocion = item; 
+
+            editarPromocionIdInput.value = item._id;
+            editarPromocionNombreInput.value = item.nombre || '';
+            editarPromocionDescripcionInput.value = item.descripcion || ''; 
+            editarPromocionImagenInput.value = ''; 
+
+            if (currentImagePreview) {
+                 currentImagePreview.src = buildImageUrl(item.imagen);
+                 currentImagePreview.style.display = 'block';
+            }
+
+            if (editarPromocionModal) editarPromocionModal.show();
+        } catch (error) {
+            showStatusMessage(error.message, true);
+        }
+    }
+    
+    // --- Asignación de Event Listeners ---
+    
+    if (adminToggleBtn) {
+        adminToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (adminDropMenu) {
+                adminDropMenu.classList.toggle('visible');
+            }
         });
 
-        // Adjuntar eventos a los botones de administración
-        if (isAuthenticated) {
-            container.querySelectorAll('.editar-btn').forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    const id = e.target.dataset.id;
-                    await loadPromocionDataForEdit(id); // Función renombrada
-                    openEditarPromocionModal(id); // Función renombrada
-                });
+        document.addEventListener('click', (e) => {
+            const adminDropContainer = document.querySelector('.admin-drop-container');
+            if (adminDropMenu && adminDropMenu.classList.contains('visible') && adminDropContainer && !adminDropContainer.contains(e.target)) {
+                adminDropMenu.classList.remove('visible');
+            }
+        });
+    }
+    
+    if (adminDropMenu) {
+        adminDropMenu.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
+            button.addEventListener('click', () => {
+                adminDropMenu.classList.remove('visible');
             });
-
-            container.querySelectorAll('.eliminar-btn').forEach(button => {
-                button.addEventListener('click', (e) => deletePromocion(e.target.dataset.id)); // Función renombrada
-            });
-        }
-    };
-
-    /** Carga los datos de una promoción específica y los rellena en el formulario de edición */
-    const loadPromocionDataForEdit = async (id) => {
-        try {
-            // Endpoint cambiado a /api/promociones
-            const res = await fetch(`${API_BASE}/api/promociones/${id}`);
-            if (!res.ok) throw new Error('No se pudo cargar la promoción para edición.');
-            
-            const item = await res.json();
-
-            // Rellena los campos del formulario de edición (IDs de campos cambiados)
-            document.getElementById('editarPromocionId').value = id;
-            document.getElementById('editarPromocionTitulo').value = item.titulo || '';
-            document.getElementById('editarPromocionDescripcion').value = item.descripcion || '';
-            
-            // Opcional: mostrar la imagen actual en el modal
-            const currentImage = document.getElementById('currentPromocionImage');
-            if (currentImage) {
-                currentImage.src = buildImageUrl(item.imagen);
-                currentImage.style.display = 'block';
-            }
-
-        } catch (error) {
-            console.error('Error al cargar datos para edición:', error);
-            showStatusMessage('No se pudieron cargar los datos de la promoción.', true);
-        }
-    };
-
-
-    /** Carga la lista completa de promociones */
-    const loadPromociones = async () => {
-        try {
-            // Endpoint cambiado a /api/promociones
-            const res = await fetch(`${API_BASE}/api/promociones`);
-            const promociones = await res.json();
-            if (promocionesContainer) renderPromociones(promocionesContainer, promociones);
-        } catch (error) {
-            // **IMPORTANTE PARA DEPURAR:** Añadimos un console.log claro del error de la API
-            console.error('Error al cargar las promociones:', error);
-            if (promocionesContainer) promocionesContainer.innerHTML = '<p class="text-danger">Error al cargar las promociones. Revisa la consola del servidor (backend) para configurar la ruta de archivos estáticos.</p>';
-        }
-    };
-
-    /** Carga los detalles de una sola promoción */
-    async function loadDetails() {
-        const loadingMessage = document.getElementById('loadingMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const contentContainer = document.getElementById('main-content');
-        const titleElement = document.getElementById('itemTitle');
-        const categoryElement = document.getElementById('itemCategory');
-        const imageElement = document.getElementById('itemImage');
-        
-        if (!contentContainer) return;
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const itemId = urlParams.get('id');
-
-        if (!itemId) {
-            if (errorMessage) errorMessage.textContent = 'Error: ID de promoción no encontrado.';
-            return;
-        }
-
-        try {
-            // Endpoint cambiado a /api/promociones
-            const fetchUrl = `${API_BASE}/api/promociones/${itemId}`;
-            const res = await fetch(fetchUrl);
-            
-            if (!res.ok) throw new Error('Promoción no encontrada o error de servidor.');
-
-            const item = await res.json();
-            if (titleElement) titleElement.textContent = item.titulo; // Campo cambiado
-            if (categoryElement) categoryElement.textContent = item.descripcion; // Campo cambiado
-            
-            const imagenURL = buildImageUrl(item.imagen);
-            
-            if (imageElement) {
-                imageElement.src = imagenURL;
-                imageElement.alt = item.titulo;
-                imageElement.setAttribute('onerror', `this.src='https://placehold.co/600x400?text=Imagen+No+Disponible'`);
-            }
-            if (loadingMessage) loadingMessage.style.display = 'none';
-            contentContainer.style.display = 'block';
-        } catch (error) {
-            console.error('Error al obtener los detalles de la promoción:', error);
-            if (loadingMessage) loadingMessage.style.display = 'none';
-            if (errorMessage) {
-                errorMessage.textContent = `Error al cargar los detalles: ${error.message}`;
-                errorMessage.style.display = 'block';
-            }
-        }
+        });
     }
 
-    // --- Inicialización General ---
 
-    // 1. Mostrar/ocultar botones de admin
-    updateAdminButtons();
+    if (loginMenuBtn) loginMenuBtn.addEventListener('click', () => { if(loginPopup) loginPopup.show(); });
+    if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
     
-    // 2. Ejecutar la lógica de carga apropiada según la página actual
-    const path = window.location.pathname;
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+    }
+
+    if (agregarPromocionBtn) {
+        agregarPromocionBtn.addEventListener('click', () => {
+            if(agregarPromocionModal) agregarPromocionModal.show();
+        });
+    }
+
+    if (agregarPromocionForm) agregarPromocionForm.addEventListener('submit', handleCreatePromocion);
+    if (editarPromocionForm) editarPromocionForm.addEventListener('submit', handleUpdatePromocion);
     
-    // Asegúrate de que las rutas de tus páginas HTML coincidan con estos nombres
-    if (path.includes('promocion_detalle.html')) {
-        loadDetails();
-    } else if (path.includes('single.html') || path.includes('/')) {
-        // Carga la lista si está en la página principal de lista
-        loadPromociones();
+    if (promocionesContainer) {
+        promocionesContainer.addEventListener('click', (e) => {
+            const editButton = e.target.closest('.btn-modificar');
+            const deleteButton = e.target.closest('.btn-eliminar');
+
+            if (editButton) {
+                fillEditForm(editButton.dataset.id); 
+            }
+            if (deleteButton) {
+                deletePromocion(deleteButton.dataset.id);
+            }
+        });
+    }
+
+    // --- Inicialización al Cargar la Página ---
+    initializePage();
+    
+    function initializePage() {
+        updateUI();
     }
 });
+

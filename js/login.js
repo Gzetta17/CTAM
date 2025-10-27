@@ -2,8 +2,31 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Constantes y Configuración Global ---
-    const API_BASE = 'https://pausefully-insectival-emmy.ngrok-free.dev';
+    const API_BASE = 'http://localhost:3000';
 
+    // --- SECCIÓN DE UTILIDAD: CONSTRUCCIÓN DE LA URL ---
+    function buildImageUrl(imagePath) {
+        if (!imagePath || imagePath.startsWith('http')) {
+            const finalUrl = imagePath || 'https://placehold.co/600x400?text=Imagen+No+Disponible';
+            console.log(`[DEBUG IMAGES] Path de DB: ${imagePath} -> URL generada: ${finalUrl} (Es Placeholder o Externa)`);
+            return finalUrl;
+        }
+
+        // 1. Limpia cualquier barra inicial o final del path guardado en DB
+        // Esto convierte '/uploads/file.png' o 'uploads/file.png' en 'uploads/file.png'
+        let cleanedPath = imagePath.replace(/^\/|\/$/g, ''); 
+        
+        // 2. Construye la URL final usando la API_BASE y la ruta limpia.
+        // Quedará http://localhost:3000/uploads/file.png
+        const finalUrl = `${API_BASE}/${cleanedPath}`;
+        
+        // Muestra la URL construida para que el usuario pueda probarla
+        console.log(`[DEBUG IMAGES] Path de DB: ${imagePath} -> URL generada: ${finalUrl}`);
+
+        return finalUrl;
+    }
+    // ----------------------------------------------------
+    
     // --- Selección de Elementos del DOM ---
     const loginForm = document.getElementById('loginForm');
     const loginMenuBtn = document.getElementById('loginMenuBtn');
@@ -29,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let token = localStorage.getItem('token');
     let isAuthenticated = !!token;
 
-    // --- Funciones de Utilidad ---
+    // --- Funciones de Utilidad (El resto se mantiene igual) ---
 
     function showStatusMessage(message, isError = false) {
         if (!statusMessage) return;
@@ -37,12 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.className = `alert mt-3 ${isError ? 'alert-danger' : 'alert-success'}`;
         statusMessage.style.display = 'block';
         setTimeout(() => { statusMessage.style.display = 'none'; }, 3000);
-    }
-
-    function buildImageUrl(imagePath) {
-        if (!imagePath) return 'https://placehold.co/600x400?text=Imagen+No+Disponible';
-        const cleanedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`; 
-        return `${API_BASE}${cleanedPath}`;
     }
 
     function showConfirmation(message) {
