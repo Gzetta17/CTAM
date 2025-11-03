@@ -1980,6 +1980,87 @@ a:focus {
 
 
 
+/* ------------------------------------------- */
+/* --- SECCIÓN CTA FIBRA ÓPTICA (FLYER) --- */
+/* ------------------------------------------- */
+
+/* Contenedor principal de la sección CTA.
+   Aplica un fondo suave, esquinas redondeadas y una sombra para que destaque. */
+.fiber-cta-section {
+    background-color: #f7f3ff; /* Color lila muy suave */
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin-bottom: 4rem;
+    box-shadow: 0 10px 20px rgba(111, 36, 134, 0.1); /* Sombra suave púrpura */
+}
+
+/* Título de la CTA (Ubicado fuera del fiber-cta-section para que ocupe todo el ancho) */
+.cta-title {
+    color: #6f2486; /* Color primario (púrpura oscuro) */
+    font-weight: 800;
+    line-height: 1.15;
+    /* Las clases de tamaño de fuente (text-4xl) vienen de Tailwind, solo definimos color y peso. */
+}
+
+/* Contenido del texto */
+.fiber-cta-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    /* En desktop, el texto toma el 50% y está a la derecha de la imagen (order-2 en HTML) */
+}
+
+/* Párrafos de la CTA */
+.cta-text-p {
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de la imagen del flyer.
+   Asegura que la imagen esté centrada horizontalmente dentro de su columna del 50% (order-1 en HTML). */
+.flyer-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 1rem;
+}
+
+/* Imagen del flyer.
+   La clase 'max-w-xs' del HTML la hace pequeña, el CSS añade la estética. */
+.flyer-img {
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    max-width: 100%; /* Asegura que no desborde en móvil */
+    height: auto;
+}
+
+.flyer-img:hover {
+    transform: scale(1.02); /* Escala de hover más sutil */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Ajustes de responsividad para que se vea bien en móviles */
+@media (max-width: 767px) {
+    .fiber-cta-section {
+        padding: 2rem 1rem;
+    }
+    .cta-title {
+        font-size: 2.25rem; 
+    }
+    .fiber-cta-content,
+    .flyer-container {
+        padding: 0.5rem;
+    }
+    /* Asegura que el botón se centre en móviles si es necesario (el HTML ya lo maneja, pero es una protección) */
+    .fiber-cta-content div.text-center.md\:text-left a.btn {
+        margin: 1.5rem auto 0;
+        display: block; 
+        width: fit-content;
+    }
+}
+
+
+
+
 
 
 /**************************************/
