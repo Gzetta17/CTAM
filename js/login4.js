@@ -4,17 +4,29 @@ const API_BASE = 'http://localhost:3000';
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elementos del DOM y Variables de Estado ---
     const adminToggleBtn = document.getElementById('adminToggleBtn');
-    // Busca el botón que abre el modal de login (puede tener data-bs-target o ser el del menú con ID 'loginMenuBtn')
     const loginButton = document.querySelector('[data-bs-target="#loginPopup"]'); 
     const logoutButton = document.getElementById('logoutButton');
     const loginForm = document.getElementById('loginForm');
     const statusMessage = document.getElementById('statusMessage');
+
+    // Elementos del Pop-Up (Admin y Público)
+    const managePopupButton = document.getElementById('managePopupButton'); 
+    const popupImageForm = document.getElementById('popupImageForm'); 
+    const popupImageFile = document.getElementById('popupImageFile');
+    const showPopupToggle = document.getElementById('showPopupToggle');
+    const popupStatus = document.getElementById('popupStatus');
+    const publicImage = document.getElementById('publicImage'); 
     
-    // Inicialización del Modal de Login de Bootstrap
-    const loginPopup = document.getElementById('loginPopup') 
-        ? new bootstrap.Modal(document.getElementById('loginPopup')) 
-        : null;
+    // Inicialización de Modales de Bootstrap
+    const loginPopupElement = document.getElementById('loginPopup');
+    const loginPopup = loginPopupElement ? new bootstrap.Modal(loginPopupElement) : null;
     
+    const managePopupModalElement = document.getElementById('managePopupModal');
+    const managePopupModal = managePopupModalElement ? new bootstrap.Modal(managePopupModalElement) : null;
+    
+    const publicPopupElement = document.getElementById('publicPopup');
+    const publicPopupModal = publicPopupElement ? new bootstrap.Modal(publicPopupElement) : null;
+
     let token = localStorage.getItem('token');
     let isAuthenticated = !!token;
 
@@ -32,18 +44,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /** Actualiza la visibilidad de los botones de login/logout en el menú */
+    /** 🚀 Actualiza la visibilidad de los botones (Login/Logout/Admin) */
     function updateAdminButtons() {
         const loginMenuBtn = document.getElementById('loginMenuBtn');
+        const logoutButton = document.getElementById('logoutButton'); 
+        const managePopupButton = document.getElementById('managePopupButton');
+
+        // 1. Detección de página para el botón POP-UP
+        const path = window.location.pathname.toLowerCase();
+        const esPaginaIndex = (path === '/' || path.endsWith('/index.html') || path.endsWith('/ctam/')); 
 
         if (isAuthenticated) {
-            // Usuario autenticado: oculta login, muestra logout
+            // Usuario autenticado
             if (loginMenuBtn) loginMenuBtn.style.display = 'none';
             if (logoutButton) logoutButton.style.display = 'block';
+            
+            // Muestra el botón POP-UP solo si estamos en el index
+            if (managePopupButton) {
+                if (esPaginaIndex) {
+                    managePopupButton.style.display = 'block';
+                } else {
+                    managePopupButton.style.display = 'none'; 
+                }
+            }
+
         } else {
-            // Usuario no autenticado: muestra login, oculta logout
+            // Usuario no autenticado
             if (loginMenuBtn) loginMenuBtn.style.display = 'block';
             if (logoutButton) logoutButton.style.display = 'none';
+            if (managePopupButton) managePopupButton.style.display = 'none';
         }
     }
 
@@ -60,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Listener para abrir el modal de login (ya sea por el botón del menú o por cualquier otro con el data-target)
     const loginMenuBtn = document.getElementById('loginMenuBtn');
     if (loginMenuBtn) {
         loginMenuBtn.addEventListener('click', openLoginModal);
@@ -68,19 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
         loginButton.addEventListener('click', openLoginModal);
     }
 
-    // Lógica de Logout
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
             localStorage.removeItem('token');
             isAuthenticated = false;
+            token = null; 
             updateAdminButtons();
             showStatusMessage('Sesión cerrada correctamente. Recargando página...');
-            // Recarga la página después de un breve delay para reflejar los cambios de UI
             setTimeout(() => window.location.reload(), 500); 
         });
     }
 
-    // Lógica de Login (Envío del formulario)
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -103,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     token = data.token; 
                     
                     if (loginPopup) loginPopup.hide();
-                    updateAdminButtons();
+                    updateAdminButtons(); 
                     showStatusMessage('¡Login exitoso! Recargando página...');
                     setTimeout(() => window.location.reload(), 500);
                 } else {
@@ -119,19 +145,142 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Ojo de mostrar/ocultar contraseña (si los elementos existen)
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', function (e) {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁' : '🔒'; // Cambia el icono
+            this.textContent = type === 'password' ? '👁' : '🔒';
         });
     }
     
+    // -------------------------------------------------------------------
+    // --- LÓGICA POP-UP (ADMIN) ---
+    // -------------------------------------------------------------------
+
+    // Listener explícito para abrir el modal de gestión del Pop-Up
+    if (managePopupButton && managePopupModal) {
+        managePopupButton.addEventListener('click', () => {
+            managePopupModal.show();
+        });
+    }
+
+    // Cargar estado actual (al abrir el modal de gestión)
+    if (managePopupModalElement) {
+        managePopupModalElement.addEventListener('show.bs.modal', async () => {
+            if (!isAuthenticated) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/popup`);
+                if (res.ok) {
+                    const data = await res.json();
+                    showPopupToggle.checked = data.show;
+                }
+                popupStatus.style.display = 'none'; 
+            } catch (error) {
+                console.error('Error al cargar estado del popup:', error);
+                popupStatus.textContent = 'Error al cargar estado actual.';
+                popupStatus.className = 'alert alert-danger';
+                popupStatus.style.display = 'block';
+            }
+        });
+    }
+
+    // Enviar el formulario (Subir imagen y estado)
+    if (popupImageForm) {
+        popupImageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // Asumiendo que la ruta POST /api/popup es pública para simplificar el frontend
+            // (Si tuviera autenticación, habría que añadir el token en el header)
+
+            const submitButton = e.submitter;
+            submitButton.disabled = true;
+            popupStatus.style.display = 'none';
+
+            const formData = new FormData();
+            
+            if (popupImageFile.files.length > 0) {
+                formData.append('popupImage', popupImageFile.files[0]);
+            }
+            
+            // Enviar el estado del toggle (true/false)
+            formData.append('show', showPopupToggle.checked);
+
+            try {
+                const res = await fetch(`${API_BASE}/api/popup`, {
+                    method: 'POST', 
+                    body: formData,
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    popupStatus.textContent = data.message || 'Pop-up actualizado con éxito.';
+                    popupStatus.className = 'alert alert-success';
+                    popupStatus.style.display = 'block';
+                    setTimeout(() => {
+                        if (managePopupModal) managePopupModal.hide();
+                    }, 2000);
+                } else {
+                    const errorData = await res.json();
+                    popupStatus.textContent = errorData.message || 'Error al actualizar.';
+                    popupStatus.className = 'alert alert-danger';
+                    popupStatus.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error al enviar formulario de popup:', error);
+                popupStatus.textContent = 'Error de conexión con el servidor.';
+                popupStatus.className = 'alert alert-danger';
+                popupStatus.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------
+    // --- LÓGICA POP-UP (VISITANTE Y ADMIN) ---
+    // -------------------------------------------------------------------
+
+    /** Comprueba y muestra el pop-up público si está activo (SE MUESTRA A TODOS) */
+    async function checkAndShowPublicPopup() {
+        if (!publicPopupModal || !publicImage) return; 
+
+        // Se eliminó la restricción 'if (isAuthenticated) return;' para mostrar a todos.
+
+        // Evitar mostrar el pop-up en cada recarga de página (usar sessionStorage)
+        if (sessionStorage.getItem('popupShown')) return;
+
+        try {
+            // 1. Consultar a la API si el pop-up está activo
+            const res = await fetch(`${API_BASE}/api/popup`);
+            if (!res.ok) return;
+
+            const data = await res.json();
+
+            // 2. Si está activo (show: true) y tiene una imagen
+            if (data.show && data.imageUrl) {
+                // Se ajusta la ruta a la URL completa (ej: http://localhost:3000/uploads/popup/...)
+                const imageUrl = data.imageUrl.startsWith('/') ? data.imageUrl : `/${data.imageUrl}`;
+                // Se usa solo la ruta relativa si el API_BASE está causando problemas
+                publicImage.src = imageUrl.startsWith('http') ? imageUrl : `${API_BASE}${imageUrl}`; 
+                
+                publicPopupModal.show();
+                
+                // Marcar como visto en esta sesión
+                sessionStorage.setItem('popupShown', 'true');
+            }
+        } catch (error) {
+            console.error('Error al cargar el pop-up público:', error);
+        }
+    }
+
+
     // --- Inicialización General ---
 
-    // Inicializa la visibilidad de los botones de admin/logout al cargar la página
+    // 1. Configura los botones (Login/Logout/Pop-up)
     updateAdminButtons();
+
+    // 2. Comprueba si debe mostrar el pop-up público (a todos)
+    checkAndShowPublicPopup(); 
+
 });

@@ -117,7 +117,8 @@ h1, h2, h3 {
 /************ LOGIN y POP UP, Agregar comercio, agregar noticias ***********************/
 /**************************************************************************************/
 
-/* Contenedor de la gota flotante y su menú - SIN MODIFICAR */
+/* --- CONTENEDOR DE LA GOTA FLOTANTE Y SU MENÚ --- */
+
 .admin-drop-container {
     position: fixed;
     bottom: 30px; 
@@ -190,7 +191,6 @@ h1, h2, h3 {
 /* --- ESTILOS DE MODALES (LOGIN, AGREGAR/EDITAR) --- */
 /* ------------------------------------------------------------------------------------ */
 
-/* Estilos para los modales, respetando las clases de Bootstrap */
 .modal-content {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -213,7 +213,8 @@ h1, h2, h3 {
     top: 15px;
     right: 15px;
     z-index: 10;
-    filter: invert(1) grayscale(100%) brightness(200%); /* Fuerza el color blanco en la X de Bootstrap */
+    /* Filtro para el modal de Login */
+    filter: invert(1) grayscale(100%) brightness(200%); 
 }
 
 /* 3. Crear nuestro propio título y formulario de login */
@@ -286,21 +287,58 @@ h1, h2, h3 {
     color: #888;
 }
 
-/* Estilos para el Pop-up público */
-#publicPopup .popupContent {
-    background-color: white;
-    padding: 10px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 450px;
-    width: 90%;
-    position: relative;
+/* --- SOLUCIÓN CRÍTICA: ESTILOS PARA EL POP-UP PÚBLICO GRANDE Y CENTRADO --- */
+
+/* 1. Ajuste del Diálogo (Centrado, 90% de la pantalla) */
+#publicPopup .modal-dialog {
+    max-width: 90%; /* Ocupa hasta el 90% del ancho de la pantalla */
+    width: auto; 
+    margin: 1.75rem auto; /* Centrado vertical y horizontal */
 }
 
+/* 2. Ajuste del Contenido (Se hace del tamaño de la imagen y se centra) */
+#publicPopup .popupContent {
+    background-color: transparent; 
+    border: none; 
+    box-shadow: none; 
+    
+    /* ¡CLAVE! Se ajusta al 60% del ancho del modal-dialog */
+    width: 60%; 
+    /* ¡CLAVE! Centra este contenedor (que ya no es 100% ancho) */
+    margin: 0 auto; 
+    
+    position: relative; /* Para posicionar la X */
+}
+
+/* 3. Estilo del botón de cierre (Ahora se posiciona relativo al contenedor de 60%) */
+#publicPopup .popupContent .btn-close {
+    position: absolute;
+    /* Ajusta la posición para que quede pegado al borde de la foto */
+    top: 15px; 
+    right: 15px; /* Ahora 15px desde el borde del contenedor de 60% */
+    z-index: 10; 
+    background-color: rgba(255, 255, 255, 0.7); 
+    border-radius: 50%;
+    filter: none; 
+    opacity: 1;
+}
+
+/* 4. La imagen (ahora 100% del contenedor) + Borde blanco */
 #publicPopup img {
-    width: 100%;
-    border-radius: 15px;
-    margin-bottom: 0px;
+    width: 100%; /* ¡CLAVE! La imagen llena el .popupContent (que es 60% ancho) */
+    display: block; 
+    border-radius: 20px;
+    height: auto;
+    
+    /* ¡CLAVE! Borde blanco fino */
+    border: 5px solid #fff; 
+    /* Opcional: una sombra suave para que el borde blanco resalte */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+}
+
+/* Asegura que el cuerpo del modal no tenga padding */
+#publicPopup .modal-body {
+    padding: 0;
 }
 
 .modal-footer {
@@ -332,20 +370,19 @@ h1, h2, h3 {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* --- ESTILOS DE CONTENEDORES Y TARJETAS (CRÍTICO PARA LA SOLUCIÓN) --- */
+/* --- ESTILOS DE CONTENEDORES Y TARJETAS --- */
 /* ------------------------------------------------------------------------------------ */
 
-/* Contenedores de datos - CORREGIDO */
+/* Contenedores de datos */
 #comerciosContainer,
 #noticiasContainer {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; <-- Eliminado para evitar conflictos de ancho */
     gap: 20px;
     padding: 20px;
 }
 
-/* Tarjetas de Comercio y Noticias - CORREGIDO EL ANCHO */
+/* Tarjetas de Comercio y Noticias */
 .comercioCard,
 .noticiaCard {
     background-color: #5c1e6f;
@@ -353,11 +390,11 @@ h1, h2, h3 {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    /* Ancho corregido a un tercio, restando menos para que el gap funcione correctamente */
-    width: calc(33.333% - 15px); 
+    /* Ancho: 3 columnas, ajustado para el gap de 20px */
+    width: calc(33.333% - 13.333px); 
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    display: flex; /* Asegura que el contenido interno fluya correctamente */
+    display: flex; 
     flex-direction: column;
 }
 
@@ -372,7 +409,7 @@ h1, h2, h3 {
     width: 100%;
     height: auto;
     border-radius: 8px;
-    object-fit: cover; /* Asegura que la imagen se vea bien sin distorsionarse */
+    object-fit: cover; 
 }
 
 .comercioCard h3,
@@ -386,12 +423,12 @@ h1, h2, h3 {
 .noticiaCard p {
     font-size: 14px;
     color: #D5B981;
-    flex-grow: 1; /* Esto asegura que el contenido de texto ocupe todo el espacio disponible */
+    flex-grow: 1; 
 }
 
 .comercioCard .buttons,
 .noticiaCard .buttons {
-    margin-top: auto; /* Empuja los botones al final de la tarjeta */
+    margin-top: auto; 
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -408,12 +445,12 @@ h1, h2, h3 {
     transition: background-color 0.3s;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    flex-grow: 1; /* Asegura que los botones se estiren para llenar el espacio */
+    flex-grow: 1; 
 }
 
 .comercioCard .buttons .btn-modificar,
 .noticiaCard .buttons .btn-modificar {
-    background-color: #FFC107; /* Amarillo */
+    background-color: #FFC107; 
     color: #1a1e24;
 }
 
@@ -426,7 +463,7 @@ h1, h2, h3 {
 .noticiaCard .buttons .btn-eliminar,
 .comercioCard .buttons .delete,
 .noticiaCard .buttons .delete {
-    background-color: #dc3545; /* Rojo */
+    background-color: #dc3545; 
 }
 
 .comercioCard .buttons .btn-eliminar:hover,
@@ -437,15 +474,16 @@ h1, h2, h3 {
 }
 
 
-/* --- ESTILOS ESPECÍFICOS PARA BLOG/PROMOCIONES (El Recuadro que solicitaste) --- */
+/* --- ESTILOS ESPECÍFICOS PARA BLOG/PROMOCIONES --- */
+
 .blog-item {
     position: relative;
     display: flex; 
     flex-direction: column; 
-    background: #ffffff; /* Fondo blanco para el recuadro */
-    border-radius: 10px; /* Bordes ligeramente redondeados */
+    background: #ffffff; 
+    border-radius: 10px; 
     overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Sombra para el efecto de recuadro */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
     height: 100%; 
 }
@@ -458,7 +496,6 @@ h1, h2, h3 {
 .blog-img {
     flex-shrink: 0; 
     width: 100%;
-    /* Altura fija para la imagen, para consistencia */
     height: 200px; 
     overflow: hidden;
     position: relative; 
@@ -467,7 +504,7 @@ h1, h2, h3 {
 .blog-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsionar */
+    object-fit: cover; 
     transition: transform 0.3s ease; 
 }
 
@@ -476,7 +513,7 @@ h1, h2, h3 {
 }
 
 .blog-text {
-    padding: 20px; /* Relleno interno para el texto */
+    padding: 20px; 
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -495,7 +532,7 @@ h1, h2, h3 {
     color: #6c757d; 
     line-height: 1.5;
     margin-bottom: 15px;
-    flex-grow: 1; /* Permite que el párrafo use el espacio */
+    flex-grow: 1; 
 }
 
 .blog-btn {
@@ -503,123 +540,46 @@ h1, h2, h3 {
     gap: 10px; 
     margin-top: auto; 
     padding-top: 10px;
-    border-top: 1px solid #eee; /* Separador sutil para los botones */
+    border-top: 1px solid #eee; 
 }
 /* --- FIN ESTILOS BLOG/PROMOCIONES --- */
 
 
 /* ------------------------------------------------------------------------------------ */
-/* --- RESPONSIVIDAD (MODIFICADA PARA TARJETAS) --- */
+/* --- RESPONSIVIDAD --- */
 /* ------------------------------------------------------------------------------------ */
 
 @media (max-width: 992px) {
     /* Ajuste para tablets: 2 columnas */
     .comercioCard,
     .noticiaCard,
-    /* Aplicar a las tarjetas de promociones que usan col-lg-4/col-md-6 */
     #promocionesContainer .col-lg-4.col-md-6 { 
+        /* Calculado para 2 columnas con gap de 20px */
         width: calc(50% - 10px); 
     }
 }
 
 @media (max-width: 768px) {
+    /* Ajustes generales */
     #loginPopup .loginBox {
         max-width: 90%;
     }
-    #loginPopup .loginBox h2 {
-        font-size: 20px;
-    }
-    #loginPopup .loginBox input[type="text"],
-    #loginPopup .loginBox input[type="password"] {
-        padding: 12px;
-        font-size: 14px;
-    }
-    #loginPopup .loginBox button {
-        padding: 12px;
-        font-size: 14px;
-    }
-    #adminPanel {
-        width: 90%;
-        padding: 15px;
-    }
-    #adminPanel h3 {
-        font-size: 18px;
-    }
-    #popupImgInput {
-        margin-top: 5px;
-    }
-    #savePopupBtn {
-        padding: 12px 20px;
-        font-size: 14px;
-    }
-    #imageOptions button {
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-    #publicPopup .popupContent {
-        width: 90%;
-    }
-    #publicPopup img {
-        max-width: 100%;
-        border-radius: 15px;
-    }
-    /* En esta resolución, mantenemos 2 columnas si es posible, pero aseguramos la tarjeta */
+    /* Mantenemos 2 columnas hasta esta resolución */
     .comercioCard,
     .noticiaCard,
-    /* Aplicar a las tarjetas de promociones */
     #promocionesContainer .col-lg-4.col-md-6 {
         width: calc(50% - 10px); 
     }
 }
 
 @media (max-width: 480px) {
-    #loginPopup .loginBox {
-        max-width: 85%;
-    }
-    #loginPopup .loginBox h2 {
-        font-size: 18px;
-    }
-    #loginPopup .loginBox input[type="text"],
-    #loginPopup .loginBox input[type="password"] {
-        font-size: 14px;
-        padding: 10px;
-    }
-    #loginPopup .loginBox button {
-        padding: 10px;
-        font-size: 14px;
-    }
-    #adminPanel {
-        width: 90%;
-        padding: 10px;
-    }
-    #adminPanel h3 {
-        font-size: 16px;
-    }
-    #savePopupBtn {
-        padding: 10px 15px;
-        font-size: 14px;
-    }
-    #imageOptions button {
-        font-size: 12px;
-        padding: 6px 10px;
-    }
-    #publicPopup .popupContent {
-        width: 90%;
-    }
-    #publicPopup img {
-        width: 100%;
-    }
     /* Para móviles pequeños: 1 columna y ancho completo */
     .comercioCard,
     .noticiaCard,
-    /* Aplicar a las tarjetas de promociones */
     #promocionesContainer .col-lg-4.col-md-6 {
         width: 100%;
     }
-    .modal-dialog {
-        width: 90%;
-        padding: 15px;
-    }
+    /* Botones de tarjetas en columna en móviles */
     .comercioCard .buttons,
     .noticiaCard .buttons {
         flex-direction: column;
@@ -629,6 +589,7 @@ h1, h2, h3 {
     .noticiaCard .buttons button {
         width: 100%;
     }
+    /* Ajuste del botón flotante */
     .admin-drop-btn {
         width: 50px;
         height: 50px;
@@ -638,8 +599,18 @@ h1, h2, h3 {
         bottom: 20px;
         right: 20px;
     }
+    /* Ajuste de modales pequeños */
+    .modal-dialog {
+        width: 90%;
+    }
+    #publicPopup .modal-dialog {
+         /* Mantenemos el 90% del ancho del viewport para que sea grande */
+        max-width: 90%; 
+        margin: 1rem auto;
+    }
+    
+    /* El resto de estilos de login, etc., se heredan correctamente */
 }
-
 
 
 

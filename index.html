@@ -83,59 +83,59 @@
         </div>
 
         <div class="modal fade" id="managePopupModal" tabindex="-1" aria-labelledby="managePopupLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="managePopupLabel">Gestionar Imagen Pop-Up</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="popupImageForm" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="popupImageFile" class="form-label">Seleccionar Nueva Imagen (PNG, JPG, GIF)</label>
-                                <input class="form-control" type="file" id="popupImageFile" name="popupImage" accept="image/*">
-                            </div>
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" id="showPopupToggle">
-                                <label class="form-check-label" for="showPopupToggle">Mostrar Pop-Up al cargar la web</label>
-                            </div>
-                            <div id="popupStatus" class="alert mt-3" style="display: none;"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Subir y Guardar</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> 
-                        </div>
-                    </form>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="managePopupLabel">Gestionar Imagen Pop-Up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form id="popupImageForm" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label for="popupImageFile" class="form-label">Seleccionar Nueva Imagen (PNG, JPG, GIF)</label>
+                        <input class="form-control" type="file" id="popupImageFile" name="popupImage" accept="image/*">
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="showPopupToggle">
+                        <label class="form-check-label" for="showPopupToggle">Mostrar Pop-Up al cargar la web</label>
+                    </div>
+                    <div id="popupStatus" class="alert mt-3" style="display: none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Subir y Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> 
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
-        <div class="modal fade" id="publicPopup" tabindex="-1" aria-labelledby="publicPopupLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content popupContent">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <img id="publicImage" src="" alt="Publicidad" class="img-fluid">
-                </div>
-            </div>
+<div class="modal fade" id="publicPopup" tabindex="-1" aria-labelledby="publicPopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content popupContent">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <img id="publicImage" src="" alt="Publicidad" class="img-fluid">
         </div>
+    </div>
+</div>
 
-        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalLabel">Confirmar Acción</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="confirmMessage">¿Estás seguro de que quieres realizar esta acción?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmBtn">Confirmar</button>
-                    </div>
-                </div>
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar Acción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">¿Estás seguro de que quieres realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmBtn">Confirmar</button>
             </div>
         </div>
+    </div>
+</div>
 
         <div class="hero">
             <div class="vertical-lines">
