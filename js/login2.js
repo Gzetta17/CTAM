@@ -1,6 +1,12 @@
 // La URL base de la API. En un entorno de producción, esto debería ser una variable de entorno.
 const API_BASE = 'http://localhost:3000';
 
+// --- Variables Globales para el Filtro ---
+let todosLosComercios = [];
+let categoriasUnicas = new Set();
+// --- FIN Variables Globales para el Filtro ---
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elementos del DOM y Variables de Estado ---
     const adminToggleBtn = document.getElementById('adminToggleBtn');
@@ -16,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editarComercioForm = document.getElementById('editarComercioForm');
 
     // Inicialización de Modales de Bootstrap
-    // Usamos ternarios para evitar errores si el modal no existe en la página actual (ej: comercio_detalle.html)
     const loginPopup = document.getElementById('loginPopup') 
         ? new bootstrap.Modal(document.getElementById('loginPopup')) 
         : null;
@@ -96,12 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función de confirmación customizada para evitar alert/confirm nativos
     let currentConfirmationAction = null;
     function showConfirmation(message, callback) {
-        // Asegúrate de que el modal de confirmación existe en tu HTML (no incluido aquí)
+        // Asegúrate de que el modal de confirmación existe en tu HTML (sí lo adjuntaste)
         const confirmModalElement = document.getElementById('confirmModal');
         if (!confirmModalElement) {
-             console.error("El modal de confirmación 'confirmModal' no está en el HTML.");
-             callback(false); // Fallback a no confirmar
-             return;
+            console.error("El modal de confirmación 'confirmModal' no está en el HTML.");
+            callback(false); // Fallback a no confirmar
+            return;
         }
 
         const confirmModal = new bootstrap.Modal(confirmModalElement);
@@ -137,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Aquí se corrige el listener de loginButton para usar el ID 'loginMenuBtn' si existe.
     const loginMenuBtn = document.getElementById('loginMenuBtn');
     if (loginMenuBtn) {
         loginMenuBtn.addEventListener('click', openLoginModal);
@@ -284,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Si no hay archivo de imagen seleccionado, elimino el campo 'imagen' del FormData
             if (!imagenInput || imagenInput.files.length === 0) {
-                 formData.delete('imagen');
+                formData.delete('imagen');
             }
             
             const submitBtn = e.submitter;
@@ -314,6 +318,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Lógica de Filtrado de Comercios (NUEVAS FUNCIONES) ---
+
+    /** Genera los botones de filtro basados en las categorías únicas recolectadas */
+    function generarBotonesFiltro() {
+        const filterButtonsContainer = document.getElementById('filterButtons');
+        if (!filterButtonsContainer) return;
+
+        // Aseguramos que solo esté el botón 'Todos' inicial
+        filterButtonsContainer.innerHTML = '<button type="button" class="btn btn-primary active mx-1 my-1" data-filter="all">Todos</button>';
+        
+        // Crear un botón para cada categoría única
+        categoriasUnicas.forEach(categoria => {
+            // Normalizar la categoría para el filtro (sin espacios, minúsculas, sin caracteres especiales)
+            const categoriaClase = categoria.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            const buttonHTML = `<button type="button" class="btn btn-secondary mx-1 my-1" data-filter="${categoriaClase}">${categoria}</button>`;
+            filterButtonsContainer.innerHTML += buttonHTML;
+        });
+
+        // Asignar el Listener de eventos a los botones generados
+        asignarListenersFiltro();
+    }
+
+    /** Asigna el evento click a los botones de filtro y ejecuta la lógica de ocultar/mostrar */
+    function asignarListenersFiltro() {
+        const filterButtonsContainer = document.getElementById('filterButtons');
+        if (!filterButtonsContainer) return;
+        
+        filterButtonsContainer.addEventListener('click', (event) => {
+            const target = event.target;
+            
+            // Solo proceder si se clickeó un botón con data-filter
+            if (target.tagName === 'BUTTON' && target.hasAttribute('data-filter')) {
+                const filtroSeleccionado = target.getAttribute('data-filter');
+                const comercios = document.querySelectorAll('.comercio-item'); 
+                
+                // 1. Manejo de botones (clase 'active')
+                filterButtonsContainer.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active', 'btn-primary');
+                    btn.classList.add('btn-secondary');
+                });
+                target.classList.add('active', 'btn-primary');
+                target.classList.remove('btn-secondary');
+                
+                // 2. Filtrado de elementos: recorre todos los comercios
+                comercios.forEach(comercio => {
+                    const categoriaDelComercio = comercio.getAttribute('data-categoria');
+                    
+                    // Mostrar si el filtro es 'all' O si la categoría coincide
+                    if (filtroSeleccionado === 'all' || filtroSeleccionado === categoriaDelComercio) {
+                        comercio.style.display = 'block'; 
+                    } else {
+                        comercio.style.display = 'none';
+                    }
+                });
+            }
+        });
+    }
+
     // --- Lógica de Renderizado y Carga (READ) ---
 
     /** Renderiza las tarjetas de comercios en el contenedor */
@@ -331,15 +393,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         items.forEach(item => {
             const imageUrl = buildImageUrl(item.imagen);
+            
+            // Lógica de Filtrado: Preparar clases y atributos
+            const categoriaComercio = item.categoria || 'sin-categoria';
+            const categoriaClase = categoriaComercio.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
             const cardWrapper = document.createElement('div');
-            // Mantiene 3 tarjetas por fila en desktop (col-lg-4) y 2 en tablet (col-md-6)
-            cardWrapper.className = 'col-sm-6 col-md-6 col-lg-4 mb-4'; 
+            // AÑADIDO CLASE DE FILTRO: comercio-item y data-categoria
+            cardWrapper.className = `col-sm-6 col-md-6 col-lg-4 mb-4 comercio-item ${categoriaClase}`; 
+            cardWrapper.setAttribute('data-categoria', categoriaClase);
             
             const card = document.createElement('div');
             card.className = 'comercioCard shadow-sm h-100 rounded-lg overflow-hidden w-100'; 
 
-            // MODIFICACIÓN CLAVE: Se usa Bootstrap Aspect Ratio (ratio ratio-4x3) para forzar un marco más vertical (4 alto por 3 ancho)
-            // Esto asegura que la imagen siempre se renderice en una proporción alta sin estirarse.
             card.innerHTML = `
                 <a href="comercio_detalle.html?id=${item._id}" class="card-image-link d-block ratio ratio-4x3">
                     <img src="${imageUrl}" class="card-img-top w-100 h-100 object-cover" alt="${item.nombre}" onerror="this.src='https://placehold.co/600x800?text=Imagen+no+disponible'">
@@ -389,7 +455,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('editarComercioNombre').value = item.nombre || '';
             document.getElementById('editarComercioCategoria').value = item.categoria || ''; 
             
-            // USO CLAVE DE LA DESCRIPCIÓN para rellenar el formulario de edición
             document.getElementById('editarComercioDescripcion').value = item.descripcion || item.detalle || item.info || '';
 
             // El input de la imagen debe ser vaciado por seguridad, no se rellena.
@@ -402,13 +467,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /** Carga la lista completa de comercios (usada en single.html) */
+    /** Carga la lista completa de comercios y prepara los filtros */
     const loadComercios = async () => {
         if (!comerciosContainer) return;
         try {
             const res = await fetch(`${API_BASE}/api/comercios`);
-            const comercios = await res.json();
-            renderComercios(comerciosContainer, comercios);
+            
+            // 1. Guardar la lista completa de comercios
+            todosLosComercios = await res.json();
+            
+            // 2. Extraer categorías únicas
+            categoriasUnicas.clear();
+            todosLosComercios.forEach(comercio => {
+                if (comercio.categoria && comercio.categoria.trim() !== '') {
+                    // Solo añade categorías no vacías
+                    categoriasUnicas.add(comercio.categoria.trim());
+                }
+            });
+
+            // 3. Renderizar los comercios y los botones
+            renderComercios(comerciosContainer, todosLosComercios);
+            generarBotonesFiltro(); // Genera los botones después de obtener las categorías
+            
         } catch (error) {
             console.error('Error al cargar los comercios:', error);
             comerciosContainer.innerHTML = '<p class="text-danger w-100 text-center mt-5">Error al cargar los comercios. Revisa la conexión con el servidor.</p>';
@@ -430,8 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Asegurarse de que estamos en la página correcta y tenemos los elementos base
         if (!titleElement || !categoryElement || !imageElement || !descriptionElement) {
-             console.log("No estamos en la página de detalle o faltan elementos DOM clave.");
-             return;
+            console.log("No estamos en la página de detalle o faltan elementos DOM clave.");
+            return;
         }
         if (!mainContent || !loadingMessage || !errorMessage) return;
 
@@ -457,14 +537,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const item = await res.json();
             
-            // El log de diagnóstico es crucial para el usuario final
             console.log("Datos del Comercio recibidos para el detalle:", item);
 
             // Rellenar los datos
             titleElement.textContent = item.nombre || '';
             categoryElement.textContent = item.categoria || '';
             
-            // MODIFICACIÓN CLAVE: PRIORIZA 'descripcion', que es el nombre del campo en el modal de 'single.html'
             descriptionElement.textContent = item.descripcion || item.detalle || item.info || 'Sin descripción disponible.'; 
             
             imageElement.src = buildImageUrl(item.imagen);
